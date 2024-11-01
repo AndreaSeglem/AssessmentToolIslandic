@@ -1,0 +1,277 @@
+﻿@page
+@using Newtonsoft.Json
+@using System.Globalization
+@model LetterKnowledgeAssessment.Areas.Overview.Pages.DetailedOverviewModel
+@{
+    ViewData["Title"] = $"Oversikt - {Model.Pupil.FirstName} {Model.Pupil.LastName}";
+    ViewData["SidebarActive"] = ActivePage.Pupils;
+    CultureInfo culture = new CultureInfo("nb-NO");
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="btn" href="/Overview/Pupils"><i class="bi bi-chevron-left"></i> Elever</a></li>
+    </ol>
+</nav>
+<div class="text-center">
+    <h1 class="display-4">
+        @Model.Pupil.FirstName @Model.Pupil.LastName
+    </h1>
+</div>
+<hr />
+
+<div class="col-12 mb-2">
+    <div class="row">
+        <div class="col-6 mb-3">
+            
+            <div class="card card-append">
+                <div class="card-header bg-dark-primary">
+                    <h6 class="card-header-title">Elev</h6>
+                </div>
+                <div class="card-body">
+                    <div class="display-input-field">
+                        <input class="disabled-pupil-input" id="pupilFirstName" disabled value="@Model.Pupil.FirstName" />
+                        <label for="pupilFirstName">Fornavn</label>
+                    </div>
+                    <div class="display-input-field">
+                        <input class="disabled-pupil-input" id="pupilLastName" disabled value="@Model.Pupil.LastName" />
+                        <label for="pupilLastName">Etternavn</label>
+                    </div>
+                    <div class="display-input-field">
+                        <input class="disabled-pupil-input" id="pupilBirthDate" disabled value="@Model.Pupil.BirthDate.ToString("dd.MM.yyyy", culture)" />
+                        <label for="pupilBirthDate">Fødselsdato</label>
+                    </div>
+                    <div class="display-input-field">
+                        <input class="disabled-pupil-input" id="pupilKnowledgeLevel" disabled value="@(Model.Pupil.KnowledgeLevel < 1 ? "Ikke kartlagt" : "Nivå " + Model.Pupil.KnowledgeLevel)" />
+                        <label for="pupilKnowledgeLevel">Nivå</label>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="row justify-content-center">
+                 <div class="btn-group">
+                    <button type="button" class="btn btn-append-start btn-secondary" data-bs-toggle="modal" data-bs-target="#editPupilModal-@Model.Pupil.PupilId.ToString()"><i class="bi bi-pencil"></i></button>
+                    <button type="button" class="btn btn-append-end btn-danger" data-bs-toggle="modal" data-bs-target="#removePupilModal-@Model.Pupil.PupilId.ToString()"><i class="bi bi-trash"></i></button>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="col-6 mb-3">            
+            <div class="card h-100">
+                <div class="row h-100">
+                <div class="col-12 align-self-center">
+                <div class="card-body">
+                    <canvas id="lineChart"></canvas>
+                    <div class="row mt-2 justify-content-center">
+                        <div class="btn-group ">
+                            <button type="button" class="btn btn-secondary" onclick="updateChart(1)">Store bokstaver</button>
+                            <button type="button" class="btn btn-secondary" onclick="updateChart(2)">Små bokstaver</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-dark-primary">
+        <h6 class="card-header-title">Status etter siste bokstavtest</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            @if (Model.TestResults.Count != 0)
+            {
+                <div class="col-6">
+                    <div class="card-body">
+                        <h3 class="card-subtitle text-muted mb-2">Store bokstaver</h3>
+                        @if (Model.TestResults.Where(t => t.IsUpperCase).Count() > 0)
+                        {
+                            var latestUpper = Model.TestResults.Where(t => t.IsUpperCase).FirstOrDefault();
+                            var nameSoundKnowledge = String.Join(", ", latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.NameSound)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
+                            var soundKnowledge = String.Join(", ", latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Sound)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
+                            var nameKnowledge = String.Join(", ", latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Name)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
+                            var noKnowledge = String.Join(", ", latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.None)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
+                            var soundCount = latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.NameSound) || l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Sound)).Count();
+                            <p class="card-text">Kjenner @soundCount bokstavlyder og ligger @(soundCount >= Model.AvgUpperCaseSounds ? "over":"under") gjennomsnitt for innlæring av bokstavlyder (@Model.AvgUpperCaseSounds.ToString("0.00") i @DateTime.Now.ToString("MMMM", culture)).</p>
+                            @if (nameSoundKnowledge.Count() > 0)
+                            {
+                                <h6 class="card-subtitle text-muted">Kjenner både bokstavlyd og navn</h6>
+                                <p>@nameSoundKnowledge</p>
+
+                            }
+                            @if (soundKnowledge.Count() > 0)
+                            {
+                                <h6 class="card-subtitle text-muted">Kjenner bokstavlyd</h6>
+                                <p>@soundKnowledge</p>
+
+                            }
+                            @if (nameKnowledge.Count() > 0)
+                            {
+                                <h6 class="card-subtitle text-muted">Kjenner bokstavnavn</h6>
+                                <p>@nameKnowledge</p>
+                            }
+                            @if (noKnowledge.Count() > 0)
+                            {
+                                <h6 class="card-subtitle text-muted">Kjenner ikke bokstavlyd eller navn</h6>
+                                <p>@noKnowledge</p>
+
+                            }
+                            <hr />
+                            <p class="card-text">Hvis du ønsker å gjennomføre en ny bokstavtest for store bokstaver kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">her</a>.</p>
+                        }
+                        else
+                        {
+                            <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for store bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">her</a>.</p>
+                        }
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card-body">
+                        <h3 class="card-subtitle text-muted mb-2">Små bokstaver</h3>
+                        @if (Model.TestResults.Where(t => !t.IsUpperCase).Count() > 0)
+                        {
+                            var latestLower = Model.TestResults.Where(t => !t.IsUpperCase).FirstOrDefault();
+                            var nameSoundKnowledge = String.Join(", ", latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.NameSound)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToArray());
+                            var soundKnowledge = String.Join(", ", latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Sound)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
+                            var nameKnowledge = String.Join(", ", latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Name)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
+                            var noKnowledge = String.Join(", ", latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.None)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
+                            var soundCount = latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.NameSound) || l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Sound)).Count();
+                            <p class="card-text">Kjenner @soundCount bokstavlyder og ligger @(soundCount >= Model.AvgLowerCaseSounds ? "over":"under") gjennomsnitt for innlæring av bokstavlyder (@Model.AvgLowerCaseSounds.ToString("0.00") i @DateTime.Now.ToString("MMMM", culture)).</p>
+                            @if (nameSoundKnowledge.Count() > 0)
+                            {
+                                <h6 class="card-subtitle text-muted">Kjenner både bokstavlyd og navn</h6>
+                                <p>@nameSoundKnowledge</p>
+
+                            }
+                            @if (soundKnowledge.Count() > 0)
+                            {
+                                <h6 class="card-subtitle text-muted">Kjenner bokstavlyd</h6>
+                                <p>@soundKnowledge</p>
+
+                            }
+                            @if (nameKnowledge.Count() > 0)
+                            {
+                                <h6 class="card-subtitle text-muted">Kjenner bokstavnavn</h6>
+                                <p>@nameKnowledge</p>
+                            }
+                            @if (noKnowledge.Count() > 0)
+                            {
+
+                                <h6 class="card-subtitle text-muted">Kjenner ikke bokstavlyd eller navn</h6>
+                                <p>@noKnowledge</p>
+
+                            }
+                            <hr />
+                            <p class="card-text">Hvis du ønsker å gjennomføre en ny bokstavtest for små bokstaver kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">her</a>.</p>
+                        }
+                        else
+                        {
+
+                            <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for små bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">her</a>.</p>
+
+                        }
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="col-6">
+                    <div class="card-body">
+                        <h3 class="card-subtitle text-muted mb-2">Store bokstaver</h3>
+
+                        <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for store bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">her</a>.</p>
+
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="card-body">
+                        <h3 class="card-subtitle text-muted mb-2">Små bokstaver</h3>
+                        <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for små bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">her</a>.</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<partial name="_EditPupilModal" for="@Model.Pupil" />
+<partial name="_RemovePupilModal" for="@Model.Pupil" />
+<script>
+      let testResults = @Html.Raw(Model.TestResultsUpperSerialized)
+      let lineLabels = []
+      let letterKnowledge = []
+      for(let i = testResults.length-1; i>=0; i--){
+          lineLabels.push(new Date(testResults[i].Date).toLocaleDateString("nb-NO"))
+          letterKnowledge.push(testResults[i].LetterTestResult.filter(t => t.KnowledgeLevel === 3 || t.KnowledgeLevel === 2).length)
+      }
+
+
+
+      const lineData = {
+          labels: lineLabels,
+          datasets: [{
+          label: 'Bokstavlydkunnskap',
+          backgroundColor: 'rgba(55, 150, 131, 1)',
+          borderColor: 'rgba(55, 150, 131, 1)',
+          data: letterKnowledge,
+          pointHitRadius: 35
+          }]
+      };
+
+    const lineConfig = {
+      type: 'line',
+      data: lineData,
+      options: {
+          scales: {
+              y: {
+                  min: 0,
+                  max: 30
+              }
+          }
+      }
+    };
+
+      const lineChart = new Chart(
+          document.getElementById("lineChart"),
+          lineConfig
+      );
+
+      function updateChart(option){
+          if(option === 1){
+              let testResults = @Html.Raw(Model.TestResultsUpperSerialized)
+              let labels = []
+              let data = []
+              for(let i = testResults.length-1; i>=0; i--){
+                  labels.push(new Date(testResults[i].Date).toLocaleDateString("nb-NO"))
+                  data.push(testResults[i].LetterTestResult.filter(t => t.KnowledgeLevel === 3 || t.KnowledgeLevel === 2).length)
+              }
+              lineChart.data.labels = labels;
+              lineChart.data.datasets[0].data = data
+              lineChart.update();
+          }
+          if(option === 2){
+              let testResults = @Html.Raw(Model.TestResultsLowerSerialized)
+              let labels = []
+              let data = []
+              for(let i = testResults.length-1; i>=0; i--){
+                  labels.push(new Date(testResults[i].Date).toLocaleDateString("nb-NO"))
+                  data.push(testResults[i].LetterTestResult.filter(t => t.KnowledgeLevel === 3 || t.KnowledgeLevel === 2).length)
+              }
+              lineChart.data.labels = labels;
+              lineChart.data.datasets[0].data = data
+              lineChart.update();
+          }
+      }
+</script>

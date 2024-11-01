@@ -1,0 +1,35 @@
+﻿@model LetterKnowledgeAssessment.Models.StatusMessage
+
+@if (Model != null)
+{
+    var statusMessageClass = Model.Error ? "danger" : "success";
+    <div class="d-flex justify-content-center" style="z-index:999;">
+        <div class="alert alert-@statusMessageClass text-center" role="alert" style="padding: .75rem 2.5rem;">
+            @Model.Message
+            <div class="alert-bottom-@statusMessageClass"></div>
+        </div>
+    </div>
+
+    <script>
+        var timerId, percent;
+
+        percent = 0;
+
+        timerId = setInterval(function () {
+
+            // Decrease alert bottom progress
+            percent += 0.125;
+            $('.alert-bottom-@statusMessageClass').css('right', percent + '%');
+
+            // Complete
+            if (percent >= 100) {
+                clearInterval(timerId);
+
+                $(".alert-@statusMessageClass").fadeTo(1000, 0).slideUp(500, function () {
+                    $(".alert-@statusMessageClass").remove();
+                });
+            }
+
+        }, 10);
+    </script>
+}

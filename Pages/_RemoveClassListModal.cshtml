@@ -1,0 +1,28 @@
+﻿@model LetterKnowledgeAssessment.Models.ClassList
+
+<div class="modal fade" id="removeClassListModal-@Model.Id.ToString()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark-primary">
+                <h5 class="modal-title light-green">Slett klasse</h5>
+                <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <form asp-area="ClassManagement" asp-page="/Remove" asp-route-classlistid="@Model.Id.ToString()" method="post">
+                <div class="modal-body">
+                    <div class="text-muted font-weight-lighter" style="font-size: .9rem;">
+                        <p>
+                            Ved sletting av klassen vil alle elever og deres testresultater også bli fjernet. Dette kan ikke reverseres.
+                            <br /><br />
+                            <b>Er du sikker på at du ønsker å fjerne @Html.DisplayFor(model => model.Grade) fra brukeren din</b>?
+                            <br />
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                    <button type="submit" class="btn btn-danger">Slett klasse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

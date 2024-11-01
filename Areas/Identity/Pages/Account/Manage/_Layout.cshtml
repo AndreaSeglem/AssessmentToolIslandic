@@ -1,0 +1,27 @@
+﻿@{
+
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div>
+    <div class="text-center">
+    <h2 class="display-4">Kontoinstillinger</h2>
+    </div>
+    <hr />
+    <div class="card rounded-edges">
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9 mb-2 mt-2">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

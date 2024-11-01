@@ -1,0 +1,31 @@
+﻿@using LetterKnowledgeAssessment.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Teacher> SignInManager
+@inject UserManager<Teacher> UserManager
+
+<ul class="nav nav-pills flex-column">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        <li class="nav-item">
+            <a class="nav-link sidebar-text @ActivePage.HelpNavClass(ViewContext)" asp-page="/Help">
+                <i class="bi bi-question-circle"></i> Hjelp
+            </a>
+        </li>
+        <li><a class="nav-link sidebar-text @ActivePage.ProfileNavClass(ViewContext)" asp-page="/Account/Manage/Index" asp-area="Identity"><i class="bi bi-person-circle"></i> @user.FirstName</a></li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
+                <button type="submit" class="nav-link btn btn-link sidebar-text"><i class="bi bi-box-arrow-right"></i> Logg ut</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link sidebar-text" asp-area="Identity" asp-page="/Account/Register"><i class="bi bi-person-circle"></i> Registrer bruker</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link sidebar-text" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-box-arrow-in-right"></i> Logg inn</a>
+        </li>
+    }
+</ul>

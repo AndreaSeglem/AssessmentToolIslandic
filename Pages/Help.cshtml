@@ -1,0 +1,119 @@
+﻿@page
+@model LetterKnowledgeAssessment.Pages.InfoModel
+@{
+    ViewData["Title"] = "Hjelp";
+}
+<div class="text-center">
+    <h1 class="display-4">Hjelp</h1>
+</div>
+
+<hr />
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+
+            <div class="accordion" id="accordionInstuctions">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="letterAssessment">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                            Hvordan gjennomføre bokstavtest?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionInstuctions">
+                        <div class="accordion-body" style="height:450px; overflow-y:auto">
+
+                            <div class="col">
+                                <p><strong>Steg 1</strong> Naviger til "Bokstavtest"</p>
+                                <img class="step-img" src="/img/letterAssessmentActiveNav.png" />
+                            </div>
+                            <div class="col">
+                                <p><strong>Steg 2</strong> Bestem om du vil kartlegge store eller små bokstaver ved å klikke på bryteren</p>
+                                <img class="step-img" src="/img/upperCaseSelected.png" /><img class="step-img" src="/img/lowerCaseSelected.png" />
+                            </div>
+
+
+                            <div class="col">
+                                <p><strong>Steg 3</strong> Velg en elev fra listen og klikk på "Start Bokstavtest"</p>
+                                <img class="step-img" src="/img/pupilSelectedStartActive.png" />
+                            </div>
+
+
+                            <div class="col">
+                                <p><strong>Steg 4</strong> Spør eleven om den vet hva bokstaven som vises heter. Spør deretter om eleven vet hva lyden er. Trykk på knappen som passer til svarene til eleven. Hvis eleven verken kan bokstavnavn eller lyd, trykker du på "Ingen"</p>
+                                <img class="step-img" src="/img/letterTestStart.png" />
+                            </div>
+
+                            <div class="col">
+                                <p><strong>Steg 5</strong> Gjenta steg 4 til alle bokstavene er kartlagt. Trykk på "Ja" dersom du ønsker å se igjennom svarene før du lagrer resultatet</p>
+                                <img class="step-img" src="/img/letterTestEnd.png" />
+                            </div>
+                            <div class="col">
+                                <p><strong>Steg 6</strong> Når du har kartlagt både store og små bokstaver vil eleven plasseres i et av tre nivå.</p>
+                                <ul>
+                                    <li><b style="color:red;">Nivå 1:</b> Eleven ligger langt under gjennomsnitt for innlæring av bokstavlyder</li>
+                                    <li><b style="color:orange">Nivå 2:</b> Eleven ligger litt under gjennomsnitt for innlæring av bokstavlyder</li>
+                                    <li><b style="color:green">Nivå 3:</b> Eleven ligger på eller over gjennomsnitt for innlæring av bokstavlyder</li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="createClassList">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Hvordan opprette en klasse?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionInstuctions">
+                        <div class="accordion-body" style="height:450px; overflow-y:auto">
+                            <div class="col">
+                                <p><strong>Steg 1</strong> Naviger til "Klasser"</p>
+                                <img class="step-img" src="/img/classListActiveNav.png" />
+                            </div>
+                            <div class="col">
+                                <p><strong>Steg 2</strong> Klikk på "+"-knappen</p>
+                                <img class="step-img" src="/img/plusbtn.png" />
+                            </div>
+
+                            <div class="col">
+                                <p><strong>Steg 3</strong> Fyll inn et passende navn og trykk på "Opprett klasse"</p>
+                                <img class="step-img" src="/img/createClassList.png" />
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="addPupils">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Hvordan legge til elever?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionInstuctions">
+                        <div class="accordion-body" style="height:450px; overflow-y:auto">
+
+                            <div class="col">
+                                <p><strong>Steg 1</strong> Naviger til "Elever"</p>
+                                <img class="step-img" src="/img/pupilsActiveNav.png" />
+                            </div>
+                            <div class="col">
+                                <p><strong>Steg 2</strong> Klikk på "Legg til elever"-knappen</p>
+                                <img class="step-img" src="/img/pupilsAddButton1.png" />
+                                <img class="step-img" src="/img/pupilsAddBUtton2.png" />
+                            </div>
+
+                            <div class="col">
+                                <p><strong>Steg 3</strong> Bestem antall elever ved å bruke "+" og "-" knappene, fyll inn påkrevd informasjon og trykk på "Legg til elever"</p>
+                                <img class="step-img" src="/img/addPupils.png" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

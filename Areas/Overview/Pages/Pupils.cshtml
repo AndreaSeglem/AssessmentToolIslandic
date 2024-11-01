@@ -1,0 +1,267 @@
+﻿@page
+@model LetterKnowledgeAssessment.Areas.Overview.Pages.IndexModel
+@{
+    ViewData["Title"] = "Elever";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="btn" href="/Index"><i class="bi bi-chevron-left"></i> Mine klasser</a></li>
+    </ol>
+</nav>
+
+<div class="text-center">
+    <h1 class="display-4">Elever - @Model.ClassList.Grade</h1>
+    <hr />
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-6 mb-3">
+                <div class="card ">
+                    <div class="card-body align-self-center">
+                        <div class="chart-size">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card h-100">
+                    <div class="row justify-content-center h-100">
+                        <div class="col-8 align-self-center">
+                            <div class="card-body text-center">
+                                <h4 class="card-subtitle text-muted">Gjennomsnittlig bokstavlydkunnskap</h4>
+                                <hr class="small-hr" />
+                                <div class="row justify-content-center mt-2">
+                                    <div class="col">
+                                        <h6 class="card-subtitle text-muted">Store bokstaver</h6>
+                                        <h6>@String.Format("{0:0.00}", Model.AverageLetterKnowledge["UpperCase"])</h6>
+                                    </div>
+                                    <div class="col">
+                                        <h6 class="card-subtitle text-muted">Små bokstaver</h6>
+                                        <h6>@String.Format("{0:0.00}", Model.AverageLetterKnowledge["LowerCase"])</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="input-group mb-2">
+            <input id="search" type="text" class="form-control" onkeyup="filter()" placeholder="Søk" />
+            <div class="input-group-append">
+                <button class="btn btn-primary btn-append" data-bs-toggle="modal" data-bs-target="#addPupilsModal"><i class="bi bi-person-plus-fill"></i></button>
+            </div>
+        </div>
+        <table id="pupilTable" class="table table-borderless table-hover">
+            <thead>
+                <tr class="bg-dark-primary light-green">
+                    <th scope="col" id="LastName" style="cursor:pointer;" data-sort="LastName">Navn</th>
+                    <th scope="col" id="BirthDate" style="cursor:pointer;" data-sort="BirthDate">Fødselsdato</th>
+                    <th scope="col" id="KnowledgeLevel" style="cursor:pointer;" data-sort="KnowledgeLevel">Nivå</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer bg-dark-primary">
+        <nav aria-label="Page Navigation">
+            <ul class="pagination justify-content-end">
+                <li class="nav-item dropdown">
+                    <a id="selectedPageSize" class="nav-link navbar-text-light-green dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        5 rader
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="DropdownMenuLink">
+                        <li onclick="changePageSize(5)" class="dropdown-item">5</li>
+                        <li onclick="changePageSize(10)" class="dropdown-item">10</li>
+                        <li onclick="changePageSize(15)" class="dropdown-item">15</li>
+                    </ul>
+                </li>                
+                <li class="nav-item">
+                    <a id="prevButton" class="nav-link navbar-text-light-green">
+                        <span class="material-icons">
+                            chevron_left
+                        </span>
+                    </a>
+                </li>
+                <li id="fromToPupils" class="nav-item mt-2">
+
+                </li>
+                <li class="nav-item">
+                    <a id="nextButton" class="nav-link navbar-text-light-green">
+                        <span class="material-icons">
+                            chevron_right
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</div>
+<script>
+    const pieLabels = [
+      "Nivå 1",
+      "Nivå 2",
+      "Nivå 3",
+      "Ikke kartlagt"
+    ];
+    const pieData = {
+      labels: pieLabels,
+      datasets: [{
+        label: 'Nivåfordeling',
+        backgroundColor: [
+            'red',
+            'orange',
+            'green',
+            'gray'
+        ],
+        data: [@Model.AllPupils.Where(p=>p.KnowledgeLevel == 1).Count(), @Model.AllPupils.Where(p=>p.KnowledgeLevel == 2).Count(), @Model.AllPupils.Where(p=>p.KnowledgeLevel == 3).Count(), @Model.AllPupils.Where(p => p.KnowledgeLevel == 0).Count()],
+        hoverOffset: 4
+      }]
+    };
+    const pieConfig = {
+      type: 'pie',
+      data: pieData,
+      options: {}
+    };
+
+    const pieChart = new Chart(
+      document.getElementById('pieChart'),
+      pieConfig
+    );
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', init, false);
+
+    let data, table, sortCol, pageInfo;
+    let prevButton, nextButton;
+    let fromNumber, toNumber, totalNumber, totalPages;
+    let sortAsc = false;
+    let pageSize = 5;
+    let curPage = 1;
+
+    async function init(){
+        table = document.querySelector('#pupilTable tbody');
+        data = @Html.Raw(Model.PupilsSerialized);
+        pageInfo = document.getElementById("fromToPupils");
+        totalNumber = data.length;
+        prevButton = document.getElementById("prevButton");
+        nextButton = document.getElementById("nextButton");
+        if(data.length>0){
+            data.sort((a,b) => (a.LastName > b.LastName) ? 1 : ((a.LastName < b.LastName) ? -1 : 0));
+            document.getElementById("LastName").classList.add("sort-down");
+            sortCol = "LastName";
+            renderTable();
+
+            document.querySelectorAll('#pupilTable thead tr th').forEach(t => {
+                t.addEventListener('click', sort, false);
+            });
+            document.querySelector('#nextButton').addEventListener('click', nextPage, false);
+            document.querySelector('#prevButton').addEventListener('click', previousPage, false);
+        }else{
+            renderNoPupils();
+        }
+
+
+    }
+
+    function renderTable() {
+        fromNumber = (curPage * pageSize + 1) - pageSize;
+        toNumber = (curPage * pageSize) <= totalNumber ? (curPage * pageSize) : totalNumber;
+
+        totalPages = Math.ceil(totalNumber/pageSize);
+        let result = '';
+        if(data.length > 0){
+        data.filter((row, index) => {
+            let start = (curPage-1)*pageSize;
+            let end =curPage*pageSize;
+            if(index >= start && index < end) return true;
+            }).forEach(p => {
+                result += `<tr class="clickable-row" onclick="window.location='../../Overview/DetailedOverview?pupilId=${p.PupilId}'">
+                <td>${p.FirstName} ${p.LastName}</td>
+                <td>${new Date(p.BirthDate).toLocaleDateString("nb-NO")}</td>
+                <td><div class="level-${p.KnowledgeLevel}"></div></td>
+                </tr>`;
+            });
+            }else{
+                result = `<tr style="height: 245px; vertical-align:middle;">
+                    <td style="text-align:center;" colspan="3"><p>Fant ingen elever som passet søket ditt. Dersom du ønsker å legge til en ny elev nå kan du gjøre det ved å klikke på knappen under.</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> Legg til elever</button>
+                    </td>
+                    </tr>`;
+                fromNumber = 0;
+            }
+        table.innerHTML = result;
+        pageInfo.innerHTML = `<span class="text-small-table light-green">${fromNumber}-${toNumber} av ${totalNumber}</span>`;
+        prevButton.classList = curPage === 1 ? "nav-link navbar-text-light-green disabled" : "nav-link navbar-text-light-green";
+        nextButton.classList = curPage === totalPages ? "nav-link navbar-text-light-green disabled" : "nav-link navbar-text-light-green";
+     }
+
+     function renderNoPupils(){
+         document.getElementById("search").disabled = true;
+         table.innerHTML = `<tr style="heigth: 100%; vertical-align-middle;">
+            <td colspan="3" style="text-align:center;"><p>Ingen elever er lagt til i klassen din, klikk på knappen under for å legge til elever.</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> Legg til elever</button>
+                    </td>
+            </tr>`;
+     }
+
+    function sort(e) {
+        let selectedSort = e.target.dataset.sort;
+        if(sortCol === selectedSort) sortAsc = !sortAsc;
+        sortCol = selectedSort;
+        data.sort((a, b) => (a[sortCol] < b[sortCol])? (sortAsc?1:-1): ((a[sortCol]> b[sortCol])? (sortAsc?-1:1):0));
+        let selectedCol = document.getElementById(sortCol);
+        [...selectedCol.parentElement.children].forEach(col => col.classList.remove("sort-down", "sort-up"))
+        selectedCol.classList.add(`sort-${sortAsc?"up": "down"}`);
+        renderTable();
+    }
+    function filter(){
+        let input = document.getElementById("search");
+        let filter = input.value.toUpperCase();
+        data = @Html.Raw(Model.PupilsSerialized);
+        if(filter != null){
+            data = data.filter(p=> p.FirstName.toUpperCase().includes(filter) || p.LastName.toUpperCase().includes(filter));
+        }
+        curPage = 1;
+        totalNumber = data.length;
+        renderTable();
+    }
+
+    function previousPage() {
+        if(curPage > 1) curPage--;
+        renderTable();
+    }
+
+    function nextPage() {
+        if((curPage * pageSize) < data.length) curPage++;
+        renderTable();
+    }
+
+    function changePageSize(size) {
+        if(size!=pageSize){
+            pageSize = size;
+            curPage= 1;
+            document.getElementById("selectedPageSize").innerHTML = `${size} rader`
+            renderTable();
+        }
+    }
+</script>
+
+<partial name="_AddPupilsModal" for="@Model.ReturnUrl" />
+
+

@@ -1,0 +1,32 @@
+﻿@model LetterKnowledgeAssessment.Models.Pupil
+
+<div class="modal fade" id="editPupilModal-@Model.PupilId.ToString()">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark-primary">
+                <h5 class="modal-title light-green">Rediger elev</h5>
+                <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <form asp-area="ClassManagement" asp-page="/Pupils/Edit" asp-route-pupilid="@Model.PupilId.ToString()" method="post">
+                <div class="modal-body">
+                    <div class="form-floating">
+                        <input type="text" name="firstName" class="form-control" aria-required="true" required value="@Model.FirstName" />
+                        <label>Fornavn</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" name="lastName" class="form-control" aria-required="true" required value="@Model.LastName" />
+                        <label>Etternavn</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="date" name="birthDate" class="form-control" aria-required="true" required value="@Model.BirthDate.ToString("yyyy-MM-dd")" />
+                        <label>Fødselsdato</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                    <button type="submit" class="btn btn-primary">Lagre endringer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

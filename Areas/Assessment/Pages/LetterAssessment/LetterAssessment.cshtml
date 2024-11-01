@@ -1,0 +1,155 @@
+﻿@page
+@model LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment.LetterAssessmentModel
+@{
+    ViewData["SidebarActive"] = ActivePage.LetterTest;
+}
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="btn" href="/Assessment/LetterAssessment/Index"><i class="bi bi-chevron-left"></i> Velg elev</a></li>
+    </ol>
+</nav>
+<div class="text-center">
+    <h1 class="display-4">Bokstavtest</h1>
+</div>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="test-container">
+        <div class="card">
+            <div class="card-body">
+
+                <form id="submit" method="post">
+                    <input hidden name="pupilId" value="@Model.Pupil.PupilId" />
+                    <input hidden name="upperCaseSelected" value="@Model.UpperCaseSelected">
+                    <div class="progress mb-2">
+                        <div id="progbar" class="progress-bar" role="progressbar" style="width: 3.4%;"></div>
+                    </div>
+                    <div id="letter-0">
+                        <input hidden name="[0].Letter" value="@Model.testLetters[0]" />
+                        <div class="letter-container">
+                            <p class="test-letter">@Model.testLetters[0]</p>
+                        </div>
+
+                        <input hidden name="[0].KnowledgeLevel" id="letterKnowledge-0" value="0" />
+                        <div class="row mt-2 justify-content-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary disabled"><i class="bi bi-chevron-left"></i></button>
+                                <button id="level-0-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 0)">Ingen</button>
+                                <button id="level-1-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 1)">Navn</button>
+                                <button id="level-2-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 2)">Lyd</button>
+                                <button id="level-3-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 3)">Navn og lyd</button>
+                                <button type="button" class="btn btn-primary" onclick="handleNavClick(@(1), 0)"><i class="bi bi-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    @for (int i = 1; i < Model.testLetters.Count; i++)
+                    {
+                        <div style="display:none;" id="letter-@i">
+                            <input hidden name="[@i].Letter" value="@Model.testLetters[i]" />
+                            <div class="letter-container">
+                                <p class="test-letter">@Model.testLetters[i]</p>
+                            </div>
+                            <input hidden name="[@i].KnowledgeLevel" id="letterKnowledge-@i" value="0" />
+                            <div class="row mt-2 justify-content-center">
+                                <div class="btn-group ">
+                                    <button type="button" class="btn btn-primary" onclick="handleNavClick(@(i-1), @i)"><i class="bi bi-chevron-left"></i></button>
+                                    <button id="level-0-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 0)">Ingen</button>
+                                    <button id="level-1-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 1)">Navn</button>
+                                    <button id="level-2-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 2)">Lyd</button>
+                                    <button id="level-3-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 3)">Navn og lyd</button>
+                                    <button type="button" class="btn btn-primary @(i+1 == Model.testLetters.Count? "disabled":"")" onclick="handleNavClick(@(i+1), @i)"><i class="bi bi-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="modal fade" id="confirmResults">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark-primary">
+                                    <h5 id="modalTitle" class="modal-title light-green">Bokstavtest gjennomført</h5>
+                                    <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="text-muted font-weight-lighter" style="font-size: .9rem;">
+                                        <p>
+                                            Ønsker du å se igjennom bokstavtesten før du lagrer den?
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-secondary">Nei</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewTest()">Ja</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:none" class="my-2" id="saveNow">
+                        <button type="submit" class="w-100 btn btn-primary">Ferdig med gjennomgangen? Klikk her for å lagre resultatet.</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    let currentLetterDiv, nextLetterDiv, width;
+    let progbar = document.getElementById("progbar");
+    
+    function handleClick(index, level) {
+        if(index<@Model.testLetters.Count()-1) {
+            currentLetterDiv = document.getElementById(`letter-${index}`);
+            document.getElementById(`letterKnowledge-${index}`).value = `${level}`
+            selectedLevel = document.getElementById(`level-${level}-letter-${index}`);
+            [...selectedLevel.parentElement.children].forEach(option => option.classList.remove("selected-knowledge-level"));
+            selectedLevel.classList.add("selected-knowledge-level");
+            nextLetterDiv = document.getElementById(`letter-${index+1}`);
+            width = ((index+2)/@Model.testLetters.Count)*100;
+            setTimeout(function (){renderNextLetter(index)}, 250);
+        } else {
+            selectedLevel = document.getElementById(`level-${level}-letter-${index}`);
+            [...selectedLevel.parentElement.children].forEach(option => option.classList.remove("selected-knowledge-level"));
+            selectedLevel.classList.add("selected-knowledge-level");
+            document.getElementById(`letterKnowledge-${index}`).value = level;
+            var modal = new bootstrap.Modal(document.getElementById('confirmResults'))
+            modal.toggle()
+            
+        }
+    }
+
+    function renderNextLetter(index){
+        progbar.style.width = `${width}%`
+        progbar.innerHTML = `${index+2}/${@Model.testLetters.Count()}`
+        currentLetterDiv.style.display = "none";
+        nextLetterDiv.style.display = "block";
+    }
+    function handleNavClick(targetIndex, index){
+        width = ((targetIndex+1)/@Model.testLetters.Count)*100;
+        progbar.style.width = `${width}%`
+        let progText = `${targetIndex+1}/${@Model.testLetters.Count()}`
+        if(targetIndex === 0) {
+           progText = "";
+        }
+        progbar.innerHTML = progText;
+        document.getElementById(`letter-${index}`).style.display = "none";
+        document.getElementById(`letter-${targetIndex}`).style.display = "block";
+    }
+
+    function reviewTest(){
+        document.getElementById("saveNow").style.display="block";
+        width = ((1)/@Model.testLetters.Count)*100;
+
+        progbar.style.width = `${width}%`
+        progbar.innerHTML = "";
+        currentLetterDiv = document.getElementById(`letter-@(Model.testLetters.Count()-1)`);
+        nextLetterDiv = document.getElementById(`letter-0`);
+        currentLetterDiv.style.display = "none";
+        nextLetterDiv.style.display = "block";
+    }
+
+</script>

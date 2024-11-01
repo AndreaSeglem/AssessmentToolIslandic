@@ -1,0 +1,35 @@
+﻿@model string
+
+@if (!String.IsNullOrEmpty(Model))
+{
+    var statusMessageClass = Model.StartsWith("Feil") ? "danger" : "success";
+    <div class="d-flex w-100" style="z-index:999;">
+        <div class="alert alert-@statusMessageClass text-center w-100" role="alert" style="padding: .75rem 2.5rem;">            
+            @(statusMessageClass.Equals("danger") ? Model.Substring(5): Model)
+            <div class="alert-bottom-@statusMessageClass"></div>
+        </div>
+    </div>
+
+    <script>
+        var timerId, percent;
+
+        percent = 0;
+
+        timerId = setInterval(function () {
+
+            // Decrease alert bottom progress
+            percent += 0.125;
+            $('.alert-bottom-@statusMessageClass').css('right', percent + '%');
+
+            // Complete
+            if (percent >= 100) {
+                clearInterval(timerId);
+
+                $(".alert-@statusMessageClass").fadeTo(1000, 0).slideUp(500, function () {
+                    $(".alert-@statusMessageClass").remove();
+                });
+            }
+
+        }, 10);
+    </script>
+}

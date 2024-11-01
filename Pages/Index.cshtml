@@ -1,0 +1,81 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Oversikt - Mine klasser";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Mine Klasser</h1>
+</div>
+<hr />
+@if (Model.ClassLists.Count > 0)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <partial name="_StatusMessage" model="Model.StatusMessage" />
+                    <div class="row justify-content-center">
+                        @foreach (var classList in Model.ClassLists)
+                        {
+                            <div class="class-card m-2">
+                                    <div class="card card-clickable" onclick="selectClassList('@classList.Id')">
+                                        <div class="card-body">
+                                            <h2 class="card-title">@classList.Grade</h2>
+                                            <h6 class="card-subtitle text-muted mb-2">Antall elever: @classList.Pupils.Count()</h6>
+                                            <form hidden id="classList-@classList.Id" method="post">
+                                                <input type="text" name="classListId" hidden value="@classList.Id" />
+                                                <input type="text" name="returnUrl" hidden value="@Model.ReturnUrl" />
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-append-start btn-secondary" data-bs-toggle="modal" data-bs-target="#editClassListModal-@classList.Id"><i class="bi bi-pencil"></i></button>
+                                        <button type="button" class="btn btn-append-end btn-danger" data-bs-toggle="modal" data-bs-target="#removeClassListModal-@classList.Id"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                    </div>
+                                    <partial name="_EditClassListModal" for="@classList" />
+                                    <partial name="_RemoveClassListModal" for="@classList" />
+                                
+                            </div>
+                        }
+                        <div class="card card-clickable rounded-edges d-flex m-2 text-center" data-bs-toggle="modal" data-bs-target="#addClassListModal" style="width: 12rem;">
+                            <div class="card-body align-items-center d-flex justify-content-center">
+                                <i class="bi bi-plus-circle-fill" style="font-size: 2.5rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <partial name="_StatusMessage" model="Model.StatusMessage" />
+                    <p>Her var det tomt! Klikk på knappen under for å opprette din første klasse.</p>
+                    <div class="row justify-content-center">
+                        <div class="card card-clickable rounded-edges d-flex m-2 text-center" data-bs-toggle="modal" data-bs-target="#addClassListModal" style="width: 12rem;">
+                            <div class="card-body align-items-center d-flex justify-content-center">
+                                <i class="bi bi-plus-circle-fill" style="font-size: 52px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<partial name="_AddClassListModal" />
+<script>
+    function selectClassList(classListId){
+        document.getElementById(`classList-${classListId}`).submit();
+    }
+</script>

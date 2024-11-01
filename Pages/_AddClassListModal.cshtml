@@ -1,0 +1,23 @@
+﻿<div class="modal fade" id="addClassListModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-dark-primary">
+                <h5 class="modal-title light-green">Opprett ny klasse</h5>
+                <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <form asp-area="ClassManagement" asp-page="/Add" method="post">
+                <div class="modal-body">
+                    <div class="form-floating">
+                        <input type="text" name="grade" class="form-control" aria-required="true" required />
+                        <label>Klassenavn (F.eks. 1A) </label>
+                    </div>
+                </div>
+                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
+                    <button type="submit" class="btn btn-primary">Opprett klasse</button>
+                 </div>
+            </form>
+        </div>
+    </div>
+
+</div>

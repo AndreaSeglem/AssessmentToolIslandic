@@ -1,0 +1,89 @@
+﻿@using Newtonsoft.Json
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000">
+    <title>@ViewData["Title"] - Kartlegging fra A - Å</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LetterKnowledgeAssessment.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet" />
+</head>
+<style>
+    body {
+        background-color: #EAF5FC;
+    }
+</style>
+<body>
+
+    <div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-dark-primary sidebar">
+        <div class="mobile-navigation">
+            <button type="button" class="btn float-end navbar-text-light-green" onclick="toggleSidebar()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="d-flex justify-content-center mb-4">
+            <a href="/Index">
+                <img src="~/img/Logo.svg" class="filter-light-green" height="150" width="150">
+            </a>
+        </div>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a class="nav-link sidebar-text @ActivePage.IndexNavClass(ViewContext)" asp-page="/Index">
+                    <i class="bi bi-house"></i> Klasser
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-text @ActivePage.PupilsNavClass(ViewContext)" asp-area="Overview" asp-page="/Pupils">
+                    <i class="bi bi-person-lines-fill"></i> Elever
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-text @ActivePage.LetterTestNavClass(ViewContext)" asp-area="Assessment" asp-page="/LetterAssessment/Index">
+                    <i class="bi bi-sort-alpha-down"></i> Bokstavtest
+                </a>
+            </li>
+        </ul>
+        <hr class="light-green-hr" />
+        <partial name="_LoginPartial" />
+    </div>
+
+    <div class="top-spacer">
+        <div id="sidebarToggle" class="mobile-navigation justify-content-center mt-2">
+            <button type="button" class="btn btn-menu" onclick="toggleSidebar()">
+                <span class='material-icons menu-icon'>menu</span>
+            </button>
+        </div>
+    </div>
+    <div class="container">
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        function toggleSidebar(){
+             var sidebar = document.getElementById("sidebar");
+             var sidebarToggle = document.getElementById("sidebarToggle");
+
+
+             if(!sidebar.classList.contains("sidebar-expanded")){
+                 sidebar.classList.add("sidebar-expanded");
+
+             }else{
+                 sidebar.classList.remove("sidebar-expanded");
+
+             }
+
+         }
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
