@@ -47,6 +47,8 @@ namespace LetterKnowledgeAssessment.Handlers
             return classList;
         }
 
+        //test
+
         public void RemoveClassList(ClassList classList)
         {
             _classListRepository.RemoveClassList(classList);
