@@ -29,7 +29,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+
+    <EmbeddedResource Update="Resources/Strings.resx">
+    <Generator>PublicResXFileCodeGenerator</Generator>
+    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources/Strings.no.resx" />
+    <EmbeddedResource Update="Resources/Strings.is.resx" />
+
   </ItemGroup>
 
   <ItemGroup>

@@ -1,3 +1,4 @@
+using System.Globalization;
 using LetterKnowledgeAssessment.Data;
 using LetterKnowledgeAssessment.Data.Validation;
 using LetterKnowledgeAssessment.Handlers;
@@ -5,7 +6,9 @@ using LetterKnowledgeAssessment.Interfaces;
 using LetterKnowledgeAssessment.Models;
 using LetterKnowledgeAssessment.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,23 @@ builder.Services.AddDefaultIdentity<Teacher>(options =>
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddErrorDescriber<IdentityErrorMessages>();
+
+// Add localization services
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+// Configure supported cultures (Norwegian and Icelandic)
+var supportedCultures = new[] { "no", "is" };
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("no");
+    options.SupportedCultures = supportedCultures.Select(culture => new System.Globalization.CultureInfo(culture)).ToList();
+    options.SupportedUICultures = supportedCultures.Select(culture => new System.Globalization.CultureInfo(culture)).ToList();
+    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+
+    options.FallBackToParentCultures = true;
+    options.FallBackToParentUICultures = true;
+
+});
     
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<IClassListRepository, ClassListRepository>();
@@ -54,6 +74,23 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
+
+// Enable localization with debugging output
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("no"),
+    SupportedCultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
+    SupportedUICultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
+    RequestCultureProviders = new List<IRequestCultureProvider> { new CookieRequestCultureProvider() }
+};
+localizationOptions.FallBackToParentCultures = true;
+localizationOptions.FallBackToParentUICultures = true;
+
+// Output the current culture for debugging purposes
+//Console.WriteLine("Current Culture: " + CultureInfo.CurrentCulture);
+
+// Enable localization
+app.UseRequestLocalization();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -19,6 +19,9 @@
     }
 </style>
 <body>
+    @{
+    ViewData["CurrentCulture"] = System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
+    }
 
     <div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-dark-primary sidebar">
         <div class="mobile-navigation">
@@ -47,6 +50,34 @@
             </li>
         </ul>
         <hr class="light-green-hr" />
+
+<!-- Language Selector Dropdown -->
+<form asp-controller="Language" asp-action="SetLanguage" method="get">
+    <select name="culture" onchange="this.form.submit()">
+        @if ((ViewData["CurrentCulture"] as string) == "no")
+        {
+            <text><option value="no" selected>Norsk</option></text>
+        }
+        else
+        {
+            <text><option value="no">Norsk</option></text>
+        }
+
+        @if ((ViewData["CurrentCulture"] as string) == "is")
+        {
+            <text><option value="is" selected>Íslenskur</option></text>
+        }
+        else
+        {
+            <text><option value="is">Íslenskur</option></text>
+        }
+    </select>
+</form>
+
+
+
+
+
         <partial name="_LoginPartial" />
     </div>
 

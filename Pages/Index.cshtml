@@ -1,12 +1,16 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
 @model IndexModel
-@{
-    ViewData["Title"] = "Oversikt - Mine klasser";
-}
+@inject IStringLocalizerFactory LocalizerFactory
 
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+ 
 
 <div class="text-center">
-    <h1 class="display-4">Mine Klasser</h1>
+    <h1 class="display-4">@Localizer["MineKlasser"]</h1>
 </div>
 <hr />
 @if (Model.ClassLists.Count > 0)
@@ -79,3 +83,4 @@ else
         document.getElementById(`classList-${classListId}`).submit();
     }
 </script>
+

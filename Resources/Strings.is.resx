@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="MineKlasser" xml:space="preserve">
+    <value>Bekkina mína</value>
+  </data>
+
+  <data name="PageTitle" xml:space="preserve">
+    <value>Oversikt - Mine klasser</value>
+  </data>
+</root>
+

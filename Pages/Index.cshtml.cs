@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 
 namespace LetterKnowledgeAssessment.Pages
@@ -14,11 +15,16 @@ namespace LetterKnowledgeAssessment.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly IClassListHandler _classListHandler;
         private readonly UserManager<Teacher> _userManager;
-        public IndexModel(ILogger<IndexModel> logger, IClassListHandler classListHandler, UserManager<Teacher> userManager)
+
+        private readonly IStringLocalizer<IndexModel> _localizer;
+
+
+        public IndexModel(ILogger<IndexModel> logger, IClassListHandler classListHandler, UserManager<Teacher> userManager, IStringLocalizer<IndexModel> localizer)
         {
             _logger = logger;
             _classListHandler = classListHandler;
             _userManager = userManager;
+            _localizer = localizer;
         }
 
         public List<ClassList> ClassLists { get; set; }
