@@ -1,4 +1,6 @@
-﻿@using Newtonsoft.Json
+﻿@using Microsoft.AspNetCore.Localization
+@using System.Globalization
+@using Newtonsoft.Json
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,9 +21,11 @@
     }
 </style>
 <body>
-    @{
-    ViewData["CurrentCulture"] = System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName;
-    }
+
+@{
+    var currentCulture = ViewData["CurrentCulture"]?.ToString() ?? "no"; // Default to Norwegian
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
 
     <div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-dark-primary sidebar">
         <div class="mobile-navigation">
@@ -33,49 +37,60 @@
             </a>
         </div>
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a class="nav-link sidebar-text @ActivePage.IndexNavClass(ViewContext)" asp-page="/Index">
-                    <i class="bi bi-house"></i> Klasser
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link sidebar-text @ActivePage.PupilsNavClass(ViewContext)" asp-area="Overview" asp-page="/Pupils">
-                    <i class="bi bi-person-lines-fill"></i> Elever
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link sidebar-text @ActivePage.LetterTestNavClass(ViewContext)" asp-area="Assessment" asp-page="/LetterAssessment/Index">
-                    <i class="bi bi-sort-alpha-down"></i> Bokstavtest
-                </a>
-            </li>
-        </ul>
+    <li class="nav-item">
+        <a class="nav-link sidebar-text @ActivePage.IndexNavClass(ViewContext)" href="@ActivePage.Index">
+            <i class="bi bi-house"></i> Klasser
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link sidebar-text @ActivePage.PupilsNavClass(ViewContext)" href="@ActivePage.Pupils">
+            <i class="bi bi-person-lines-fill"></i> Elever
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link sidebar-text @ActivePage.LetterTestNavClass(ViewContext)" href="@ActivePage.LetterTest">
+            <i class="bi bi-sort-alpha-down"></i> Bokstavtest
+        </a>
+    </li>
+</ul>
+
         <hr class="light-green-hr" />
 
-<!-- Language Selector Dropdown -->
-<form asp-controller="Language" asp-action="SetLanguage" method="get">
-    <select name="culture" onchange="this.form.submit()">
-        @if ((ViewData["CurrentCulture"] as string) == "no")
-        {
-            <text><option value="no" selected>Norsk</option></text>
-        }
-        else
-        {
-            <text><option value="no">Norsk</option></text>
-        }
 
-        @if ((ViewData["CurrentCulture"] as string) == "is")
+
+<form id="languageForm" method="get">
+    <select name="culture" onchange="changeLanguage(this.value)">
+        @if (currentCulture == "no")
         {
-            <text><option value="is" selected>Íslenskur</option></text>
+            <option value="no" selected>Norsk</option>
+            <option value="is">Íslenska</option>
         }
         else
         {
-            <text><option value="is">Íslenskur</option></text>
+            <option value="no">Norsk</option>
+            <option value="is" selected>Íslenska</option>
         }
     </select>
 </form>
 
+<script>
+    function changeLanguage(culture) {
+        // Ensure only one 'culture' parameter by re-creating the URL
+        const returnUrl = new URL(window.location.href);
+        returnUrl.searchParams.set('culture', culture);
+        location.href = returnUrl.toString();
+    }
+</script>
 
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentCulture = "@CultureInfo.CurrentCulture.TwoLetterISOLanguageName";
+        const dropdown = document.querySelector("select[name='culture']");
+        if (dropdown) {
+            dropdown.value = currentCulture;
+        }
+    });
+</script>
 
 
         <partial name="_LoginPartial" />

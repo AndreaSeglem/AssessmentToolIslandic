@@ -27,10 +27,11 @@
                                     <div class="card card-clickable" onclick="selectClassList('@classList.Id')">
                                         <div class="card-body">
                                             <h2 class="card-title">@classList.Grade</h2>
-                                            <h6 class="card-subtitle text-muted mb-2">Antall elever: @classList.Pupils.Count()</h6>
+                                            <h6 class="card-subtitle text-muted mb-2">@Localizer["NumberStudents"] @classList.Pupils.Count()</h6>
                                             <form hidden id="classList-@classList.Id" method="post">
                                                 <input type="text" name="classListId" hidden value="@classList.Id" />
                                                 <input type="text" name="returnUrl" hidden value="@Model.ReturnUrl" />
+                                                <input type="text" name="culture" hidden value="@ViewData["CurrentCulture"]" />
                                             </form>
                                         </div>
                                     </div>
@@ -64,7 +65,7 @@ else
             <div class="card">
                 <div class="card-body text-center">
                     <partial name="_StatusMessage" model="Model.StatusMessage" />
-                    <p>Her var det tomt! Klikk på knappen under for å opprette din første klasse.</p>
+                    <p>@Localizer["EmptyClass"]</p>
                     <div class="row justify-content-center">
                         <div class="card card-clickable rounded-edges d-flex m-2 text-center" data-bs-toggle="modal" data-bs-target="#addClassListModal" style="width: 12rem;">
                             <div class="card-body align-items-center d-flex justify-content-center">

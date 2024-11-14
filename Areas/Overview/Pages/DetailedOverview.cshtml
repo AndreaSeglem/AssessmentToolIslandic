@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = $"Oversikt - {Model.Pupil.FirstName} {Model.Pupil.LastName}";
     ViewData["SidebarActive"] = ActivePage.Pupils;
-    CultureInfo culture = new CultureInfo("nb-NO");
+    CultureInfo culture = CultureInfo.CurrentCulture;
 }
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

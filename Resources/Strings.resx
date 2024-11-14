@@ -7,4 +7,88 @@
   <data name="PageTitle" xml:space="preserve">
     <value>Default Oversikt - Mine Klasser</value>
   </data>
+
+  <data name="NumberStudents" xml:space="preserve">
+    <value>Default Antall elever:</value>
+  </data>
+
+  <data name="EmptyClass" xml:space="preserve">
+    <value>Default Her var det tomt! Klikk på knappen under for å opprette din første klasse.</value>
+  </data>
+
+  <data name="ChooseClass" xml:space="preserve">
+    <value>Default Du må velge en klasse først!</value>
+  </data>
+
+  <data name="AvgLetterKnow" xml:space="preserve">
+    <value>Default Gjennomsnittlig bokstavlydkunnskap</value>
+  </data>
+
+  <data name="Pupils" xml:space="preserve">
+    <value>Default Elever</value>
+  </data>
+
+  <data name="UpperLetter" xml:space="preserve">
+    <value>Default Store bokstaver</value>
+  </data>
+
+  <data name="LowerLetter" xml:space="preserve">
+    <value>Default Små bokstaver</value>
+  </data>
+
+  <data name="Search" xml:space="preserve">
+    <value>Default Søk</value>
+  </data>
+
+   <data name="Name" xml:space="preserve">
+    <value>Default Navn</value>
+  </data>
+
+   <data name="BirthDate" xml:space="preserve">
+    <value>Default Fødselsdato</value>
+  </data>
+
+   <data name="KnowLevel" xml:space="preserve">
+    <value>Default Nivå</value>
+  </data>
+
+  <data name="Rows" xml:space="preserve">
+    <value>Default rader</value>
+  </data>
+
+  <data name="Level1" xml:space="preserve">
+    <value>Default Nivå 1</value>
+  </data>
+
+  <data name="Level2" xml:space="preserve">
+    <value>Default Nivå 2</value>
+  </data>
+
+  <data name="Level3" xml:space="preserve">
+    <value>Default Nivå 3</value>
+  </data>
+
+  <data name="NotTested" xml:space="preserve">
+    <value>Default Ikke kartlagt</value>
+  </data>
+
+  <data name="LevelDist" xml:space="preserve">
+    <value>Default Nivåfordeling</value>
+  </data>
+
+  <data name="NoStudentFound" xml:space="preserve">
+    <value>Default Fant ingen elever som passet søket ditt. Dersom du ønsker å legge til en ny elev nå kan du gjøre det ved å klikke på knappen under.</value>
+  </data>
+
+  <data name="AddStudents" xml:space="preserve">
+    <value>Default Legg til elever</value>
+  </data>
+
+  <data name="NoStudentsInClass" xml:space="preserve">
+    <value>Default Ingen elever er lagt til i klassen din, klikk på knappen under for å legge til elever.</value>
+  </data>
+
+  <data name="HowDoTest" xml:space="preserve">
+    <value>Default Hvordan gjennomføre bokstavtest?</value>
+  </data>
 </root>

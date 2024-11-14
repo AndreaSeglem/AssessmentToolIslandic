@@ -1,7 +1,9 @@
-﻿using LetterKnowledgeAssessment.Interfaces;
+﻿using System.Globalization;
+using LetterKnowledgeAssessment.Interfaces;
 using LetterKnowledgeAssessment.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
@@ -16,15 +18,15 @@ namespace LetterKnowledgeAssessment.Pages
         private readonly IClassListHandler _classListHandler;
         private readonly UserManager<Teacher> _userManager;
 
-        private readonly IStringLocalizer<IndexModel> _localizer;
+        private readonly IStringLocalizer _localizer;
 
 
-        public IndexModel(ILogger<IndexModel> logger, IClassListHandler classListHandler, UserManager<Teacher> userManager, IStringLocalizer<IndexModel> localizer)
+        public IndexModel(ILogger<IndexModel> logger, IClassListHandler classListHandler, UserManager<Teacher> userManager, IStringLocalizerFactory localizerFactory)
         {
             _logger = logger;
             _classListHandler = classListHandler;
             _userManager = userManager;
-            _localizer = localizer;
+            _localizer = localizerFactory.Create("Strings", "LetterKnowledgeAssessment");
         }
 
         public List<ClassList> ClassLists { get; set; }
@@ -33,17 +35,18 @@ namespace LetterKnowledgeAssessment.Pages
 
         public async Task OnGet(string? returnUrl)
         {
-            ReturnUrl = "/Overview/Pupils";
+            var currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+            ReturnUrl = $"/Overview/Pupils?culture={currentCulture}";
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 if (returnUrl.Equals("lettertest"))
                 {
-                    ReturnUrl = "/Assessment/LetterAssessment/Index";
-                    StatusMessage = new StatusMessage { Error = true, Message = "Du må velge en klasse først!" };
+                    ReturnUrl = $"/Assessment/LetterAssessment/Index?culture={currentCulture}";
+                    StatusMessage = new StatusMessage { Error = true, Message = @_localizer["ChooseClass"] };
                 }
                 if (returnUrl.Equals("pupils"))
                 {
-                    StatusMessage = new StatusMessage { Error = true, Message = "Du må velge en klasse først!" };
+                    StatusMessage = new StatusMessage { Error = true, Message = @_localizer["ChooseClass"] };
                 }
             }
             
@@ -51,10 +54,22 @@ namespace LetterKnowledgeAssessment.Pages
             ClassLists = _classListHandler.ClassListsByTeacher(teacher);
         }
 
-        public IActionResult OnPost(string classListId, string returnUrl)
+        public IActionResult OnPost(string classListId, string returnUrl, string culture)
         {
             HttpContext.Session.SetString("ClassListId", classListId);
+            // Check if the culture is passed, if not, default to the current culture
+            var currentCulture = !string.IsNullOrEmpty(culture) ? culture : CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+    
+            // Set the culture cookie
+            Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(currentCulture)),
+            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            // Ensure culture is included in the return URL
+            returnUrl = $"{returnUrl}?culture={currentCulture}";
             return Redirect(returnUrl);
         }
-    }
+     }
 }

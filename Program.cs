@@ -36,17 +36,17 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 
 // Configure supported cultures (Norwegian and Icelandic)
 var supportedCultures = new[] { "no", "is" };
-builder.Services.Configure<RequestLocalizationOptions>(options =>
+var localizationOptions = new RequestLocalizationOptions
 {
-    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("no");
-    options.SupportedCultures = supportedCultures.Select(culture => new System.Globalization.CultureInfo(culture)).ToList();
-    options.SupportedUICultures = supportedCultures.Select(culture => new System.Globalization.CultureInfo(culture)).ToList();
-    options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+    DefaultRequestCulture = new RequestCulture("no"),
+    SupportedCultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
+    SupportedUICultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
+    FallBackToParentCultures = true,
+    FallBackToParentUICultures = true
+};
 
-    options.FallBackToParentCultures = true;
-    options.FallBackToParentUICultures = true;
-
-});
+// Prioritize QueryStringRequestCultureProvider for culture switching via URL
+localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
     
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<IClassListRepository, ClassListRepository>();
@@ -73,24 +73,29 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
+// Enable localization
+app.UseRequestLocalization(localizationOptions);
 app.UseRouting();
 
-// Enable localization with debugging output
-var localizationOptions = new RequestLocalizationOptions
+// Enable localization using the configured options
+/* var localizationOptions = new RequestLocalizationOptions
 {
     DefaultRequestCulture = new RequestCulture("no"),
     SupportedCultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
     SupportedUICultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
-    RequestCultureProviders = new List<IRequestCultureProvider> { new CookieRequestCultureProvider() }
+    RequestCultureProviders = new List<IRequestCultureProvider> 
+    { 
+        new CookieRequestCultureProvider(), // Cookie provider to persist culture across sessions
+        new QueryStringRequestCultureProvider() // Query string provider to allow culture overrides in URLs
+    }
 };
 localizationOptions.FallBackToParentCultures = true;
-localizationOptions.FallBackToParentUICultures = true;
+localizationOptions.FallBackToParentUICultures = true; */
 
 // Output the current culture for debugging purposes
 //Console.WriteLine("Current Culture: " + CultureInfo.CurrentCulture);
 
-// Enable localization
-app.UseRequestLocalization();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

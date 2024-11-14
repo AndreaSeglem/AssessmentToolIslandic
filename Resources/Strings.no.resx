@@ -7,6 +7,90 @@
   <data name="PageTitle" xml:space="preserve">
     <value>Oversikt - Mine klasser</value>
   </data>
+
+  <data name="NumberStudents" xml:space="preserve">
+    <value>Antall elever:</value>
+  </data>
+
+  <data name="EmptyClass" xml:space="preserve">
+    <value>Her var det tomt! Klikk på knappen under for å opprette din første klasse.</value>
+  </data>
+
+  <data name="ChooseClass" xml:space="preserve">
+    <value>Du må velge en klasse først!</value>
+  </data>
+
+   <data name="AvgLetterKnow" xml:space="preserve">
+    <value>Gjennomsnittlig bokstavlydkunnskap</value>
+  </data>
+
+  <data name="Pupils" xml:space="preserve">
+    <value>Elever</value>
+  </data>
+
+  <data name="UpperLetter" xml:space="preserve">
+    <value>Store bokstaver</value>
+  </data>
+
+  <data name="LowerLetter" xml:space="preserve">
+    <value>Små bokstaver</value>
+  </data>
+
+  <data name="Search" xml:space="preserve">
+    <value>Søk</value>
+  </data>
+
+  <data name="Name" xml:space="preserve">
+    <value>Navn</value>
+  </data>
+
+   <data name="BirthDate" xml:space="preserve">
+    <value>Fødselsdato</value>
+  </data>
+
+   <data name="KnowLevel" xml:space="preserve">
+    <value>Nivå</value>
+  </data>
+
+  <data name="Rows" xml:space="preserve">
+    <value>rader</value>
+  </data>
+
+  <data name="Level1" xml:space="preserve">
+    <value>Nivå 1</value>
+  </data>
+
+  <data name="Level2" xml:space="preserve">
+    <value>Nivå 2</value>
+  </data>
+
+  <data name="Level3" xml:space="preserve">
+    <value>Nivå 3</value>
+  </data>
+
+  <data name="NotTested" xml:space="preserve">
+    <value>Ikke kartlagt</value>
+  </data>
+
+  <data name="LevelDist" xml:space="preserve">
+    <value>Nivåfordeling</value>
+  </data>
+
+  <data name="NoStudentFound" xml:space="preserve">
+    <value>Fant ingen elever som passet søket ditt. Dersom du ønsker å legge til en ny elev nå kan du gjøre det ved å klikke på knappen under.</value>
+  </data>
+
+  <data name="AddStudents" xml:space="preserve">
+    <value>Legg til elever</value>
+  </data>
+
+   <data name="NoStudentsInClass" xml:space="preserve">
+    <value>Ingen elever er lagt til i klassen din, klikk på knappen under for å legge til elever.</value>
+  </data>
+
+  <data name="HowDoTest" xml:space="preserve">
+    <value>Hvordan gjennomføre bokstavtest?</value>
+  </data>
 </root>
 
 

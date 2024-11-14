@@ -5,7 +5,91 @@
   </data>
 
   <data name="PageTitle" xml:space="preserve">
-    <value>Oversikt - Mine klasser</value>
+    <value>Yfirlit - Bekkina mína</value>
+  </data>
+
+  <data name="NumberStudents" xml:space="preserve">
+    <value>Fjöldi nemenda:</value>
+  </data>
+
+  <data name="EmptyClass" xml:space="preserve">
+    <value>Það er tómt hér! Smelltu á hnappinn hér fyrir neðan til að stofna fyrsta bekkinn þinn.</value>
+  </data>
+
+  <data name="ChooseClass" xml:space="preserve">
+    <value>Þú verður að velja bekk fyrst!</value>
+  </data>
+
+   <data name="AvgLetterKnow" xml:space="preserve">
+    <value>Meðalhljóðkunnátta stafa</value>
+  </data>
+
+  <data name="Pupils" xml:space="preserve">
+    <value>Nemendur</value>
+  </data>
+
+  <data name="UpperLetter" xml:space="preserve">
+    <value>Stórir bókstafir</value>
+  </data>
+
+  <data name="LowerLetter" xml:space="preserve">
+    <value>Litlir bókstafir</value>
+  </data>
+
+  <data name="Search" xml:space="preserve">
+    <value>Leit</value>
+  </data>
+
+  <data name="Name" xml:space="preserve">
+    <value>Nafn</value>
+  </data>
+
+   <data name="BirthDate" xml:space="preserve">
+    <value>Fæðingardagur</value>
+  </data>
+
+   <data name="KnowLevel" xml:space="preserve">
+    <value>Stig</value>
+  </data>
+
+  <data name="Rows" xml:space="preserve">
+    <value>raðir</value>
+  </data>
+
+  <data name="Level1" xml:space="preserve">
+    <value>Stig 1</value>
+  </data>
+
+  <data name="Level2" xml:space="preserve">
+    <value>Stig 2</value>
+  </data>
+
+  <data name="Level3" xml:space="preserve">
+    <value>Stig 3</value>
+  </data>
+
+  <data name="NotTested" xml:space="preserve">
+    <value>Ekki kortlagt</value>
+  </data>
+
+  <data name="LevelDist" xml:space="preserve">
+    <value>Stigdreifing</value>
+  </data>
+
+  <data name="NoStudentFound" xml:space="preserve">
+    <value>Fann enga nemendur sem passa leitina þína. Ef þú vilt bæta við nýjum nemanda núna geturðu gert það með því að smella á hnappinn hér fyrir neðan.</value>
+  </data>
+
+  <data name="AddStudents" xml:space="preserve">
+    <value>Bæta við nemendum</value>
+  </data>
+
+   <data name="NoStudentsInClass" xml:space="preserve">
+    <value>Engir nemendur hafa verið bættir við í bekkinn þinn, smelltu á hnappinn hér fyrir neðan til að bæta við nemendum.</value>
+  </data>
+
+  <data name="HowDoTest" xml:space="preserve">
+    <value>Hvernig á að framkvæma stafapróf?</value>
   </data>
 </root>
 

@@ -1,18 +1,25 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
 @model LetterKnowledgeAssessment.Areas.Overview.Pages.IndexModel
+@inject IStringLocalizerFactory LocalizerFactory
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    ViewData["Title"] = Localizer["PageTitle"];
+}
 @{
     ViewData["Title"] = "Elever";
 }
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="btn" href="/Index"><i class="bi bi-chevron-left"></i> Mine klasser</a></li>
+        <li class="breadcrumb-item"><a class="btn" href="/Index"><i class="bi bi-chevron-left"></i> @Localizer["MineKlasser"]</a></li>
     </ol>
 </nav>
 
 <div class="text-center">
-    <h1 class="display-4">Elever - @Model.ClassList.Grade</h1>
+    <h1 class="display-4">@Localizer["Pupils"] - @Model.ClassList.Grade</h1>
     <hr />
 </div>
 
@@ -33,15 +40,15 @@
                     <div class="row justify-content-center h-100">
                         <div class="col-8 align-self-center">
                             <div class="card-body text-center">
-                                <h4 class="card-subtitle text-muted">Gjennomsnittlig bokstavlydkunnskap</h4>
+                                <h4 class="card-subtitle text-muted">@Localizer["AvgLetterKnow"]</h4>
                                 <hr class="small-hr" />
                                 <div class="row justify-content-center mt-2">
                                     <div class="col">
-                                        <h6 class="card-subtitle text-muted">Store bokstaver</h6>
+                                        <h6 class="card-subtitle text-muted">@Localizer["UpperLetter"]</h6>
                                         <h6>@String.Format("{0:0.00}", Model.AverageLetterKnowledge["UpperCase"])</h6>
                                     </div>
                                     <div class="col">
-                                        <h6 class="card-subtitle text-muted">Små bokstaver</h6>
+                                        <h6 class="card-subtitle text-muted">@Localizer["LowerLetter"]</h6>
                                         <h6>@String.Format("{0:0.00}", Model.AverageLetterKnowledge["LowerCase"])</h6>
                                     </div>
                                 </div>
@@ -59,7 +66,7 @@
 <div class="card mt-3">
     <div class="card-body">
         <div class="input-group mb-2">
-            <input id="search" type="text" class="form-control" onkeyup="filter()" placeholder="Søk" />
+            <input id="search" type="text" class="form-control" onkeyup="filter()" placeholder=@Localizer["Search"] />
             <div class="input-group-append">
                 <button class="btn btn-primary btn-append" data-bs-toggle="modal" data-bs-target="#addPupilsModal"><i class="bi bi-person-plus-fill"></i></button>
             </div>
@@ -67,9 +74,9 @@
         <table id="pupilTable" class="table table-borderless table-hover">
             <thead>
                 <tr class="bg-dark-primary light-green">
-                    <th scope="col" id="LastName" style="cursor:pointer;" data-sort="LastName">Navn</th>
-                    <th scope="col" id="BirthDate" style="cursor:pointer;" data-sort="BirthDate">Fødselsdato</th>
-                    <th scope="col" id="KnowledgeLevel" style="cursor:pointer;" data-sort="KnowledgeLevel">Nivå</th>
+                    <th scope="col" id="LastName" style="cursor:pointer;" data-sort="LastName">@Localizer["Name"]</th>
+                    <th scope="col" id="BirthDate" style="cursor:pointer;" data-sort="BirthDate">@Localizer["BirthDate"]</th>
+                    <th scope="col" id="KnowledgeLevel" style="cursor:pointer;" data-sort="KnowledgeLevel">@Localizer["KnowLevel"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,7 +88,7 @@
             <ul class="pagination justify-content-end">
                 <li class="nav-item dropdown">
                     <a id="selectedPageSize" class="nav-link navbar-text-light-green dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        5 rader
+                        5 @Localizer["Rows"]
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="DropdownMenuLink">
                         <li onclick="changePageSize(5)" class="dropdown-item">5</li>
@@ -113,15 +120,15 @@
 </div>
 <script>
     const pieLabels = [
-      "Nivå 1",
-      "Nivå 2",
-      "Nivå 3",
-      "Ikke kartlagt"
+      @Html.Raw($"\"{Localizer["Level1"]}\""),
+      @Html.Raw($"\"{@Localizer["Level2"]}\""),
+      @Html.Raw($"\"{Localizer["Level3"]}\""),
+        @Html.Raw($"\"{Localizer["NotTested"]}\"")
     ];
     const pieData = {
       labels: pieLabels,
       datasets: [{
-        label: 'Nivåfordeling',
+        label: @Html.Raw($"\"{Localizer["LevelDist"]}\""),
         backgroundColor: [
             'red',
             'orange',
@@ -199,8 +206,8 @@
             });
             }else{
                 result = `<tr style="height: 245px; vertical-align:middle;">
-                    <td style="text-align:center;" colspan="3"><p>Fant ingen elever som passet søket ditt. Dersom du ønsker å legge til en ny elev nå kan du gjøre det ved å klikke på knappen under.</p>
-                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> Legg til elever</button>
+                    <td style="text-align:center;" colspan="3"><p>@Localizer["NoStudentFound"]</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> @Localizer["AddStudents"]</button>
                     </td>
                     </tr>`;
                 fromNumber = 0;
@@ -214,8 +221,8 @@
      function renderNoPupils(){
          document.getElementById("search").disabled = true;
          table.innerHTML = `<tr style="heigth: 100%; vertical-align-middle;">
-            <td colspan="3" style="text-align:center;"><p>Ingen elever er lagt til i klassen din, klikk på knappen under for å legge til elever.</p>
-                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> Legg til elever</button>
+            <td colspan="3" style="text-align:center;"><p>@Localizer["NoStudentsInClass"]</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> @Localizer["AddStudents"]</button>
                     </td>
             </tr>`;
      }

@@ -68,7 +68,7 @@ html {
 }
 
 .sidebar-text {
-    color: #EDF5E1;
+    color: #EDF5E1 !important;
     font-size: 22px;
     margin-top: 2px;
 }
