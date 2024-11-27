@@ -1,6 +1,11 @@
 @using LetterKnowledgeAssessment.Models
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
 <ul class="nav nav-pills flex-column small-sidenav">
-    <li class="nav-item"><a class="nav-link nav-link-top @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index"><i class="bi-person-circle"></i> Brukerkonto</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword"><i class="bi bi-key-fill"></i> Passord</a></li>
+    <li class="nav-item"><a class="nav-link nav-link-top @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index"><i class="bi-person-circle"></i> @Localizer["UserAccount"]</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword"><i class="bi bi-key-fill"></i> @Localizer["Password"]</a></li>
 </ul>

@@ -9,24 +9,30 @@ using LetterKnowledgeAssessment.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
 {
+   
     public class ChangePasswordModel : PageModel
     {
         private readonly UserManager<Teacher> _userManager;
         private readonly SignInManager<Teacher> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
+        private readonly IStringLocalizer<ChangePasswordModel> _localizer;
+
 
         public ChangePasswordModel(
             UserManager<Teacher> userManager,
             SignInManager<Teacher> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            IStringLocalizer<ChangePasswordModel> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -49,19 +55,19 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
+            [Required(ErrorMessage = "Mandatory")]
             [DataType(DataType.Password)]
-            [Display(Name = "Nåværende passord")]
+            [Display(Name = "CurrentPassword")]
             public string OldPassword { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
-            [StringLength(100, ErrorMessage = "Passordet må være minst {2} tegn langt.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Mandatory")]
+            [StringLength(100, ErrorMessage = "PasswordLengthError", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Nytt passord")]
+            [Display(Name = "NewPassword")]
             public string NewPassword { get; set; }
 
             /// <summary>
@@ -69,8 +75,8 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Gjenta nytt passord")]
-            [Compare("NewPassword", ErrorMessage = "Passordene er ikke like")]
+            [Display(Name = "RepeatPassword")]
+            [Compare("NewPassword", ErrorMessage = "PasswordNotSame")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -107,7 +113,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
-                StatusMessage = "Feil: ";
+                StatusMessage = _localizer["Error:"];
                 foreach (var error in changePasswordResult.Errors)
                 {
                     StatusMessage += $"{error.Description}\n";
@@ -118,7 +124,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Passordet ditt har blitt endret.";
+            StatusMessage = _localizer["PasswordHasChanged"];
 
             return Page();
         }

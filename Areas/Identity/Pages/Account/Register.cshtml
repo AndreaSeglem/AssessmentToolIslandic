@@ -1,7 +1,18 @@
 ﻿@page
+@using System.Globalization
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Localization
+@using Newtonsoft.Json
+@inject IStringLocalizerFactory LocalizerFactory
 @model RegisterModel
 @{
-    ViewData["Title"] = "Registrer ny bruker";
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    ViewData["Title"] = @Localizer["RegisterNewAccount"];
+}
+
+@{
+    var currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName ?? "no";
+    var returnUrl = Url.Action("Index", "Home", new { culture = currentCulture });
 }
 
 <div class="row mx-0 h-100">
@@ -11,7 +22,7 @@
                 <img src="~/img/Logo.svg" style="width:50%; height:50%" class="filter-light-green mb-1" />
             </div>
             <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <h2 class="light-green">Lag en ny bruker</h2>
+                <h2 class="light-green">@Localizer["CreateNewUser"]</h2>
                 <hr />
                 <partial name="_StatusMessage" for="ErrorMessage" />
                 <div class="form-floating">
@@ -26,24 +37,57 @@
                 </div>
                 <div class="form-floating">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <label asp-for="Input.Email">E-post</label>
+                    <label asp-for="Input.Email">@Localizer["Email"]</label>
                     <span asp-validation-for="Input.Email" class="light-green"></span>
                 </div>
                 <div class="form-floating">
                     <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-                    <label asp-for="Input.Password">Passord</label>
+                    <label asp-for="Input.Password">@Localizer["Password"]</label>
                     <span asp-validation-for="Input.Password" class="light-green"></span>
                 </div>
                 <div class="form-floating">
                     <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                    <label asp-for="Input.ConfirmPassword">Gjenta passord</label>
+                    <label asp-for="Input.ConfirmPassword">@Localizer["RepeatPassword"]</label>
                     <span asp-validation-for="Input.ConfirmPassword" class="light-green"></span>
                 </div>
-                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary mt-2 mb-2">Registrer bruker</button>
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary mt-2 mb-2">@Localizer["RegisterNewAccount"]</button>
                 <div>
                     <p>
-                        <a class="light-green" id="login" asp-page="./Login">Har du allerede en bruker? Logg inn her</a>
+                        <a class="light-green" id="login" asp-page="./Login">@Localizer["AlreadyHaveAccount"]</a>
                     </p>
+                    <form id="languageForm" method="get">
+    <select name="culture" onchange="changeLanguage(this.value)">
+        @if (currentCulture == "no")
+        {
+            <option value="no" selected>Norsk</option>
+            <option value="is">Íslenska</option>
+        }
+        else
+        {
+            <option value="no">Norsk</option>
+            <option value="is" selected>Íslenska</option>
+        }
+    </select>
+</form>
+
+<script>
+    function changeLanguage(culture) {
+        // Ensure only one 'culture' parameter by re-creating the URL
+        const returnUrl = new URL(window.location.href);
+        returnUrl.searchParams.set('culture', culture);
+        location.href = returnUrl.toString();
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentCulture = "@CultureInfo.CurrentCulture.TwoLetterISOLanguageName";
+        const dropdown = document.querySelector("select[name='culture']");
+        if (dropdown) {
+            dropdown.value = currentCulture;
+        }
+    });
+</script>
                 </div>
             </form>
         </div>

@@ -91,4 +91,464 @@
   <data name="HowDoTest" xml:space="preserve">
     <value>Default Hvordan gjennomføre bokstavtest?</value>
   </data>
+
+  <data name="Classes" xml:space="preserve">
+    <value>Default Klasser</value>
+  </data>
+
+  <data name="LetterTest" xml:space="preserve">
+    <value>Default Bokstavtest</value>
+  </data>
+
+  <data name="Help" xml:space="preserve">
+    <value>Default Hjelp</value>
+  </data>
+
+  <data name="HowToCreateClass" xml:space="preserve">
+    <value>Default Hvordan opprette en klasse?</value>
+  </data>
+
+  <data name="HowToAddStudents" xml:space="preserve">
+    <value>Default Hvordan legge til elever?</value>
+  </data>
+
+  <data name="LogOut" xml:space="preserve">
+    <value>Default Logg ut</value>
+  </data>
+
+  <data name="FromA-AA" xml:space="preserve">
+    <value>Default - Kartlegging fra A - Å</value>
+  </data>
+
+  <data name="Step" xml:space="preserve">
+    <value>Default Steg</value>
+  </data>
+
+  <data name="NavToTest" xml:space="preserve">
+    <value>Default Naviger til "Bokstavtest"</value>
+  </data>
+
+   <data name="ChooseLargeOrSmall" xml:space="preserve">
+    <value>Default Bestem om du vil kartlegge store eller små bokstaver ved å klikke på bryteren</value>
+  </data>
+
+  <data name="ChooseStudentStart" xml:space="preserve">
+    <value>Default Velg en elev fra listen og klikk på "Start Bokstavtest"</value>
+  </data>
+
+  <data name="TestStudent" xml:space="preserve">
+    <value>Default Spør eleven om den vet hva bokstaven som vises heter. Spør deretter om eleven vet hva lyden er. Trykk på knappen som passer til svarene til eleven. Hvis eleven verken kan bokstavnavn eller lyd, trykker du på "Ingen"</value>
+  </data>
+
+  <data name="RepeatStep4" xml:space="preserve">
+    <value>Default Gjenta steg 4 til alle bokstavene er kartlagt. Trykk på "Ja" dersom du ønsker å se igjennom svarene før du lagrer resultatet</value>
+  </data>
+
+   <data name="FinishedPlaceStudent" xml:space="preserve">
+    <value>Default Når du har kartlagt både store og små bokstaver vil eleven plasseres i et av tre nivå.</value>
+  </data>
+
+  <data name="ExplainLevel1" xml:space="preserve">
+    <value>Default Eleven ligger langt under gjennomsnitt for innlæring av bokstavlyder</value>
+  </data>
+  
+  <data name="ExplainLevel2" xml:space="preserve">
+    <value>Default Eleven ligger litt under gjennomsnitt for innlæring av bokstavlyder</value>
+  </data>
+
+  <data name="ExplainLevel3" xml:space="preserve">
+    <value>Default Eleven ligger på eller over gjennomsnitt for innlæring av bokstavlyder</value>
+  </data>
+
+  <data name="NavToClass" xml:space="preserve">
+    <value>Default Naviger til "Klasser"</value>
+  </data>
+
+  <data name="ClickAddButton" xml:space="preserve">
+    <value>Default Klikk på "+"-knappen</value>
+  </data>
+
+  <data name="ChooseNameCreateClass" xml:space="preserve">
+    <value>Default Fyll inn et passende navn og trykk på "Opprett klasse"</value>
+  </data>
+
+   <data name="NavToStudents" xml:space="preserve">
+    <value>Default Naviger til "Elever"</value>
+  </data>
+
+  <data name="ClickAddStudentsButton" xml:space="preserve">
+    <value>Default Klikk på "Legg til elever"-knappen</value>
+  </data>
+
+  <data name="ChooseNumberStudents" xml:space="preserve">
+    <value>Default Bestem antall elever ved å bruke "+" og "-" knappene, fyll inn påkrevd informasjon og trykk på "Legg til elever"</value>
+  </data>
+
+  <data name="ChooseStudent" xml:space="preserve">
+    <value>Default Velg elev</value>
+  </data>
+
+  <data name="LatestTested" xml:space="preserve">
+    <value>Default Sist kartlagt</value>
+  </data>
+
+  <data name="StartTest" xml:space="preserve">
+    <value>Default Start Bokstavtest</value>
+  </data>
+
+  <data name="NoStudentsNeedAdd" xml:space="preserve">
+    <value>Default Ingen elever er lagt til i klassen din, klikk på knappen under for å legge til elever.</value>
+  </data>
+
+  <data name="LogInExsisting" xml:space="preserve">
+    <value>Default Logg inn med eksisterende bruker</value>
+  </data>
+
+  <data name="CreateNewUser" xml:space="preserve">
+    <value>Default Lag en ny bruker</value>
+  </data>
+
+   <data name="UserAccount" xml:space="preserve">
+    <value>Default Brukerkonto</value>
+  </data>
+
+   <data name="Password" xml:space="preserve">
+    <value>Default Passord</value>
+  </data>
+
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Default Kontoinstillinger</value>
+  </data>
+
+  <data name="ChangeAccount" xml:space="preserve">
+    <value>Default Endre brukerkonto</value>
+  </data>
+
+  <data name="Account" xml:space="preserve">
+    <value>Default Brukernavn</value>
+  </data>
+
+  <data name="FirstName" xml:space="preserve">
+    <value>Default Fornavn</value>
+  </data>
+
+  <data name="LastName" xml:space="preserve">
+    <value>Default Etternavn</value>
+  </data>
+
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Default Slett bruker</value>
+  </data>
+
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Default Lagre endringer</value>
+  </data>
+
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Default Endre passord</value>
+  </data>
+
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Default Nåværende passord</value>
+  </data>
+
+  <data name="NewPassword" xml:space="preserve">
+    <value>Default Nytt passord</value>
+  </data>
+
+  <data name="RepeatPassword" xml:space="preserve">
+    <value>Default Gjenta nytt passord</value>
+  </data>
+
+  <data name="Pupil" xml:space="preserve">
+    <value>Default Elev</value>
+  </data>
+
+  <data name="StatusLastTest" xml:space="preserve">
+    <value>Default Status etter siste bokstavtest</value>
+  </data>
+
+  <data name="StudentNoTestYetUpper" xml:space="preserve">
+    <value>Default har ikke gjennomført noen bokstavtester for store bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke</value>
+  </data>
+
+  <data name="StudentNoTestYetLower" xml:space="preserve">
+    <value>Default har ikke gjennomført noen bokstavtester for små bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke</value>
+  </data>
+
+  <data name="Here" xml:space="preserve">
+    <value>Default her</value>
+  </data>
+
+  <data name="LetterSoundKnow" xml:space="preserve">
+    <value>Default Bokstavlydkunnskap</value>
+  </data>
+
+  <data name="Knows" xml:space="preserve">
+    <value>Default Kjenner</value>
+  </data>
+
+  <data name="LetterSounds" xml:space="preserve">
+    <value>Default bokstavlyder og ligger</value>
+  </data>
+
+  <data name="Above" xml:space="preserve">
+    <value>Default over</value>
+  </data>
+
+  <data name="Below" xml:space="preserve">
+    <value>Default under</value>
+  </data>
+
+  <data name="AvgLearning" xml:space="preserve">
+    <value>Default gjennomsnitt for innlæring av bokstavlyder</value>
+  </data>
+
+  <data name="In" xml:space="preserve">
+    <value>Default i</value>
+  </data>
+
+  <data name="KnowsSoundAndName" xml:space="preserve">
+    <value>Default Kjenner både bokstavlyd og navn</value>
+  </data>
+
+  <data name="KnowsSound" xml:space="preserve">
+    <value>Default Kjenner bokstavlyd</value>
+  </data>
+
+  <data name="KnowsName" xml:space="preserve">
+    <value>Default Kjenner bokstavnavn</value>
+  </data>
+
+  <data name="KnowsNon" xml:space="preserve">
+    <value>Default Kjenner ikke bokstavlyd eller navn</value>
+  </data>
+
+  <data name="NewTestUpper" xml:space="preserve">
+    <value>Default Hvis du ønsker å gjennomføre en ny bokstavtest for store bokstaver kan du klikke</value>
+  </data>
+
+  <data name="NewTestLower" xml:space="preserve">
+    <value>Default Hvis du ønsker å gjennomføre en ny bokstavtest for små bokstaver kan du klikke</value>
+  </data>
+
+   <data name="AddStudent" xml:space="preserve">
+    <value>Default Legg til elev</value>
+  </data>
+
+  <data name="For" xml:space="preserve">
+    <value>Default For</value>
+  </data>
+
+  <data name="Since" xml:space="preserve">
+    <value>Default siden</value>
+  </data>
+
+  <data name="Day" xml:space="preserve">
+    <value>Default dag</value>
+  </data>
+
+  <data name="Days" xml:space="preserve">
+    <value>Default dager</value>
+  </data>
+
+  <data name="Minute" xml:space="preserve">
+    <value>Default minutt</value>
+  </data>
+
+  <data name="Minutes" xml:space="preserve">
+    <value>Default minutter</value>
+  </data>
+
+  <data name="Hour" xml:space="preserve">
+    <value>Default time</value>
+  </data>
+
+  <data name="Hours" xml:space="preserve">
+    <value>Default timer</value>
+  </data>
+
+  <data name="NoOne" xml:space="preserve">
+    <value>Default Ingen</value>
+  </data>
+
+  <data name="Sound" xml:space="preserve">
+    <value>Default Lyd</value>
+  </data>
+
+  <data name="NameAndSound" xml:space="preserve">
+    <value>Default Navn og Lyd</value>
+  </data>
+
+  <data name="TestDone" xml:space="preserve">
+    <value>Default Bokstavtest gjennomført</value>
+  </data>
+
+  <data name="LookThroughTest" xml:space="preserve">
+    <value>Default Ønsker du å se igjennom bokstavtesten før du lagrer den?</value>
+  </data>
+
+  <data name="No" xml:space="preserve">
+    <value>Default Nei</value>
+  </data>
+
+  <data name="Yes" xml:space="preserve">
+    <value>Default Ja</value>
+  </data>
+
+  <data name="DoneSeeThrough" xml:space="preserve">
+    <value>Default Ferdig med gjennomgangen? Klikk her for å lagre resultatet.</value>
+  </data>
+
+  <data name="Error" xml:space="preserve">
+    <value>Default Feil</value>
+  </data>
+
+   <data name="Mandatory" xml:space="preserve">
+    <value>Default Dette feltet er obligatorisk.</value>
+  </data>
+
+  <data name="PasswordLengthError" xml:space="preserve">
+    <value>Default Passordet må være minst {2} tegn langt.</value>
+  </data>
+
+  <data name="PasswordNotSame" xml:space="preserve">
+    <value>Default Passordene er ikke like</value>
+  </data>
+
+  <data name="Error:" xml:space="preserve">
+    <value>Default Feil:</value>
+  </data>
+
+  <data name="PasswordHasChanged" xml:space="preserve">
+    <value>Default Passordet ditt har blitt endret.</value>
+  </data>
+
+  <data name="DeleteAccountCons" xml:space="preserve">
+    <value>Default Hvis du sletter brukeren din vil alle dine klasser, elever og deres testresultater også bli slettet. Dataen vil ikke kunne gjenopprettes.</value>
+  </data>
+
+  <data name="ErrorWrongPassword" xml:space="preserve">
+    <value>Default Feil: Ugyldig Passord.</value>
+  </data>
+
+  <data name="ChangeEmail" xml:space="preserve">
+    <value>Default Endre e-post</value>
+  </data>
+
+  <data name="NewEmail" xml:space="preserve">
+    <value>Default Ny e-postadresse</value>
+  </data>
+
+  <data name="ErrorSomethingWrong" xml:space="preserve">
+    <value>Default Feil: Noe gikk galt</value>
+  </data>
+
+  <data name="ChangesSaved" xml:space="preserve">
+    <value>Default Endringene dine har blitt lagret</value>
+  </data>
+
+  <data name="LogIn" xml:space="preserve">
+    <value>Default Logg inn</value>
+  </data>
+
+  <data name="Email" xml:space="preserve">
+    <value>Default E-postadresse</value>
+  </data>
+
+  <data name="RegisterNewAccount" xml:space="preserve">
+    <value>Default Registrer ny bruker</value>
+  </data>
+
+  <data name="RememberMe" xml:space="preserve">
+    <value>Default Husk meg</value>
+  </data>
+
+  <data name="WrongNameOrPassword" xml:space="preserve">
+    <value>Default Feil brukernavn eller passord.</value>
+  </data>
+
+  <data name="AlreadyHaveAccount" xml:space="preserve">
+    <value>Default Har du allerede en bruker? Logg inn her</value>
+  </data>
+
+  <data name="EmailNotValid" xml:space="preserve">
+    <value>Default E-postadressen er ugyldig</value>
+  </data>
+
+  <data name="EditPupil" xml:space="preserve">
+    <value>Default Rediger elev</value>
+  </data>
+
+  <data name="Cancel" xml:space="preserve">
+    <value>Default Avbryt</value>
+  </data>
+
+  <data name="DeletePupilAndTests" xml:space="preserve">
+    <value>Default Ved sletting av eleven vil alle testresultater også bli fjernet. Dette kan ikke reverseres.</value>
+  </data>
+
+  <data name="SureAboutDeletion" xml:space="preserve">
+    <value>Default Er du sikker på at du ønsker å fjerne</value>
+  </data>
+
+  <data name="FromClass" xml:space="preserve">
+    <value>Default fra klassen din</value>
+  </data>
+  
+   <data name="DeletePupil" xml:space="preserve">
+    <value>Default Slett Elev</value>
+  </data>
+
+  <data name="Of" xml:space="preserve">
+    <value>Default av</value>
+  </data>
+
+  <data name="RegisterAccount" xml:space="preserve">
+    <value>Default Registrer bruker</value>
+  </data>
+  
+  <data name="CreateNewClass" xml:space="preserve">
+    <value>Default Opprett ny klasse</value>
+  </data>
+
+  <data name="ClassNameEx" xml:space="preserve">
+    <value>Default Klassenavn (F.eks. 1A)</value>
+  </data>
+
+  <data name="CreateClass" xml:space="preserve">
+    <value>Default Opprett klasse</value>
+  </data>
+
+  <data name="FillOutThis" xml:space="preserve">
+    <value>Default Vennligst fyll ut dette feltet.</value>
+  </data>
+
+  <data name="ChangeClassName" xml:space="preserve">
+    <value>Default Endre klassenavn</value>
+  </data>
+
+  <data name="ClassName" xml:space="preserve">
+    <value>Default Klassenavn</value>
+  </data>
+
+  <data name="DeleteClass" xml:space="preserve">
+    <value>Default Slett Klasse</value>
+  </data>
+
+  <data name="DeleteClassWithStudentsAndTests" xml:space="preserve">
+    <value>Default Ved sletting av klassen vil alle elever og deres testresultater også bli fjernet. Dette kan ikke reverseres.</value>
+  </data>
+
+  <data name="FromAccount" xml:space="preserve">
+    <value>Default fra brukeren din</value>
+  </data>
+
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Default Noe gikk galt</value>
+  </data>
+
+  <data name="TryDoingAgain" xml:space="preserve">
+    <value>Default Prøv det du ville gjøre en gang til, hvis feilen fortsatt oppstår ta kontakt</value>
+  </data>
 </root>

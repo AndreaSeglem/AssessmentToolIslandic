@@ -72,25 +72,25 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
-            [EmailAddress(ErrorMessage = "E-postadressen er ugyldig")]
+            [Required(ErrorMessage = "Mandatory")]
+            [EmailAddress(ErrorMessage = "EmailNotValid")]
             public string Email { get; set; }
 
 
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
-            [Display(Name = "Fornavn")]
+            [Required(ErrorMessage = "Mandatory")]
+            [Display(Name = "FirstName")]
             public string FirstName { get; set; }
 
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
-            [Display(Name = "Etternavn")]
+            [Required(ErrorMessage = "Mandatory")]
+            [Display(Name = "LastName")]
             public string LastName { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
-            [StringLength(100, ErrorMessage = "Passordet må minst være minst {2} symboler langt.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Mandatory")]
+            [StringLength(100, ErrorMessage = "PasswordLengthError", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -101,7 +101,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
             /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "Passordene er ikke like")]
+            [Compare("Password", ErrorMessage = "PasswordNotSame")]
             public string ConfirmPassword { get; set; }
         }
 

@@ -1,8 +1,11 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Logg inn";
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    ViewData["Title"] = @Localizer["LogIn"];
 }
 
 <div class="row mx-0 h-100">
@@ -12,18 +15,18 @@
                 <div class="d-flex justify-content-center">
                     <img src="~/img/Logo.svg" style="width:50%; height:50%" class="filter-light-green mb-1" />
                 </div>
-                <h2 class="light-green">Logg inn med eksisterende bruker</h2>
+                <h2 class="light-green">@Localizer["LogInExsisting"]</h2>
                 <hr />
                 <partial name="_StatusMessage" for="ErrorMessage" />
                 @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
                 <div class="form-floating">
                     <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <label asp-for="Input.Email" class="form-label">E-postadresse</label>
+                    <label asp-for="Input.Email" class="form-label">@Localizer["Email"]</label>
                     <span asp-validation-for="Input.Email" class="light-green"></span>
                 </div>
                 <div class="form-floating">
                     <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                    <label asp-for="Input.Password" class="form-label">Passord</label>
+                    <label asp-for="Input.Password" class="form-label">@Localizer["Password"]</label>
                     <span asp-validation-for="Input.Password" class="light-green"></span>
                 </div>
                 <div>
@@ -35,11 +38,11 @@
                     </div>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Logg inn</button>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["LogIn"]</button>
                 </div>
                 <div class="mt-2">
                     <p>
-                        <a class="light-green" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrer ny bruker</a>
+                        <a class="light-green" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["RegisterNewAccount"]</a>
                     </p>
                 </div>
             </form>

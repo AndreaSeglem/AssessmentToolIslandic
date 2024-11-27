@@ -70,7 +70,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "Ny e-postadresse")]
+            [Display(Name = "NewEmail")]
             public string NewEmail { get; set; }
         }
 

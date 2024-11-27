@@ -7,7 +7,7 @@
     ViewData["Title"] = Localizer["PageTitle"];
 }
 @{
-    ViewData["Title"] = "Elever";
+    ViewData["Title"] = @Localizer["Pupils"];
 }
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -213,7 +213,7 @@
                 fromNumber = 0;
             }
         table.innerHTML = result;
-        pageInfo.innerHTML = `<span class="text-small-table light-green">${fromNumber}-${toNumber} av ${totalNumber}</span>`;
+        pageInfo.innerHTML = `<span class="text-small-table light-green">${fromNumber}-${toNumber} @Localizer["Of"] ${totalNumber}</span>`;
         prevButton.classList = curPage === 1 ? "nav-link navbar-text-light-green disabled" : "nav-link navbar-text-light-green";
         nextButton.classList = curPage === totalPages ? "nav-link navbar-text-light-green disabled" : "nav-link navbar-text-light-green";
      }

@@ -1,22 +1,28 @@
 ﻿@model LetterKnowledgeAssessment.Models.ClassList
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
 
 <div class="modal fade" id="editClassListModal-@Model.Id">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-dark-primary">
-                <h5 class="modal-title light-green">Endre klassenavn</h5>
+                <h5 class="modal-title light-green">@Localizer["ChangeClassName"]</h5>
                 <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
             </div>
             <form asp-area="ClassManagement" asp-page="/Edit" asp-route-classlistid="@Model.Id.ToString()" method="post">
                 <div class="modal-body">
                     <div class="form-floating">
                         <input type="text" name="grade" class="form-control" aria-required="true" required value="@Model.Grade" />
-                        <label>Klassenavn</label>
+                        <label>@Localizer["ClassName"]</label>
                     </div>
                 </div>
                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-                    <button type="submit" class="btn btn-primary">Lagre endringer</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["SaveChanges"]</button>
                  </div>
             </form>
         </div>

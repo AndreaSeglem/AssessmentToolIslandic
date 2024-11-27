@@ -1,9 +1,16 @@
 ﻿@model string
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
+
 <div class="modal fade" id="addPupilsModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-dark-primary">
-                <h5 id="modalTitle" class="modal-title light-green">Legg til elever</h5>
+                <h5 id="modalTitle" class="modal-title light-green">@Localizer["AddStudents"]</h5>
                 <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
             </div>
             <form asp-area="ClassManagement" asp-page="/Pupils/AddPupils" asp-route-returnurl="@Model" method="post">
@@ -11,15 +18,15 @@
                     <div id="pupils">
                         <div id="pupil-0" class="row">
                             <div class="col">
-                                <p class="text-muted mb-0">Fornavn</p>
+                                <p class="text-muted mb-0">@Localizer["FirstName"]</p>
                                 <input type="text" name="[0].FirstName" class="form-control" aria-required="true" required />
                             </div>
                             <div class="col">
-                                <p class="text-muted mb-0">Etternavn</p>
+                                <p class="text-muted mb-0">@Localizer["LastName"]</p>
                                 <input type="text" name="[0].LastName" class="form-control" aria-required="true" required />
                             </div>
                             <div class="col">
-                                <p class="text-muted mb-0">Fødselsdato</p>
+                                <p class="text-muted mb-0">@Localizer["BirthDate"]</p>
                                 <input type="date" name="[0].BirthDate" class="form-control" aria-required="true" required />
                             </div>
                         </div>
@@ -30,8 +37,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-                    <button id="submitBtn" type="submit" class="btn btn-primary">Legg til elev</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                    <button id="submitBtn" type="submit" class="btn btn-primary">@Localizer["AddStudent"]</button>
                 </div>
             </form>
         </div>
@@ -42,7 +49,7 @@
     function addPupilInput(){
         let pupilCount =  document.getElementById('pupils').children.length;
         let confirmButton = document.getElementById('submitBtn');        
-        confirmButton.innerHTML = "Legg til elever";        
+        confirmButton.innerHTML = "@Localizer["AddStudents"]";        
         let currentInputRow = document.getElementById(`pupil-${pupilCount-1}`);
         currentInputRow.insertAdjacentHTML("afterend", `<div id="pupil-${pupilCount}"" class="row"><div class="col"><input type="text" name="[${pupilCount}].FirstName" class="form-control" required aria-required="true"  /></div><div class="col"><input type="text" name="[${pupilCount}].LastName" class="form-control" required aria-required="true" /></div><div class="col"><input type="date" name="[${pupilCount}].BirthDate" class="form-control" required aria-required="true" /></div></div>`);
     }
@@ -51,7 +58,7 @@
         
         if(pupilCount>1){
             if(pupilCount===2){
-                document.getElementById('submitBtn').innerHTML = "Legg til elev";                
+                document.getElementById('submitBtn').innerHTML = "@Localizer["AddStudent"]";                
             }
             let lastInputRow = document.getElementById(`pupil-${pupilCount-1}`);
             lastInputRow.remove();

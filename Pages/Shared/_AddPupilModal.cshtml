@@ -1,9 +1,16 @@
 ﻿@model string
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
+
 <div class="modal fade" id="addPupilModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-dark-primary">
-                <h5 id="modalTitle" class="modal-title light-green">Legg til elev</h5>
+                <h5 id="modalTitle" class="modal-title light-green">@Localizer["AddStudent"]</h5>
                 <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
             </div>
             <form asp-area="ClassManagement" asp-page="/Pupils/AddPupils" asp-route-returnurl="@Model" method="post">
@@ -11,20 +18,20 @@
                     <div id="pupils">
                         <div id="pupil-0" class="row">
                             <div class="col">
-                                <input type="text" name="[0].FirstName" class="form-control" aria-required="true" required placeholder="Fornavn" />
+                                <input type="text" name="[0].FirstName" class="form-control" aria-required="true" required placeholder=@Localizer["FirstName"] />
                             </div>
                             <div class="col">
-                                <input type="text" name="[0].LastName" class="form-control" aria-required="true" required placeholder="Etternavn" />
+                                <input type="text" name="[0].LastName" class="form-control" aria-required="true" required placeholder=@Localizer["LastName"] />
                             </div>
                             <div class="col">
-                                <input type="date" name="[0].BirthDate" class="form-control" aria-required="true" required placeholder="Fødselsdato" />
+                                <input type="date" name="[0].BirthDate" class="form-control" aria-required="true" required placeholder=@Localizer["BirthDate"] />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Avbryt</button>
-                    <button id="submitBtn" type="submit" class="btn btn-primary">Legg til elev</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                    <button id="submitBtn" type="submit" class="btn btn-primary">@Localizer["AddStudent"]</button>
                 </div>
             </form>
         </div>

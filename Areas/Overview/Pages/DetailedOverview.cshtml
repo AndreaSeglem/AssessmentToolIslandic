@@ -1,8 +1,11 @@
 ﻿@page
 @using Newtonsoft.Json
 @using System.Globalization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 @model LetterKnowledgeAssessment.Areas.Overview.Pages.DetailedOverviewModel
 @{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
     ViewData["Title"] = $"Oversikt - {Model.Pupil.FirstName} {Model.Pupil.LastName}";
     ViewData["SidebarActive"] = ActivePage.Pupils;
     CultureInfo culture = CultureInfo.CurrentCulture;
@@ -13,7 +16,7 @@
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="btn" href="/Overview/Pupils"><i class="bi bi-chevron-left"></i> Elever</a></li>
+        <li class="breadcrumb-item"><a class="btn" href="/Overview/Pupils"><i class="bi bi-chevron-left"></i> @Localizer["Pupils"]</a></li>
     </ol>
 </nav>
 <div class="text-center">
@@ -29,24 +32,24 @@
             
             <div class="card card-append">
                 <div class="card-header bg-dark-primary">
-                    <h6 class="card-header-title">Elev</h6>
+                    <h6 class="card-header-title">@Localizer["Pupil"]</h6>
                 </div>
                 <div class="card-body">
                     <div class="display-input-field">
                         <input class="disabled-pupil-input" id="pupilFirstName" disabled value="@Model.Pupil.FirstName" />
-                        <label for="pupilFirstName">Fornavn</label>
+                        <label for="pupilFirstName">@Localizer["FirstName"]</label>
                     </div>
                     <div class="display-input-field">
                         <input class="disabled-pupil-input" id="pupilLastName" disabled value="@Model.Pupil.LastName" />
-                        <label for="pupilLastName">Etternavn</label>
+                        <label for="pupilLastName">@Localizer["LastName"]</label>
                     </div>
                     <div class="display-input-field">
                         <input class="disabled-pupil-input" id="pupilBirthDate" disabled value="@Model.Pupil.BirthDate.ToString("dd.MM.yyyy", culture)" />
-                        <label for="pupilBirthDate">Fødselsdato</label>
+                        <label for="pupilBirthDate">@Localizer["BirthDate"]</label>
                     </div>
                     <div class="display-input-field">
-                        <input class="disabled-pupil-input" id="pupilKnowledgeLevel" disabled value="@(Model.Pupil.KnowledgeLevel < 1 ? "Ikke kartlagt" : "Nivå " + Model.Pupil.KnowledgeLevel)" />
-                        <label for="pupilKnowledgeLevel">Nivå</label>
+                        <input class="disabled-pupil-input" id="pupilKnowledgeLevel" disabled value="@(Model.Pupil.KnowledgeLevel < 1 ? @Localizer["NotTested"] : @Localizer["KnowLevel"] + " " + Model.Pupil.KnowledgeLevel)" />
+                        <label for="pupilKnowledgeLevel">@Localizer["KnowLevel"]</label>
                     </div>
                 </div>
                
@@ -70,8 +73,8 @@
                     <canvas id="lineChart"></canvas>
                     <div class="row mt-2 justify-content-center">
                         <div class="btn-group ">
-                            <button type="button" class="btn btn-secondary" onclick="updateChart(1)">Store bokstaver</button>
-                            <button type="button" class="btn btn-secondary" onclick="updateChart(2)">Små bokstaver</button>
+                            <button type="button" class="btn btn-secondary" onclick="updateChart(1)">@Localizer["UpperLetter"]</button>
+                            <button type="button" class="btn btn-secondary" onclick="updateChart(2)">@Localizer["LowerLetter"]</button>
                         </div>
                     </div>
                 </div>
@@ -85,7 +88,7 @@
 
 <div class="card">
     <div class="card-header bg-dark-primary">
-        <h6 class="card-header-title">Status etter siste bokstavtest</h6>
+        <h6 class="card-header-title">@Localizer["StatusLastTest"]</h6>
     </div>
     <div class="card-body">
         <div class="row">
@@ -93,7 +96,7 @@
             {
                 <div class="col-6">
                     <div class="card-body">
-                        <h3 class="card-subtitle text-muted mb-2">Store bokstaver</h3>
+                        <h3 class="card-subtitle text-muted mb-2">@Localizer["UpperLetter"]</h3>
                         @if (Model.TestResults.Where(t => t.IsUpperCase).Count() > 0)
                         {
                             var latestUpper = Model.TestResults.Where(t => t.IsUpperCase).FirstOrDefault();
@@ -102,42 +105,42 @@
                             var nameKnowledge = String.Join(", ", latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Name)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
                             var noKnowledge = String.Join(", ", latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.None)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
                             var soundCount = latestUpper.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.NameSound) || l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Sound)).Count();
-                            <p class="card-text">Kjenner @soundCount bokstavlyder og ligger @(soundCount >= Model.AvgUpperCaseSounds ? "over":"under") gjennomsnitt for innlæring av bokstavlyder (@Model.AvgUpperCaseSounds.ToString("0.00") i @DateTime.Now.ToString("MMMM", culture)).</p>
+                            <p class="card-text">@Localizer["Knows"] @soundCount @Localizer["LetterSounds"] @(soundCount >= Model.AvgUpperCaseSounds ? @Localizer["Above"]:@Localizer["Below"]) @Localizer["AvgLearning"] (@Model.AvgUpperCaseSounds.ToString("0.00") @Localizer["In"] @DateTime.Now.ToString("MMMM", culture)).</p>
                             @if (nameSoundKnowledge.Count() > 0)
                             {
-                                <h6 class="card-subtitle text-muted">Kjenner både bokstavlyd og navn</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsSoundAndName"]</h6>
                                 <p>@nameSoundKnowledge</p>
 
                             }
                             @if (soundKnowledge.Count() > 0)
                             {
-                                <h6 class="card-subtitle text-muted">Kjenner bokstavlyd</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsSound"]</h6>
                                 <p>@soundKnowledge</p>
 
                             }
                             @if (nameKnowledge.Count() > 0)
                             {
-                                <h6 class="card-subtitle text-muted">Kjenner bokstavnavn</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsName"]</h6>
                                 <p>@nameKnowledge</p>
                             }
                             @if (noKnowledge.Count() > 0)
                             {
-                                <h6 class="card-subtitle text-muted">Kjenner ikke bokstavlyd eller navn</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsNon"]</h6>
                                 <p>@noKnowledge</p>
 
                             }
                             <hr />
-                            <p class="card-text">Hvis du ønsker å gjennomføre en ny bokstavtest for store bokstaver kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">her</a>.</p>
+                            <p class="card-text">@Localizer["NewTestUpper"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">@Localizer["Here"]</a>.</p>
                         }
                         else
                         {
-                            <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for store bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">her</a>.</p>
+                            <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName @Localizer["StudentNoTestYetUpper"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">@Localizer["Here"]</a>.</p>
                         }
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="card-body">
-                        <h3 class="card-subtitle text-muted mb-2">Små bokstaver</h3>
+                        <h3 class="card-subtitle text-muted mb-2">@Localizer["LowerLetter"]</h3>
                         @if (Model.TestResults.Where(t => !t.IsUpperCase).Count() > 0)
                         {
                             var latestLower = Model.TestResults.Where(t => !t.IsUpperCase).FirstOrDefault();
@@ -146,38 +149,38 @@
                             var nameKnowledge = String.Join(", ", latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Name)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
                             var noKnowledge = String.Join(", ", latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.None)).OrderBy(l => l.Letter, StringComparer.Create(culture, false)).Select(l => l.Letter).ToList());
                             var soundCount = latestLower.LetterTestResult.Where(l => l.KnowledgeLevel.Equals(LetterKnowledgeLevel.NameSound) || l.KnowledgeLevel.Equals(LetterKnowledgeLevel.Sound)).Count();
-                            <p class="card-text">Kjenner @soundCount bokstavlyder og ligger @(soundCount >= Model.AvgLowerCaseSounds ? "over":"under") gjennomsnitt for innlæring av bokstavlyder (@Model.AvgLowerCaseSounds.ToString("0.00") i @DateTime.Now.ToString("MMMM", culture)).</p>
+                            <p class="card-text">@Localizer["Knows"] @soundCount @Localizer["LetterSounds"] @(soundCount >= Model.AvgLowerCaseSounds ? "over":"under") @Localizer["AvgLearning"] (@Model.AvgLowerCaseSounds.ToString("0.00") @Localizer["In"] @DateTime.Now.ToString("MMMM", culture)).</p>
                             @if (nameSoundKnowledge.Count() > 0)
                             {
-                                <h6 class="card-subtitle text-muted">Kjenner både bokstavlyd og navn</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsSoundAndName"]</h6>
                                 <p>@nameSoundKnowledge</p>
 
                             }
                             @if (soundKnowledge.Count() > 0)
                             {
-                                <h6 class="card-subtitle text-muted">Kjenner bokstavlyd</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsSound"]</h6>
                                 <p>@soundKnowledge</p>
 
                             }
                             @if (nameKnowledge.Count() > 0)
                             {
-                                <h6 class="card-subtitle text-muted">Kjenner bokstavnavn</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsName"]</h6>
                                 <p>@nameKnowledge</p>
                             }
                             @if (noKnowledge.Count() > 0)
                             {
 
-                                <h6 class="card-subtitle text-muted">Kjenner ikke bokstavlyd eller navn</h6>
+                                <h6 class="card-subtitle text-muted">@Localizer["KnowsNon"]</h6>
                                 <p>@noKnowledge</p>
 
                             }
                             <hr />
-                            <p class="card-text">Hvis du ønsker å gjennomføre en ny bokstavtest for små bokstaver kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">her</a>.</p>
+                            <p class="card-text">@Localizer["NewTestLower"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">@Localizer["Here"]</a>.</p>
                         }
                         else
                         {
 
-                            <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for små bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">her</a>.</p>
+                            <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName @Localizer["StudentNoTestYetLower"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">@Localizer["Here"]</a>.</p>
 
                         }
                     </div>
@@ -188,17 +191,17 @@
             {
                 <div class="col-6">
                     <div class="card-body">
-                        <h3 class="card-subtitle text-muted mb-2">Store bokstaver</h3>
+                        <h3 class="card-subtitle text-muted mb-2">@Localizer["UpperLetter"]</h3>
 
-                        <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for store bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">her</a>.</p>
+                        <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName @Localizer["StudentNoTestYetUpper"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">@Localizer["Here"]</a>.</p>
 
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="card-body">
-                        <h3 class="card-subtitle text-muted mb-2">Små bokstaver</h3>
-                        <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName har ikke gjennomført noen bokstavtester for små bokstaver enda. Dersom du ønsker å gjennomføre en nå kan du klikke <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">her</a>.</p>
+                        <h3 class="card-subtitle text-muted mb-2">@Localizer["LowerLetter"]</h3>
+                        <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName @Localizer["StudentNoTestYetLower"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="false">@Localizer["Here"]</a>.</p>
                     </div>
                 </div>
             }
@@ -222,7 +225,7 @@
       const lineData = {
           labels: lineLabels,
           datasets: [{
-          label: 'Bokstavlydkunnskap',
+          label: @Html.Raw($"\"{Localizer["LetterSoundKnow"]}\""),
           backgroundColor: 'rgba(55, 150, 131, 1)',
           borderColor: 'rgba(55, 150, 131, 1)',
           data: letterKnowledge,

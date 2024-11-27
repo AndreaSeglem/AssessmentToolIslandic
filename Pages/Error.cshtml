@@ -1,16 +1,20 @@
 ﻿@page
 @model ErrorModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+
 @{
-    ViewData["Title"] = "Feil";
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    ViewData["Title"] = @Localizer["Error"];
 }
 
 
 <div class="card">
     <div class="card-body text-center">
-        <h1 class="display-4 text-danger">Feil!</h1>
-        <h2 class="display-5 text-danger">Noe gikk galt :(</h2>
+        <h1 class="display-4 text-danger">@Localizer["Error"]!</h1>
+        <h2 class="display-5 text-danger">@Localizer["SomethingWentWrong"] :(</h2>
         <p>
-            Prøv det du ville gjøre en gang til, hvis feilen fortsatt oppstår ta kontakt <a href="mailto:andekvam@stud.ntnu.no?subject=Rapporter feilmelding">her</a>.
+            @Localizer["TryDoingAgain"] <a href="mailto:andekvam@stud.ntnu.no?subject=Rapporter feilmelding">@Localizer["Here"]</a>.
         </p>
     </div>
 </div>

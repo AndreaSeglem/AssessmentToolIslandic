@@ -9,6 +9,7 @@ using LetterKnowledgeAssessment.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
@@ -18,15 +19,18 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Teacher> _userManager;
         private readonly SignInManager<Teacher> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly IStringLocalizer<DeletePersonalDataModel> _localizer;
 
         public DeletePersonalDataModel(
             UserManager<Teacher> userManager,
             SignInManager<Teacher> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IStringLocalizer<DeletePersonalDataModel> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -50,9 +54,9 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
+            [Required(ErrorMessage = "Mandatory")]
             [DataType(DataType.Password)]
-            [Display(Name = "Passord")]
+            [Display(Name = "Password")]
             public string Password { get; set; }
         }
 
@@ -87,7 +91,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
             {
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))
                 {
-                    StatusMessage = "Feil: Ugyldig Passord.";
+                    StatusMessage = _localizer["ErrorWrongPassword"];
                     return Page();
                 }
             }

@@ -1,16 +1,19 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 @model LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment.LetterAssessmentModel
 @{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
     ViewData["SidebarActive"] = ActivePage.LetterTest;
 }
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="btn" href="/Assessment/LetterAssessment/Index"><i class="bi bi-chevron-left"></i> Velg elev</a></li>
+        <li class="breadcrumb-item"><a class="btn" href="/Assessment/LetterAssessment/Index"><i class="bi bi-chevron-left"></i> @Localizer["ChooseStudent"]</a></li>
     </ol>
 </nav>
 <div class="text-center">
-    <h1 class="display-4">Bokstavtest</h1>
+    <h1 class="display-4">@Localizer["LetterTest"]</h1>
 </div>
 <hr />
 
@@ -35,10 +38,10 @@
                         <div class="row mt-2 justify-content-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary disabled"><i class="bi bi-chevron-left"></i></button>
-                                <button id="level-0-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 0)">Ingen</button>
-                                <button id="level-1-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 1)">Navn</button>
-                                <button id="level-2-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 2)">Lyd</button>
-                                <button id="level-3-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 3)">Navn og lyd</button>
+                                <button id="level-0-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 0)">@Localizer["NoOne"]</button>
+                                <button id="level-1-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 1)">@Localizer["Name"]</button>
+                                <button id="level-2-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 2)">@Localizer["Sound"]</button>
+                                <button id="level-3-letter-0" type="button" class="btn btn-primary" onclick="handleClick(0, 3)">@Localizer["NameAndSound"]</button>
                                 <button type="button" class="btn btn-primary" onclick="handleNavClick(@(1), 0)"><i class="bi bi-chevron-right"></i></button>
                             </div>
                         </div>
@@ -55,10 +58,10 @@
                             <div class="row mt-2 justify-content-center">
                                 <div class="btn-group ">
                                     <button type="button" class="btn btn-primary" onclick="handleNavClick(@(i-1), @i)"><i class="bi bi-chevron-left"></i></button>
-                                    <button id="level-0-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 0)">Ingen</button>
-                                    <button id="level-1-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 1)">Navn</button>
-                                    <button id="level-2-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 2)">Lyd</button>
-                                    <button id="level-3-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 3)">Navn og lyd</button>
+                                    <button id="level-0-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 0)">@Localizer["NoOne"]</button>
+                                    <button id="level-1-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 1)">@Localizer["Name"]</button>
+                                    <button id="level-2-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 2)">@Localizer["Sound"]</button>
+                                    <button id="level-3-letter-@i" type="button" class="btn btn-primary" onclick="handleClick(@i, 3)">@Localizer["NameAndSound"]</button>
                                     <button type="button" class="btn btn-primary @(i+1 == Model.testLetters.Count? "disabled":"")" onclick="handleNavClick(@(i+1), @i)"><i class="bi bi-chevron-right"></i></button>
                                 </div>
                             </div>
@@ -68,25 +71,25 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header bg-dark-primary">
-                                    <h5 id="modalTitle" class="modal-title light-green">Bokstavtest gjennomført</h5>
+                                    <h5 id="modalTitle" class="modal-title light-green">@Localizer["TestDone"]</h5>
                                     <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="text-muted font-weight-lighter" style="font-size: .9rem;">
                                         <p>
-                                            Ønsker du å se igjennom bokstavtesten før du lagrer den?
+                                            @Localizer["LookThroughTest"]
                                         </p>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-secondary">Nei</button>
-                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewTest()">Ja</button>
+                                    <button type="submit" class="btn btn-secondary">@Localizer["No"]</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewTest()">@Localizer["Yes"]</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div style="display:none" class="my-2" id="saveNow">
-                        <button type="submit" class="w-100 btn btn-primary">Ferdig med gjennomgangen? Klikk her for å lagre resultatet.</button>
+                        <button type="submit" class="w-100 btn btn-primary">@Localizer["DoneSeeThrough"]</button>
                     </div>
                 </form>
             </div>

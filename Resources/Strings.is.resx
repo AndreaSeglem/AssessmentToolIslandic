@@ -91,5 +91,465 @@
   <data name="HowDoTest" xml:space="preserve">
     <value>Hvernig á að framkvæma stafapróf?</value>
   </data>
-</root>
 
+  <data name="Classes" xml:space="preserve">
+    <value>Bekkir</value>
+  </data>
+
+  <data name="LetterTest" xml:space="preserve">
+    <value>Stafapróf</value>
+  </data>
+
+  <data name="Help" xml:space="preserve">
+    <value>Hjálp</value>
+  </data>
+
+  <data name="HowToCreateClass" xml:space="preserve">
+    <value>Default Hvernig á að stofna bekk?</value>
+  </data>
+
+  <data name="HowToAddStudents" xml:space="preserve">
+    <value>Hvernig á að bæta við nemendum?</value>
+  </data>
+
+  <data name="LogOut" xml:space="preserve">
+    <value>Skrá út</value>
+  </data>
+
+  <data name="FromA-AA" xml:space="preserve">
+    <value>- Kortlagning frá A - Ö</value>
+  </data>
+
+  <data name="Step" xml:space="preserve">
+    <value>Skref</value>
+  </data>
+
+  <data name="NavToTest" xml:space="preserve">
+    <value>Fara í "Stafapróf"</value>
+  </data>
+
+  <data name="ChooseLargeOrSmall" xml:space="preserve">
+    <value>Ákveðið hvort þið viljið kortleggja stóra eða litla bókstafi með því að smella á rofann</value>
+  </data>
+
+   <data name="ChooseStudentStart" xml:space="preserve">
+    <value>Veldu nemanda úr listanum og smelltu á "Byrja stafapróf"</value>
+  </data>
+
+  <data name="TestStudent" xml:space="preserve">
+    <value>Spurðu nemandann hvort hann viti hvað bókstafurinn sem birtist heitir. Spurðu síðan hvort hann viti hvað hljóðið er. Ýttu á takkann sem passar við svör nemandans. Ef nemandinn kann hvorki bókstafsnafnið né hljóðið, ýtirðu á "Ekkert"</value>
+  </data>
+
+  <data name="RepeatStep4" xml:space="preserve">
+    <value>Endurtaktu skref 4 þar til allir bókstafirnir hafa verið kortlagðir. Ýttu á "Já" ef þú vilt skoða svörin áður en þú vistar niðurstöðuna</value>
+  </data>
+
+   <data name="FinishedPlaceStudent" xml:space="preserve">
+    <value>Þegar þú hefur kortlagt bæði stóra og litla bókstafi mun nemandinn vera settur á eitt af þremur stigum.</value>
+  </data>
+
+  <data name="ExplainLevel1" xml:space="preserve">
+    <value>Nemandi er langt undir meðaltali í námi bókstafahljóða</value>
+  </data>
+  
+  <data name="ExplainLevel2" xml:space="preserve">
+    <value>Nemandi er aðeins undir meðaltali í námi bókstafahljóða</value>
+  </data>
+
+  <data name="ExplainLevel3" xml:space="preserve">
+    <value>Nemandi er á eða yfir meðaltali í námi bókstafahljóða</value>
+  </data>
+
+   <data name="NavToClass" xml:space="preserve">
+    <value>Fara í "Bekkir"</value>
+  </data>
+
+  <data name="ClickAddButton" xml:space="preserve">
+    <value>Smelltu á "+"-takkann</value>
+  </data>
+
+  <data name="ChooseNameCreateClass" xml:space="preserve">
+    <value>Fylltu út viðeigandi nafn og smelltu á "Stofna bekk"</value>
+  </data>
+
+   <data name="NavToStudents" xml:space="preserve">
+    <value>Fara í "Nemendur"</value>
+  </data>
+
+  <data name="ClickAddStudentsButton" xml:space="preserve">
+    <value>Smelltu á "Bæta við nemendum"-takkann</value>
+  </data>
+
+  <data name="ChooseNumberStudents" xml:space="preserve">
+    <value>Ákveðið fjölda nemenda með því að nota "+" og "-" takkana, fylltu út nauðsynlegar upplýsingar og smelltu á "Bæta við nemendum"</value>
+  </data>
+
+  <data name="ChooseStudent" xml:space="preserve">
+    <value>Veldu nemanda</value>
+  </data>
+
+  <data name="LatestTested" xml:space="preserve">
+    <value>Síðast kortlagt</value>
+  </data>
+
+  <data name="StartTest" xml:space="preserve">
+    <value>Byrja stafapróf</value>
+  </data>
+
+  <data name="NoStudentsNeedAdd" xml:space="preserve">
+    <value>Engir nemendur hafa verið bættir við í bekkinn þinn, smelltu á hnappinn hér fyrir neðan til að bæta við nemendum.</value>
+  </data>
+
+  <data name="LogInExsisting" xml:space="preserve">
+    <value>Skráðu þig inn með núverandi notanda</value>
+  </data>
+
+  <data name="CreateNewUser" xml:space="preserve">
+    <value>Búðu til nýjan notanda</value>
+  </data>
+
+   <data name="UserAccount" xml:space="preserve">
+    <value>Notandareikningur</value>
+  </data>
+
+   <data name="Password" xml:space="preserve">
+    <value>Lykilorð</value>
+  </data>
+
+  <data name="AccountSettings" xml:space="preserve">
+    <value>Reikningsstillingar</value>
+  </data>
+
+   <data name="ChangeAccount" xml:space="preserve">
+    <value>Breyta notandareikningi</value>
+  </data>
+
+  <data name="Account" xml:space="preserve">
+    <value>Notandanafn</value>
+  </data>
+
+  <data name="FirstName" xml:space="preserve">
+    <value>Fornafn</value>
+  </data>
+
+  <data name="LastName" xml:space="preserve">
+    <value>Eftirnafn</value>
+  </data>
+
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Eyða notanda</value>
+  </data>
+
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Vista breytingar</value>
+  </data>
+
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Breyta lykilorði</value>
+  </data>
+
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Núverandi lykilorð</value>
+  </data>
+
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nýtt lykilorð</value>
+  </data>
+
+  <data name="RepeatPassword" xml:space="preserve">
+    <value>Endurtaka nýtt lykilorð</value>
+  </data>
+
+  <data name="Pupil" xml:space="preserve">
+    <value>Nemandi</value>
+  </data>
+
+  <data name="StatusLastTest" xml:space="preserve">
+    <value>Staða eftir síðasta stafapróf</value>
+  </data>
+
+  <data name="StudentNoTestYetUpper" xml:space="preserve">
+    <value>hefur ekki enn tekið nein stafapróf fyrir stóra bókstafi. Ef þú vilt framkvæma eitt núna geturðu smellt</value>
+  </data>
+
+  <data name="StudentNoTestYetLower" xml:space="preserve">
+    <value>hefur ekki enn tekið nein stafapróf fyrir litla bókstafi. Ef þú vilt framkvæma eitt núna geturðu smellt</value>
+  </data>
+
+  <data name="Here" xml:space="preserve">
+    <value>hér</value>
+  </data>
+
+  <data name="LetterSoundKnow" xml:space="preserve">
+    <value>Hljóðkunnátta stafa</value>
+  </data>
+
+  <data name="Knows" xml:space="preserve">
+    <value>Þekkir</value>
+  </data>
+
+  <data name="LetterSounds" xml:space="preserve">
+    <value>stafahljóð og er</value>
+  </data>
+
+  <data name="Above" xml:space="preserve">
+    <value>yfir</value>
+  </data>
+
+  <data name="Below" xml:space="preserve">
+    <value>undir</value>
+  </data>
+
+  <data name="AvgLearning" xml:space="preserve">
+    <value>meðaltali í námi stafahljóða</value>
+  </data>
+
+  <data name="In" xml:space="preserve">
+    <value>í</value>
+  </data>
+
+  <data name="KnowsSoundAndName" xml:space="preserve">
+    <value>Þekkir bæði stafahljóð og nafn</value>
+  </data>
+
+  <data name="KnowsSound" xml:space="preserve">
+    <value>Þekkir stafahljóð</value>
+  </data>
+
+  <data name="KnowsName" xml:space="preserve">
+    <value>Þekkir stafanafn</value>
+  </data>
+
+  <data name="KnowsNon" xml:space="preserve">
+    <value>Þekkir hvorki stafahljóð né nafn</value>
+  </data>
+
+  <data name="NewTestUpper" xml:space="preserve">
+    <value>Ef þú vilt framkvæma nýtt stafapróf fyrir stóra bókstafi geturðu smellt</value>
+  </data>
+
+  <data name="NewTestLower" xml:space="preserve">
+    <value>Ef þú vilt framkvæma nýtt stafapróf fyrir litla bókstafi geturðu smellt</value>
+  </data>
+
+   <data name="AddStudent" xml:space="preserve">
+    <value>Bæta við nemanda</value>
+  </data>
+
+  <data name="For" xml:space="preserve">
+    <value>Fyrir</value>
+</data>
+
+<data name="Since" xml:space="preserve">
+    <value>síðan</value>
+</data>
+
+<data name="Day" xml:space="preserve">
+    <value>dagur</value>
+</data>
+
+<data name="Days" xml:space="preserve">
+    <value>dagar</value>
+</data>
+
+<data name="Minute" xml:space="preserve">
+    <value>mínúta</value>
+</data>
+
+<data name="Minutes" xml:space="preserve">
+    <value>mínútur</value>
+</data>
+
+<data name="Hour" xml:space="preserve">
+    <value>klukkustund</value>
+</data>
+
+<data name="Hours" xml:space="preserve">
+    <value>klukkustundir</value>
+</data>
+
+<data name="NoOne" xml:space="preserve">
+    <value>Enginn</value>
+</data>
+
+<data name="Sound" xml:space="preserve">
+    <value>Hljóð</value>
+</data>
+
+<data name="NameAndSound" xml:space="preserve">
+    <value>Nafn og Hljóð</value>
+</data>
+
+<data name="TestDone" xml:space="preserve">
+    <value>Stafapróf lokið</value>
+</data>
+
+<data name="LookThroughTest" xml:space="preserve">
+    <value>Viltu skoða stafaprófið áður en þú vistar það?</value>
+</data>
+
+<data name="No" xml:space="preserve">
+    <value>Nei</value>
+</data>
+
+<data name="Yes" xml:space="preserve">
+    <value>Já</value>
+</data>
+
+<data name="DoneSeeThrough" xml:space="preserve">
+    <value>Búinn að fara yfir? Smelltu hér til að vista niðurstöðuna.</value>
+</data>
+
+ <data name="Error" xml:space="preserve">
+    <value>Villa</value>
+  </data>
+
+  <data name="Mandatory" xml:space="preserve">
+    <value>Þessi reitur er nauðsynlegur.</value>
+</data>
+
+<data name="PasswordLengthError" xml:space="preserve">
+    <value>Lykilorðið verður að vera að minnsta kosti {2} stafir að lengd.</value>
+</data>
+
+<data name="PasswordNotSame" xml:space="preserve">
+    <value>Lykilorðin eru ekki eins.</value>
+</data>
+
+<data name="Error:" xml:space="preserve">
+    <value>Villa:</value>
+</data>
+
+<data name="PasswordHasChanged" xml:space="preserve">
+    <value>Lykilorðið þitt hefur verið breytt.</value>
+</data>
+
+<data name="DeleteAccountCons" xml:space="preserve">
+    <value>Ef þú eyðir notandanum þínum verða allir bekkir þínir, nemendur og prófniðurstöður þeirra einnig eytt. Gögnin verður ekki hægt að endurheimta.</value>
+</data>
+
+<data name="ErrorWrongPassword" xml:space="preserve">
+    <value>Villa: Ógilt lykilorð.</value>
+</data>
+
+<data name="ChangeEmail" xml:space="preserve">
+    <value>Breyta netfangi</value>
+</data>
+
+<data name="NewEmail" xml:space="preserve">
+    <value>Ný netfang</value>
+</data>
+
+<data name="ErrorSomethingWrong" xml:space="preserve">
+    <value>Villa: Eitthvað fór úrskeiðis</value>
+</data>
+
+<data name="ChangesSaved" xml:space="preserve">
+    <value>Breytingarnar þínar hafa verið vistaðar</value>
+</data>
+
+<data name="LogIn" xml:space="preserve">
+    <value>Skrá inn</value>
+</data>
+
+<data name="Email" xml:space="preserve">
+    <value>Sjálfgefið Netfang</value>
+</data>
+
+<data name="RegisterNewAccount" xml:space="preserve">
+    <value>Skrá nýjan notanda</value>
+</data>
+
+<data name="RememberMe" xml:space="preserve">
+    <value>Mundu mig</value>
+</data>
+
+<data name="WrongNameOrPassword" xml:space="preserve">
+    <value>Rangt notandanafn eða lykilorð.</value>
+</data>
+
+<data name="AlreadyHaveAccount" xml:space="preserve">
+    <value>Ertu nú þegar með notanda? Skráðu þig inn hér</value>
+</data>
+
+<data name="EmailNotValid" xml:space="preserve">
+    <value>Netfangið er ógilt</value>
+</data>
+
+<data name="EditPupil" xml:space="preserve">
+    <value>Breyta nemanda</value>
+</data>
+
+<data name="Cancel" xml:space="preserve">
+    <value>Hætta við</value>
+</data>
+
+<data name="DeletePupilAndTests" xml:space="preserve">
+    <value>Með því að eyða nemandanum verða allar prófniðurstöður einnig fjarlægðar. Þetta er óafturkræft.</value>
+</data>
+
+<data name="SureAboutDeletion" xml:space="preserve">
+    <value>Ertu viss um að þú viljir fjarlægja</value>
+</data>
+
+<data name="FromClass" xml:space="preserve">
+    <value>úr bekknum þínum</value>
+</data>
+
+<data name="DeletePupil" xml:space="preserve">
+    <value>Eyða nemanda</value>
+</data>
+
+<data name="Of" xml:space="preserve">
+    <value>af</value>
+</data>
+
+<data name="RegisterAccount" xml:space="preserve">
+    <value>Skrá notanda</value>
+</data>
+
+<data name="CreateNewClass" xml:space="preserve">
+    <value>Stofna nýjan bekk</value>
+</data>
+
+<data name="ClassNameEx" xml:space="preserve">
+    <value>Bekkjarheiti (t.d. 1A)</value>
+</data>
+
+<data name="CreateClass" xml:space="preserve">
+    <value>Stofna bekk</value>
+</data>
+
+<data name="FillOutThis" xml:space="preserve">
+    <value>Vinsamlegast fylltu út í þennan reit.</value>
+</data>
+
+<data name="ChangeClassName" xml:space="preserve">
+    <value>Breyta bekkjarheiti</value>
+</data>
+
+<data name="ClassName" xml:space="preserve">
+    <value>Bekkjarheiti</value>
+</data>
+
+<data name="DeleteClass" xml:space="preserve">
+    <value>Eyða bekk</value>
+</data>
+
+<data name="DeleteClassWithStudentsAndTests" xml:space="preserve">
+    <value>Með því að eyða bekknum verða allir nemendur og prófniðurstöður þeirra einnig fjarlægðar. Þetta er óafturkræft.</value>
+</data>
+
+<data name="FromAccount" xml:space="preserve">
+    <value>frá notandanum þínum</value>
+</data>
+
+<data name="SomethingWentWrong" xml:space="preserve">
+    <value>Eitthvað fór úrskeiðis</value>
+</data>
+
+<data name="TryDoingAgain" xml:space="preserve">
+    <value>Reyndu aftur það sem þú ætlaðir að gera, ef villan heldur áfram skaltu hafa samband</value>
+</data>
+
+</root>

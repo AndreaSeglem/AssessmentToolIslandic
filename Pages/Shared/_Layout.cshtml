@@ -1,13 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Localization
 @using System.Globalization
 @using Newtonsoft.Json
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 <!DOCTYPE html>
 <html lang="en">
+    @{
+        var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    }
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000">
-    <title>@ViewData["Title"] - Kartlegging fra A - Å</title>
+    <title>@ViewData["Title"] @Localizer["FromA-AA"]</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -32,24 +37,24 @@
             <button type="button" class="btn float-end navbar-text-light-green" onclick="toggleSidebar()"><i class="bi bi-x-lg"></i></button>
         </div>
         <div class="d-flex justify-content-center mb-4">
-            <a href="/Index">
+            <a href="@ActivePage.Index">
                 <img src="~/img/Logo.svg" class="filter-light-green" height="150" width="150">
             </a>
         </div>
         <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
         <a class="nav-link sidebar-text @ActivePage.IndexNavClass(ViewContext)" href="@ActivePage.Index">
-            <i class="bi bi-house"></i> Klasser
+            <i class="bi bi-house"></i> @Localizer["Classes"]
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link sidebar-text @ActivePage.PupilsNavClass(ViewContext)" href="@ActivePage.Pupils">
-            <i class="bi bi-person-lines-fill"></i> Elever
+            <i class="bi bi-person-lines-fill"></i> @Localizer["Pupils"]
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link sidebar-text @ActivePage.LetterTestNavClass(ViewContext)" href="@ActivePage.LetterTest">
-            <i class="bi bi-sort-alpha-down"></i> Bokstavtest
+            <i class="bi bi-sort-alpha-down"></i> @Localizer["LetterTest"]
         </a>
     </li>
 </ul>

@@ -1,16 +1,19 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 @model LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment.IndexModel
 @{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
 }
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="btn" href="/Index"><i class="bi bi-chevron-left"></i> Mine klasser</a></li>
+        <li class="breadcrumb-item"><a class="btn" href="/Index"><i class="bi bi-chevron-left"></i> @Localizer["MineKlasser"]</a></li>
     </ol>
 </nav>
 
 <div class="text-center">
-    <h1 class="display-4">Bokstavtest</h1>
+    <h1 class="display-4">@Localizer["LetterTest"]</h1>
 </div>
 <hr />
 
@@ -18,7 +21,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header bg-dark-primary">
-                <h6 class="card-header-title">Velg elev</h6>
+                <h6 class="card-header-title">@Localizer["ChooseStudent"]</h6>
             </div>
             
                 <div class="card-body" id="card-body">
@@ -26,12 +29,12 @@
                     <div class="row">
                         <div class="col-7">
 
-                            <input class="form-control" id="search" type="text" placeholder="Søk" onkeyup="filter()" />
+                            <input class="form-control" id="search" type="text" placeholder="@Localizer["Search"]" onkeyup="filter()" />
                             <div class="row justify-content-center">
                                 <label class="toggle m-2" id="toggle">
                                     <input asp-for="Input.IsUpperCase" type="checkbox" checked value="true" id="letterCaseSwitch" onclick="handleLetterCaseClick()">
                                     <span class="slider"></span>
-                                    <span class="labels" data-on="Store bokstaver" data-off="Små bokstaver"></span>
+                                    <span class="labels" data-on="@Localizer["UpperLetter"]" data-off="@Localizer["LowerLetter"]"></span>
                                 </label>
                             </div>
                             <div class="pupil-select">
@@ -39,8 +42,8 @@
                                 <table id="pupilTable" class="table table-borderless" style="width:100%;">
                                     <thead>
                                         <tr>
-                                            <th>Navn</th>
-                                            <th>Sist kartlagt</th>
+                                            <th>@Localizer["Name"]</th>
+                                            <th>@Localizer["LatestTested"]</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,7 +54,7 @@
 
                         <div class="col-5 align-self-center">
                             <div class="row justify-content-center ">
-                                <button id="startButton" type="submit" class="btn-primary btn m-2" disabled>Start Bokstavtest</button>
+                                <button id="startButton" type="submit" class="btn-primary btn m-2" disabled>@Localizer["StartTest"]</button>
                             </div>
                         </div>
                     </div>
@@ -104,13 +107,13 @@
             data.forEach(p => {
                 result += `<tr id="pupil-${p.PupilId}" class="pupil-row" onclick="handlePupilClick('${p.PupilId}')">
                 <td>${p.FirstName} ${p.LastName}</td>
-                <td>${p.DaysSinceLastTest < 999 ? lastTestedConverter(p.DaysSinceLastTest) : "Ikke kartlagt"}</td>
+                <td>${p.DaysSinceLastTest < 999 ? lastTestedConverter(p.DaysSinceLastTest) : "@Localizer["NotTested"]"}</td>
                 </tr>`;
             });
             }else{
                 result = `<tr style="height: 100%; vertical-align:middle;">
-                    <td colspan="2" style="text-align:center;"><p>Fant ingen elever som passet søket ditt. Dersom du ønsker å legge til en ny elev nå kan du gjøre det ved å klikke på knappen under.</p>
-                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilModal'><i class='bi bi-person-plus-fill'> </i> Legg til elev</button>
+                    <td colspan="2" style="text-align:center;"><p>@Localizer["NoStudentFound"]</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilModal'><i class='bi bi-person-plus-fill'> </i> @Localizer["AddStudent"]</button>
                     </td>
                     </tr>`;
                 fromNumber = 0;
@@ -121,8 +124,8 @@
      function renderNoPupils(){
          document.getElementById("search").disabled = true;
          table.innerHTML = `<tr style="heigth: 100%; vertical-align-middle;">
-            <td colspan="2" style="text-align:center;"><p>Ingen elever er lagt til i klassen din, klikk på knappen under for å legge til elever.</p>
-                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> Legg til elever</button>
+            <td colspan="2" style="text-align:center;"><p>@Localizer["NoStudentsNeedAdd"]</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> @Localizer["AddStudents"]</button>
                     </td>
             </tr>`;
      }
@@ -152,18 +155,18 @@
     function lastTestedConverter (days){
         if(days > 1){
             days = days.toFixed(0);
-            let d = days === "1" ? "dag" : "dager"; 
-            return `For ${days} ${d} siden`;
+            let d = days === "1" ? "@Localizer["Day"]" : "@Localizer["Days"]"; 
+            return `@Localizer["For"] ${days} ${d} @Localizer["Since"]`;
         }
         else {
             if(days < (1/24)){
                 let time = (days*24*60).toFixed(0);
-                let min = time === "1" ? "minutt" : "minutter";
-                return `For ${time} ${min} siden`;
+                let min = time === "1" ? "@Localizer["Minute"]" : "@Localizer["Minutes"]";
+                return `@Localizer["For"] ${time} ${min} @Localizer["Since"]`;
             }
             let time = (days*24).toFixed(0);
-            let hour = time === "1" ? "time" : "timer";
-            return `For ${time} ${hour} siden`;
+            let hour = time === "1" ? "@Localizer["Hour"]" : "@Localizer["Hours"]";
+            return `@Localizer["For"] ${time} ${hour} @Localizer["Since"]`;
         }
     }
 

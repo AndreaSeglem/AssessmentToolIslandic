@@ -10,6 +10,7 @@ using LetterKnowledgeAssessment.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
 {
@@ -17,13 +18,16 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<Teacher> _userManager;
         private readonly SignInManager<Teacher> _signInManager;
+        private readonly IStringLocalizer<IndexModel> _localizer;
 
         public IndexModel(
             UserManager<Teacher> userManager,
-            SignInManager<Teacher> signInManager)
+            SignInManager<Teacher> signInManager,
+            IStringLocalizer<IndexModel> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -52,11 +56,11 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public class InputModel
         {
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
-            [Display(Name ="Fornavn")]
+            [Required(ErrorMessage = "Mandatory")]
+            [Display(Name ="FirstName")]
             public string FirstName { get; set; }
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
-            [Display(Name ="Etternavn")]
+            [Required(ErrorMessage = "Mandatory")]
+            [Display(Name ="LastName")]
             public string LastName { get; set; }
         }
 
@@ -107,10 +111,10 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account.Manage
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (!updateResult.Succeeded)
                 {
-                    StatusMessage = "Feil: Noe gikk galt";
+                    StatusMessage = _localizer["ErrorSomethingWrong"];
                     return RedirectToPage();
                 }
-                StatusMessage = "Endringene dine har blitt lagret";
+                StatusMessage = _localizer["ChangesSaved"];
             }
 
             await _signInManager.RefreshSignInAsync(user);            

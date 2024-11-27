@@ -61,7 +61,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
+            [Required(ErrorMessage = "Mandatory")]
             //[EmailAddress( ErrorMessage = "E-postadressen er ugyldig.")]
             public string Email { get; set; }
 
@@ -69,7 +69,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "Dette feltet er obligatorisk.")]
+            [Required(ErrorMessage = "Mandatory")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -77,7 +77,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Husk meg")]
+            [Display(Name = "RememberMe")]
             public bool RememberMe { get; set; }
         }
 
@@ -125,7 +125,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ErrorMessage = "Feil brukernavn eller passord.";
+                    ErrorMessage = "WrongNameOrPassword";
                     return Page();
                 }
             }

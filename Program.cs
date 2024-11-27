@@ -47,6 +47,15 @@ var localizationOptions = new RequestLocalizationOptions
 
 // Prioritize QueryStringRequestCultureProvider for culture switching via URL
 localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create("Strings", "LetterKnowledgeAssessment");
+    });
+
     
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<IClassListRepository, ClassListRepository>();

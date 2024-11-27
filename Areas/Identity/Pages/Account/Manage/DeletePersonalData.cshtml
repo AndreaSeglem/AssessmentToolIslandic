@@ -1,7 +1,10 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
 @model DeletePersonalDataModel
 @{
-    ViewData["Title"] = "Slett bruker";
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    ViewData["Title"] = @Localizer["DeleteAccount"];
     ViewData["ActivePage"] = ManageNavPages.Index;
     ViewData["SidebarActive"] = ActivePage.Profile;
 }
@@ -13,7 +16,7 @@
 
         <div class="alert alert-warning mx-2" role="alert">
             <p>
-                <strong>Hvis du sletter brukeren din vil alle dine klasser, elever og deres testresultater også bli slettet. Dataen vil ikke kunne gjenopprettes.</strong>
+                <strong>@Localizer["DeleteAccountCons"]</strong>
             </p>
         </div>
         <form id="delete-user" method="post">
@@ -26,7 +29,7 @@
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
             }
-            <button class="w-100 btn btn-lg mt-2 btn-danger" type="submit">Slett bruker</button>
+            <button class="w-100 btn btn-lg mt-2 btn-danger" type="submit">@Localizer["DeleteAccount"]</button>
         </form>
     </div>
 

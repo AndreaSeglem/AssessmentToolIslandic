@@ -1,8 +1,14 @@
 ﻿@model string
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
 
 @if (!String.IsNullOrEmpty(Model))
 {
-    var statusMessageClass = Model.StartsWith("Feil") ? "danger" : "success";
+    var statusMessageClass = Model.StartsWith(@Localizer["Error"]) ? "danger" : "success";
     <div class="d-flex w-100" style="z-index:999;">
         <div class="alert alert-@statusMessageClass text-center w-100" role="alert" style="padding: .75rem 2.5rem;">            
             @(statusMessageClass.Equals("danger") ? Model.Substring(5): Model)

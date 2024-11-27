@@ -1,4 +1,10 @@
-﻿@{
+﻿@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
+@{
 
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
@@ -7,7 +13,7 @@
 
 <div>
     <div class="text-center">
-    <h2 class="display-4">Kontoinstillinger</h2>
+    <h2 class="display-4">@Localizer["AccountSettings"]</h2>
     </div>
     <hr />
     <div class="card rounded-edges">
