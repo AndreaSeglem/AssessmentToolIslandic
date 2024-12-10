@@ -12,6 +12,8 @@ using Microsoft.Extensions.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddUserSecrets<Program>();
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -45,8 +47,11 @@ var localizationOptions = new RequestLocalizationOptions
     FallBackToParentUICultures = true
 };
 
-// Prioritize QueryStringRequestCultureProvider for culture switching via URL
-localizationOptions.RequestCultureProviders.Insert(0, new QueryStringRequestCultureProvider());
+localizationOptions.RequestCultureProviders = new List<IRequestCultureProvider>
+{
+    new QueryStringRequestCultureProvider(), // Prioritizing culture from URL
+    new CookieRequestCultureProvider()       // Use cookie if culture not present in URL 
+};
 
 builder.Services.AddControllersWithViews()
     .AddViewLocalization()
@@ -82,29 +87,11 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
-// Enable localization
-app.UseRequestLocalization(localizationOptions);
+
 app.UseRouting();
 
-// Enable localization using the configured options
-/* var localizationOptions = new RequestLocalizationOptions
-{
-    DefaultRequestCulture = new RequestCulture("no"),
-    SupportedCultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
-    SupportedUICultures = supportedCultures.Select(culture => new CultureInfo(culture)).ToList(),
-    RequestCultureProviders = new List<IRequestCultureProvider> 
-    { 
-        new CookieRequestCultureProvider(), // Cookie provider to persist culture across sessions
-        new QueryStringRequestCultureProvider() // Query string provider to allow culture overrides in URLs
-    }
-};
-localizationOptions.FallBackToParentCultures = true;
-localizationOptions.FallBackToParentUICultures = true; */
-
-// Output the current culture for debugging purposes
-//Console.WriteLine("Current Culture: " + CultureInfo.CurrentCulture);
-
-
+// Enable localization
+app.UseRequestLocalization(localizationOptions);
 
 app.UseAuthentication();
 app.UseAuthorization();

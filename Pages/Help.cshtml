@@ -1,5 +1,6 @@
 ﻿@page
 @using Microsoft.Extensions.Localization
+@using System.Globalization
 @model LetterKnowledgeAssessment.Pages.InfoModel
 @inject IStringLocalizerFactory LocalizerFactory
 @{
@@ -27,29 +28,37 @@
 
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 1</strong> @Localizer["NavToTest"]</p>
-                                <img class="step-img" src="/img/letterAssessmentActiveNav.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "evenSmaller-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/letterAssessmentActiveNavIslandsk.png" : "/img/letterAssessmentActiveNav.png")" />
                             </div>
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 2</strong> @Localizer["ChooseLargeOrSmall"]</p>
-                                <img class="step-img" src="/img/upperCaseSelected.png" /><img class="step-img" src="/img/lowerCaseSelected.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "evenSmallerer-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/upperCaseSelectedIslandsk.png" : "/img/upperCaseSelected.png")" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "evenSmallerer-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/lowerCaseSelectedIslandsk.png" : "/img/lowerCaseSelected.png")" />
                             </div>
 
 
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 3</strong> @Localizer["ChooseStudentStart"]</p>
-                                <img class="step-img" src="/img/pupilSelectedStartActive.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "medium-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/pupilSelectedStartActiveIslandsk.png" : "/img/pupilSelectedStartActive.png")" />
                             </div>
 
 
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 4</strong> @Localizer["TestStudent"]</p>
-                                <img class="step-img" src="/img/letterTestStart.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "medium-small-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/letterTestStartIslandsk.png" : "/img/letterTestStart.png")" />
                             </div>
 
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 5</strong> @Localizer["RepeatStep4"]</p>
-                                <img class="step-img" src="/img/letterTestEnd.png" />
+                                 <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "small-island-image" : "")" 
+                                    src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/LetterTestEndIslandsk.png" : "/img/letterTestEnd.png")" />
                             </div>
+
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 6</strong> @Localizer["FinishedPlaceStudent"]</p>
                                 <ul>
@@ -73,7 +82,8 @@
                         <div class="accordion-body" style="height:450px; overflow-y:auto">
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 1</strong> @Localizer["NavToClass"]</p>
-                                <img class="step-img" src="/img/classListActiveNav.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "smaller-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/classListActiveNavIslandsk.png" : "/img/classListActiveNav.png")" />
                             </div>
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 2</strong> @Localizer["ClickAddButton"]</p>
@@ -82,7 +92,8 @@
 
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 3</strong> @Localizer["ChooseNameCreateClass"]</p>
-                                <img class="step-img" src="/img/createClassList.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "medium-medium-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/createClassListIslandsk.png" : "/img/createClassList.png")" />
                             </div>
 
 
@@ -100,17 +111,20 @@
 
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 1</strong> @Localizer["NavToStudents"]</p>
-                                <img class="step-img" src="/img/pupilsActiveNav.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "smaller-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/pupilsActiveNavIslandsk.png" : "/img/pupilsActiveNav.png")" />
                             </div>
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 2</strong> @Localizer["ClickAddStudentsButton"]</p>
-                                <img class="step-img" src="/img/pupilsAddButton1.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "evenSmaller-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/pupilsAddButton1Islandsk.png" : "/img/pupilsAddButton1.png")" />
                                 <img class="step-img" src="/img/pupilsAddBUtton2.png" />
                             </div>
 
                             <div class="col">
                                 <p><strong>@Localizer["Step"] 3</strong> @Localizer["ChooseNumberStudents"]</p>
-                                <img class="step-img" src="/img/addPupils.png" />
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "medium-medium-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/addPupilsIslandsk.png" : "/img/addPupils.png")" />
                             </div>
 
                         </div>

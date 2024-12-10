@@ -31,6 +31,7 @@ namespace LetterKnowledgeAssessment.Areas.Overview.Pages
         public string TestResultsLowerSerialized { get; set; }
         public double AvgUpperCaseSounds { get; set; }
         public double AvgLowerCaseSounds { get; set; }
+        public string CurrentCulture { get; set; }
 
         public IActionResult OnGet(string pupilId)
         {
@@ -44,6 +45,9 @@ namespace LetterKnowledgeAssessment.Areas.Overview.Pages
             {
                 return NotFound();
             }
+
+            CurrentCulture = Thread.CurrentThread.CurrentCulture.Name;
+
             TestResults = _letterTestHandler.TestResultsByPupilId(Pupil.PupilId.ToString());
             TestResultsUpperSerialized = JsonConvert.SerializeObject(TestResults.Where(t => t.IsUpperCase).ToList(), _serializerSettings);
             TestResultsLowerSerialized = JsonConvert.SerializeObject(TestResults.Where(t => !t.IsUpperCase).ToList(), _serializerSettings);

@@ -1,7 +1,9 @@
 ﻿@page
+@using System.Globalization
 @model LogoutModel
 @{
     ViewData["Title"] = "Log out";
+    var currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName ?? "no";
 }
 
 <header>
@@ -9,9 +11,10 @@
     @{
         if (User.Identity.IsAuthenticated)
         {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index") method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Index?culture=@CultureInfo.CurrentCulture.Name" method="post">
+            <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
             </form>
+
         }
         else
         {

@@ -1,10 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 @using Microsoft.Extensions.Localization
+@using System.Globalization
 @inject IStringLocalizerFactory LocalizerFactory
 
 @{
     var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
+@{
+    var currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <head>
@@ -14,6 +19,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LetterKnowledgeAssessment.styles.css" asp-append-version="true" />
+    <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/favicon_is.ico" : "/img/favicon_no.ico")">
 </head>
 <style>
     body{

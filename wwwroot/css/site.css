@@ -726,3 +726,38 @@ html {
     font-size: 0.75rem;
     padding: 0.5rem 1rem
 }
+
+.small-island-image {
+    width: 50%; /* Juster bredden */
+    height: auto; /* Bevar forholdet */
+}
+
+.smaller-island-image {
+    width: 30%; /* Juster bredden */
+    height: auto; /* Bevar forholdet */
+}
+
+.evenSmaller-island-image {
+    width: 25%; /* Juster bredden */
+    height: auto; /* Bevar forholdet */
+}
+
+.evenSmallerer-island-image {
+    width: 15%; /* Juster bredden */
+    height: auto; /* Bevar forholdet */
+}
+
+.medium-island-image {
+    width: 85%; /* Juster bredden */
+    height: auto; /* Bevar forholdet */
+}
+
+.medium-small-island-image {
+    width: 55%; /* Juster bredden */
+    height: auto; /* Bevar forholdet */
+}
+
+.medium-medium-island-image {
+    width: 65%; /* Juster bredden */
+    height: auto; /* Bevar forholdet */
+}

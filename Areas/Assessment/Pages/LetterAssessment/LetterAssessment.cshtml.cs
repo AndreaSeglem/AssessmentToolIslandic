@@ -3,6 +3,8 @@ using LetterKnowledgeAssessment.Models;
 using LetterKnowledgeAssessment.Models.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Globalization;
+using System.Threading;
 
 namespace LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment
 {
@@ -29,10 +31,9 @@ namespace LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment
             {
                 return NotFound();
             }
+
             UpperCaseSelected = isUpperCase;
             testLetters = GetTestLetters(UpperCaseSelected);
-            
-
             return Page();
         }
 
@@ -56,25 +57,44 @@ namespace LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment
 
             var testResult = new LetterSoundKnowledgeTestResult { Id = Guid.NewGuid(), IsUpperCase = isUpperCase, Date = DateTime.Now, LetterTestResult = testKnowledgeResult};
             _letterTestHandler.AddTestResult(testResult, pupil);
+
+            // Hent gjeldende kultur
+            var currentCulture = Thread.CurrentThread.CurrentCulture.Name;
             
-            return LocalRedirect($"~/Overview/DetailedOverview?pupilId={pupil.PupilId}");
+            return LocalRedirect($"~/Overview/DetailedOverview?pupilId={pupil.PupilId}&culture={currentCulture}");
         }
 
 
         private List<string> GetTestLetters(bool upperCaseSelected)
         {
-            var lowerCase = new List<string>
+            var culture = Thread.CurrentThread.CurrentCulture.Name;
+
+            // Adjust culture check to include both "is" and "is-IS"
+            var isIcelandic = culture.StartsWith("is");
+
+            var lowerCaseNorwegian = new List<string>
             {
                 "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "æ", "ø", "å"
             };
-            var upperCase = new List<string> 
+            var upperCaseNorwegian = new List<string>
             {
-                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Æ", "Ø", "Å" 
+                "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Æ", "Ø", "Å"
             };
 
-            var testLetters = upperCaseSelected ? upperCase.Shuffle().ToList() : lowerCase.Shuffle().ToList();
+            var lowerCaseIcelandic = new List<string>
+            {
+                "a", "á", "b", "d", "ð", "e", "é", "f", "g", "h", "i", "í", "j", "k", "l", "m", "n", "o", "ó", "p", "r", "s", "t", "u", "ú", "v", "x", "y", "ý", "þ", "æ", "ö"
+            };
+            var upperCaseIcelandic = new List<string>
+            {
+                "A", "Á", "B", "D", "Ð", "E", "É", "F", "G", "H", "I", "Í", "J", "K", "L", "M", "N", "O", "Ó", "P", "R", "S", "T", "U", "Ú", "V", "X", "Y", "Ý", "Þ", "Æ", "Ö"
+            };
 
-            return testLetters;
+            // Use Icelandic alphabet if culture starts with "is"
+            var lowerCase = isIcelandic ? lowerCaseIcelandic : lowerCaseNorwegian;
+            var upperCase = isIcelandic ? upperCaseIcelandic : upperCaseNorwegian;
+
+            return upperCaseSelected ? upperCase.Shuffle().ToList() : lowerCase.Shuffle().ToList();
         }
     }
 }

@@ -5,9 +5,16 @@
 @inject IStringLocalizerFactory LocalizerFactory
 <!DOCTYPE html>
 <html lang="en">
-    @{
-        var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
-    }
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
+@{
+    var currentCulture = Context.Request.Query["culture"].FirstOrDefault() ??
+    Context.Request.Cookies[".AspNetCore.Culture"]?.Split('|')[0].Split('=')[1] ??
+    "no";
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,85 +24,86 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LetterKnowledgeAssessment.styles.css" asp-append-version="true" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link id="dynamic-favicon" rel="icon" type="image/x-icon"
+        href="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/favicon_is.ico" : "/img/favicon_no.ico")">
+
 </head>
 <style>
     body {
         background-color: #EAF5FC;
     }
 </style>
-<body>
 
-@{
-    var currentCulture = ViewData["CurrentCulture"]?.ToString() ?? "no"; // Default to Norwegian
-    var returnUrl = Context.Request.Path + Context.Request.QueryString;
-}
+<body>
 
     <div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-dark-primary sidebar">
         <div class="mobile-navigation">
-            <button type="button" class="btn float-end navbar-text-light-green" onclick="toggleSidebar()"><i class="bi bi-x-lg"></i></button>
+            <button type="button" class="btn float-end navbar-text-light-green" onclick="toggleSidebar()"><i
+                    class="bi bi-x-lg"></i></button>
         </div>
         <div class="d-flex justify-content-center mb-4">
             <a href="@ActivePage.Index">
-                <img src="~/img/Logo.svg" class="filter-light-green" height="150" width="150">
+                <img src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/Logo_is.svg" : "/img/Logo.svg")"
+                    class="filter-light-green" height="150" width="150" />
             </a>
         </div>
         <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item">
-        <a class="nav-link sidebar-text @ActivePage.IndexNavClass(ViewContext)" href="@ActivePage.Index">
-            <i class="bi bi-house"></i> @Localizer["Classes"]
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link sidebar-text @ActivePage.PupilsNavClass(ViewContext)" href="@ActivePage.Pupils">
-            <i class="bi bi-person-lines-fill"></i> @Localizer["Pupils"]
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link sidebar-text @ActivePage.LetterTestNavClass(ViewContext)" href="@ActivePage.LetterTest">
-            <i class="bi bi-sort-alpha-down"></i> @Localizer["LetterTest"]
-        </a>
-    </li>
-</ul>
+            <li class="nav-item">
+                <a class="nav-link sidebar-text @ActivePage.IndexNavClass(ViewContext)" href="@ActivePage.Index">
+                    <i class="bi bi-house"></i> @Localizer["Classes"]
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-text @ActivePage.PupilsNavClass(ViewContext)" href="@ActivePage.Pupils">
+                    <i class="bi bi-person-lines-fill"></i> @Localizer["Pupils"]
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-text @ActivePage.LetterTestNavClass(ViewContext)"
+                    href="@ActivePage.LetterTest">
+                    <i class="bi bi-sort-alpha-down"></i> @Localizer["LetterTest"]
+                </a>
+            </li>
+        </ul>
 
         <hr class="light-green-hr" />
 
 
 
-<form id="languageForm" method="get">
-    <select name="culture" onchange="changeLanguage(this.value)">
-        @if (currentCulture == "no")
-        {
-            <option value="no" selected>Norsk</option>
-            <option value="is">Íslenska</option>
-        }
-        else
-        {
-            <option value="no">Norsk</option>
-            <option value="is" selected>Íslenska</option>
-        }
-    </select>
-</form>
+        <form id="languageForm" method="get">
+            <select name="culture" onchange="changeLanguage(this.value)">
+                @if (currentCulture == "no")
+                {
+                    <option value="no" selected>Norsk</option>
+                    <option value="is">Íslenska</option>
+                }
+                else
+                {
+                    <option value="no">Norsk</option>
+                    <option value="is" selected>Íslenska</option>
+                }
+            </select>
+        </form>
 
-<script>
-    function changeLanguage(culture) {
-        // Ensure only one 'culture' parameter by re-creating the URL
-        const returnUrl = new URL(window.location.href);
-        returnUrl.searchParams.set('culture', culture);
-        location.href = returnUrl.toString();
-    }
-</script>
+        <script>
+            function changeLanguage(culture) {
+                // Ensure only one 'culture' parameter by re-creating the URL
+                const returnUrl = new URL(window.location.href);
+                returnUrl.searchParams.set('culture', culture);
+                location.href = returnUrl.toString();
+            }
+        </script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const currentCulture = "@CultureInfo.CurrentCulture.TwoLetterISOLanguageName";
-        const dropdown = document.querySelector("select[name='culture']");
-        if (dropdown) {
-            dropdown.value = currentCulture;
-        }
-    });
-</script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const currentCulture = "@CultureInfo.CurrentCulture.TwoLetterISOLanguageName";
+                const dropdown = document.querySelector("select[name='culture']");
+                if (dropdown) {
+                    dropdown.value = currentCulture;
+                }
+            });
+        </script>
 
 
         <partial name="_LoginPartial" />
@@ -120,21 +128,22 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        function toggleSidebar(){
-             var sidebar = document.getElementById("sidebar");
-             var sidebarToggle = document.getElementById("sidebarToggle");
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var sidebarToggle = document.getElementById("sidebarToggle");
 
 
-             if(!sidebar.classList.contains("sidebar-expanded")){
-                 sidebar.classList.add("sidebar-expanded");
+            if (!sidebar.classList.contains("sidebar-expanded")) {
+                sidebar.classList.add("sidebar-expanded");
 
-             }else{
-                 sidebar.classList.remove("sidebar-expanded");
+            } else {
+                sidebar.classList.remove("sidebar-expanded");
 
-             }
+            }
 
-         }
+        }
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

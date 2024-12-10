@@ -22,11 +22,11 @@ namespace LetterKnowledgeAssessment.Pages.Shared
             }
         }
 
-public static string Index => AppendCultureParam("/Index");
-public static string Pupils => AppendCultureParam("/Overview/Pupils"); // Ensure the correct area path
-public static string LetterTest => AppendCultureParam("/Assessment/LetterAssessment/Index"); // Ensure the correct area path
-public static string Help => AppendCultureParam("/Help");
-public static string Profile => AppendCultureParam("/Account/Manage/Index");
+        public static string Index => AppendCultureParam("/Index");
+        public static string Pupils => AppendCultureParam("/Overview/Pupils");
+        public static string LetterTest => AppendCultureParam("/Assessment/LetterAssessment/Index");
+        public static string Help => AppendCultureParam("/Help");
+        public static string Profile => AppendCultureParam("/Account/Manage/Index");
         
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -37,8 +37,13 @@ public static string Profile => AppendCultureParam("/Account/Manage/Index");
         public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
         public static string PageNavClass(ViewContext viewContext, string page)
         {
-            var activePage = viewContext.ViewData["SidebarActive"] as string ?? viewContext.ActionDescriptor.DisplayName;
-            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+            var activePage = viewContext.HttpContext.Request.Path.Value;
+
+            // Remove query-parameters from `page` if existing
+            var formattedPage = page.Contains('?') ? page.Split('?')[0] : page;
+
+            // Compare paths
+            return string.Equals(activePage, formattedPage, StringComparison.OrdinalIgnoreCase) ? "active" : "";
         }
     }
 }

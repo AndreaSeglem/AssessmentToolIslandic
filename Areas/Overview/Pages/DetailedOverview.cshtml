@@ -130,7 +130,7 @@
 
                             }
                             <hr />
-                            <p class="card-text">@Localizer["NewTestUpper"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true">@Localizer["Here"]</a>.</p>
+                            <p class="card-text">@Localizer["NewTestUpper"] <a asp-area="Assessment" asp-page="/LetterAssessment/LetterAssessment" asp-route-pupilId="@Model.Pupil.PupilId" asp-route-isUpperCase="true" asp-route-culture="@Model.CurrentCulture">@Localizer["Here"]</a>.</p>
                         }
                         else
                         {

@@ -3,10 +3,12 @@
 #nullable disable
 
 using System;
+using System.Net;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +16,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.WebUtilities;
 using LetterKnowledgeAssessment.Models;
+using LetterKnowledgeAssessment.Handlers;
+using Microsoft.AspNetCore.Localization;
+
 
 namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
 {
@@ -93,6 +99,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
@@ -102,16 +109,37 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
+            var culture = Request.Query["culture"].FirstOrDefault()
+              ?? Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]?.Split('|')[0].Split('=')[1]
+              ?? CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+            // Forces ASP.NET to use this culture
+            CultureInfo.CurrentCulture = new CultureInfo(culture);
+            CultureInfo.CurrentUICulture = new CultureInfo(culture);
+    
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, $"c={culture}|uic={culture}", new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddYears(1),
+                IsEssential = true
+            });
+
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                if (!returnUrl.Contains("culture="))
+                {
+                    returnUrl = QueryHelpers.AddQueryString(returnUrl, "culture", culture);
+                }
+                returnUrl = UrlHelper.UpdateCultureInReturnUrl(returnUrl, culture, Request);
+            }
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation($"User logged in successfully. Redirecting to: {returnUrl}");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -123,14 +151,14 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                else
-                {
-                    ErrorMessage = "WrongNameOrPassword";
-                    return Page();
-                }
+                _logger.LogWarning($"Login failed for user: {Input.Email}");
+                ErrorMessage = "Invalid login attempt.";
             }
-
-            // If we got this far, something failed, redisplay form
+            else
+            {
+                _logger.LogWarning("Login attempt failed due to invalid model state.");
+                ErrorMessage = "Invalid login attempt.";
+            }
             return Page();
         }
     }

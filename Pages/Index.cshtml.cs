@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.WebUtilities;
 
 
 namespace LetterKnowledgeAssessment.Pages
@@ -35,13 +36,22 @@ namespace LetterKnowledgeAssessment.Pages
 
         public async Task OnGet(string? returnUrl)
         {
-            var currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-            ReturnUrl = $"/Overview/Pupils?culture={currentCulture}";
+            var culture = Request.Query["culture"].FirstOrDefault() ?? 
+                  Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]?.Split('|')[0].Split('=')[1] ?? 
+                  CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            ReturnUrl = $"/Overview/Pupils?culture={culture}";
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 if (returnUrl.Equals("lettertest"))
                 {
-                    ReturnUrl = $"/Assessment/LetterAssessment/Index?culture={currentCulture}";
+                    ReturnUrl = $"/Assessment/LetterAssessment/Index?culture={culture}";
                     StatusMessage = new StatusMessage { Error = true, Message = @_localizer["ChooseClass"] };
                 }
                 if (returnUrl.Equals("pupils"))
@@ -59,16 +69,19 @@ namespace LetterKnowledgeAssessment.Pages
             HttpContext.Session.SetString("ClassListId", classListId);
             // Check if the culture is passed, if not, default to the current culture
             var currentCulture = !string.IsNullOrEmpty(culture) ? culture : CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-    
+
             // Set the culture cookie
             Response.Cookies.Append(
-            CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(currentCulture)),
-            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(currentCulture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
-            // Ensure culture is included in the return URL
-            returnUrl = $"{returnUrl}?culture={currentCulture}";
+            // Include culture in `returnUrl`
+            if (!returnUrl.Contains("culture="))
+            {
+                returnUrl = QueryHelpers.AddQueryString(returnUrl, "culture", currentCulture);
+            }
             return Redirect(returnUrl);
         }
      }

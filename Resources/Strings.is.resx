@@ -457,7 +457,7 @@
 </data>
 
 <data name="RegisterNewAccount" xml:space="preserve">
-    <value>Skrá nýjan notanda</value>
+    <value>"Skrá nýjan notanda"</value>
 </data>
 
 <data name="RememberMe" xml:space="preserve">

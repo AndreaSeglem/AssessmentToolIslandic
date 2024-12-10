@@ -1,5 +1,6 @@
 ﻿@page
 @using Microsoft.Extensions.Localization
+@using System.Globalization;
 @model IndexModel
 @inject IStringLocalizerFactory LocalizerFactory
 
@@ -31,7 +32,7 @@
                                             <form hidden id="classList-@classList.Id" method="post">
                                                 <input type="text" name="classListId" hidden value="@classList.Id" />
                                                 <input type="text" name="returnUrl" hidden value="@Model.ReturnUrl" />
-                                                <input type="text" name="culture" hidden value="@ViewData["CurrentCulture"]" />
+                                                <input type="text" name="culture" hidden value="@(Request.Query["culture"].FirstOrDefault() ?? CultureInfo.CurrentCulture.TwoLetterISOLanguageName)" />
                                             </form>
                                         </div>
                                     </div>
