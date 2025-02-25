@@ -106,60 +106,77 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+{
+    returnUrl ??= Url.Content("~/");
+
+    var culture = Request.Query["culture"].FirstOrDefault()
+      ?? Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]?.Split('|')[0].Split('=')[1]
+      ?? CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+    // Apply the culture
+    CultureInfo.CurrentCulture = new CultureInfo(culture);
+    CultureInfo.CurrentUICulture = new CultureInfo(culture);
+
+    Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, $"c={culture}|uic={culture}", new CookieOptions
+    {
+        Expires = DateTimeOffset.UtcNow.AddYears(1),
+        IsEssential = true
+    });
+
+    // Clean and update the ReturnUrl
+    if (!string.IsNullOrEmpty(returnUrl))
+    {
+        returnUrl = System.Web.HttpUtility.UrlDecode(returnUrl); // Decode URL to avoid double encoding
+
+        if (!returnUrl.Contains("culture="))
         {
-            returnUrl ??= Url.Content("~/");
-
-            var culture = Request.Query["culture"].FirstOrDefault()
-              ?? Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]?.Split('|')[0].Split('=')[1]
-              ?? CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-
-            // Forces ASP.NET to use this culture
-            CultureInfo.CurrentCulture = new CultureInfo(culture);
-            CultureInfo.CurrentUICulture = new CultureInfo(culture);
-    
-            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, $"c={culture}|uic={culture}", new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddYears(1),
-                IsEssential = true
-            });
-
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                if (!returnUrl.Contains("culture="))
-                {
-                    returnUrl = QueryHelpers.AddQueryString(returnUrl, "culture", culture);
-                }
-                returnUrl = UrlHelper.UpdateCultureInReturnUrl(returnUrl, culture, Request);
-            }
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            if (ModelState.IsValid)
-            {
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation($"User logged in successfully. Redirecting to: {returnUrl}");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                _logger.LogWarning($"Login failed for user: {Input.Email}");
-                ErrorMessage = "Invalid login attempt.";
-            }
-            else
-            {
-                _logger.LogWarning("Login attempt failed due to invalid model state.");
-                ErrorMessage = "Invalid login attempt.";
-            }
-            return Page();
+            returnUrl = QueryHelpers.AddQueryString(returnUrl, "culture", culture);
         }
+        else
+        {
+            returnUrl = UrlHelper.UpdateCultureInReturnUrl(returnUrl, culture, Request);
+        }
+    }
+
+    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+    if (ModelState.IsValid)
+    {
+        var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+        
+        if (result.Succeeded)
+{
+    // Clear the session to prevent old data from affecting culture
+    HttpContext.Session.Clear();
+
+    // Redirect explicitly to the homepage with the correct culture
+    var redirectUrl = QueryHelpers.AddQueryString("/", "culture", culture);
+
+    _logger.LogInformation($"User logged in successfully. Redirecting to: {redirectUrl}");
+    return LocalRedirect(redirectUrl);
+}
+
+        if (result.RequiresTwoFactor)
+        {
+            return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+        }
+        if (result.IsLockedOut)
+        {
+            _logger.LogWarning("User account locked out.");
+            return RedirectToPage("./Lockout");
+        }
+
+        _logger.LogWarning($"Login failed for user: {Input.Email}");
+        ErrorMessage = "Invalid login attempt.";
+    }
+    else
+    {
+        _logger.LogWarning("Login attempt failed due to invalid model state.");
+        ErrorMessage = "Invalid login attempt.";
+    }
+
+    return Page();
+}
+
     }
 }

@@ -10,26 +10,27 @@ namespace LetterKnowledgeAssessment.Handlers
     public static class UrlHelper
     {
         public static string UpdateCultureInReturnUrl(string returnUrl, string newCulture, HttpRequest request)
-        {
-            returnUrl = WebUtility.UrlDecode(returnUrl);
-            // Parse existing parameters
-            var uriBuilder = new UriBuilder(new Uri(request.Scheme + "://" + request.Host + returnUrl));
-            var query = QueryHelpers.ParseQuery(uriBuilder.Query);
+{
+    returnUrl = WebUtility.UrlDecode(returnUrl);
 
-            // Remove existing "culture" parameters
-            var queryParams = query
-                .Where(kvp => !string.Equals(kvp.Key, "culture", StringComparison.OrdinalIgnoreCase))
-                .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString());
+    if (string.IsNullOrWhiteSpace(returnUrl) || returnUrl == "/")
+    {
+        return QueryHelpers.AddQueryString("/", "culture", newCulture);
+    }
 
-            // Add new culture
-            queryParams["culture"] = newCulture;
+    var uriBuilder = new UriBuilder(new Uri(request.Scheme + "://" + request.Host + returnUrl));
+    var query = QueryHelpers.ParseQuery(uriBuilder.Query);
 
-            // Reconstruct URL
-            uriBuilder.Query = QueryHelpers.AddQueryString("", queryParams);
-            var updatedUrl = uriBuilder.Uri.PathAndQuery;
+    var queryParams = query
+        .Where(kvp => !string.Equals(kvp.Key, "culture", StringComparison.OrdinalIgnoreCase))
+        .ToDictionary(kvp => kvp.Key, kvp => kvp.Value.ToString());
 
-            return updatedUrl;
-        }
+    queryParams["culture"] = newCulture;
+
+    uriBuilder.Query = QueryHelpers.AddQueryString("", queryParams);
+    return uriBuilder.Path + uriBuilder.Query;
+}
+
 
 
 

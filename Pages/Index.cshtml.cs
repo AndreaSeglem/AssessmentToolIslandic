@@ -34,35 +34,47 @@ namespace LetterKnowledgeAssessment.Pages
         public string ReturnUrl { get; set; }
         public StatusMessage StatusMessage { get; set; }
 
-        public async Task OnGet(string? returnUrl)
+       public async Task OnGet(string? returnUrl)
+{
+    var queryCulture = Request.Query["culture"].FirstOrDefault();
+    var cookieCulture = Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]?.Split('|')[0].Split('=')[1];
+    var currentCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+
+    // Prioritize the query parameter, then the cookie, and avoid session data
+    var culture = queryCulture ?? cookieCulture ?? currentCulture;
+
+    // Force applying the culture
+    CultureInfo.CurrentCulture = new CultureInfo(culture);
+    CultureInfo.CurrentUICulture = new CultureInfo(culture);
+
+    Response.Cookies.Append(
+        CookieRequestCultureProvider.DefaultCookieName,
+        CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+        new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+    );
+
+    ReturnUrl = $"/Overview/Pupils?culture={culture}";
+
+    if (!string.IsNullOrEmpty(returnUrl))
+    {
+        if (returnUrl.Equals("lettertest"))
         {
-            var culture = Request.Query["culture"].FirstOrDefault() ?? 
-                  Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]?.Split('|')[0].Split('=')[1] ?? 
-                  CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-            );
-
-            ReturnUrl = $"/Overview/Pupils?culture={culture}";
-            if (!string.IsNullOrEmpty(returnUrl))
-            {
-                if (returnUrl.Equals("lettertest"))
-                {
-                    ReturnUrl = $"/Assessment/LetterAssessment/Index?culture={culture}";
-                    StatusMessage = new StatusMessage { Error = true, Message = @_localizer["ChooseClass"] };
-                }
-                if (returnUrl.Equals("pupils"))
-                {
-                    StatusMessage = new StatusMessage { Error = true, Message = @_localizer["ChooseClass"] };
-                }
-            }
-            
-            var teacher = await _userManager.GetUserAsync(User);
-            ClassLists = _classListHandler.ClassListsByTeacher(teacher);
+            ReturnUrl = $"/Assessment/LetterAssessment/Index?culture={culture}";
+            StatusMessage = new StatusMessage { Error = true, Message = _localizer["ChooseClass"] };
         }
+        if (returnUrl.Equals("pupils"))
+        {
+            StatusMessage = new StatusMessage { Error = true, Message = _localizer["ChooseClass"] };
+        }
+    }
+
+    var teacher = await _userManager.GetUserAsync(User);
+    ClassLists = _classListHandler.ClassListsByTeacher(teacher);
+}
+
+
+
+
 
         public IActionResult OnPost(string classListId, string returnUrl, string culture)
         {
