@@ -1,0 +1,147 @@
+@page
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+@model AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment.IndexModel
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+}
+
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="btn" href="/Index"><i class="bi bi-chevron-left"></i> @Localizer["MineKlasser"]</a></li>
+    </ol>
+</nav>
+
+<div class="text-center">
+    <h1 class="display-4">@Localizer["ReadingTest"]</h1>
+</div>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark-primary">
+                <h6 class="card-header-title">@Localizer["ChooseStudent"]</h6>
+            </div>
+            <div class="card-body" id="card-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-7">
+                            <input class="form-control" id="search" type="text" placeholder="@Localizer["Search"]" onkeyup="filter()" />
+                            <div class="pupil-select">
+                                <input type="text" id="selectedPupil" asp-for="Input.PupilId" hidden value="" />
+                                <table id="pupilTable" class="table table-borderless" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>@Localizer["Name"]</th>
+                                            <th>@Localizer["LatestTested"]</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-5 align-self-center">
+                            <div class="row justify-content-center">
+                                <button id="startButton" type="submit" class="btn-primary btn m-2" disabled>@Localizer["StartReadingTest"]</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function handlePupilClick(pupilId){
+        document.getElementById("selectedPupil").value = pupilId;
+        activeRow = document.getElementById("pupil-"+pupilId);
+        [...activeRow.parentElement.children].forEach(row => row.classList.remove("row-selected"))
+        activeRow.classList.add("row-selected");
+        document.getElementById("startButton").disabled = false;
+    }
+    document.addEventListener('DOMContentLoaded', init, false);
+    let table, data;
+
+    async function init(){
+        today = new Date();
+        upperCase  = true;
+        table = document.querySelector('#pupilTable tbody');
+        data = @Html.Raw(Model.PupilsSerialized);
+        data = dataPipeline(data);
+        data = data.sort((a,b) => b.DaysSinceLastTest - a.DaysSinceLastTest);
+        if(data.length>0){
+            renderTable();
+        }
+        else{
+            renderNoPupils()
+        }
+    }
+
+    function dataPipeline(data){
+        let result = [];
+        data.forEach(p=> {
+            result.push({ PupilId: p.PupilId, FirstName: p.FirstName, LastName: p.LastName, DaysSinceLastTest: p.ReadingTestResults.length > 0 ? (today.getTime() - new Date(p.ReadingTestResults.sort((a,b)=>(a.Date < b.date) ? 1 : ((b.Date < a.Date) ? -1: 0)).Date).getTime())/(1000 * 3600 * 24) : 999 ): 999 })
+        });
+        return result;
+    }
+
+    function renderTable() {
+        let result = '';
+        if(data.length > 0){
+            data.forEach(p => {
+                result += `<tr id="pupil-${p.PupilId}" class="pupil-row" onclick="handlePupilClick('${p.PupilId}')">
+                <td>${p.FirstName} ${p.LastName}</td>
+                <td>${p.DaysSinceLastTest < 999 ? lastTestedConverter(p.DaysSinceLastTest) : "@Localizer["NotTested"]"}</td>
+                </tr>`;
+            });
+            }else{
+                result = `<tr style="height: 100%; vertical-align:middle;">
+                    <td colspan="2" style="text-align:center;"><p>@Localizer["NoStudentFound"]</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilModal'><i class='bi bi-person-plus-fill'> </i> @Localizer["AddStudent"]</button>
+                    </td>
+                    </tr>`;
+                fromNumber = 0;
+            }
+        table.innerHTML = result;
+     }
+
+     function renderNoPupils(){
+         document.getElementById("search").disabled = true;
+         table.innerHTML = `<tr style="heigth: 100%; vertical-align-middle;">
+            <td colspan="2" style="text-align:center;"><p>@Localizer["NoStudentsNeedAdd"]</p>
+                    <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#addPupilsModal'><i class='bi bi-person-plus-fill'> </i> @Localizer["AddStudents"]</button>
+                    </td>
+            </tr>`;
+     }
+
+    function filter(){
+        let input = document.getElementById("search");
+        let filter = input.value.toUpperCase();
+        data = @Html.Raw(Model.PupilsSerialized);
+        data = dataPipeline(data);
+        if(filter != null){
+            data = data.filter(p=> p.FirstName.toUpperCase().includes(filter) || p.LastName.toUpperCase().includes(filter));
+        }
+        renderTable();
+    }
+
+    function lastTestedConverter (days){
+        if(days > 1){
+            days = days.toFixed(0);
+            let d = days === "1" ? "@Localizer["Day"]" : "@Localizer["Days"]"; 
+            return `@Localizer["For"] ${days} ${d} @Localizer["Since"]`;
+        }
+        else {
+            if(days < (1/24)){
+                let time = (days*24*60).toFixed(0);
+                let min = time === "1" ? "@Localizer["Minute"]" : "@Localizer["Minutes"]";
+                return `@Localizer["For"] ${time} ${min} @Localizer["Since"]`;
+            }
+            let time = (days*24).toFixed(0);
+            let hour = time === "1" ? "@Localizer["Hour"]" : "@Localizer["Hours"]";
+            return `@Localizer["For"] ${time} ${hour} @Localizer["Since"]`;
+        }
+    }
+</script>

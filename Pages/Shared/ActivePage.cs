@@ -25,6 +25,7 @@ namespace LetterKnowledgeAssessment.Pages.Shared
         public static string Index => AppendCultureParam("/Index");
         public static string Pupils => AppendCultureParam("/Overview/Pupils");
         public static string LetterTest => AppendCultureParam("/Assessment/LetterAssessment/Index");
+        public static string ReadingTest => "/Assessment/ReadingAssessment/Index";
         public static string Help => AppendCultureParam("/Help");
         public static string Profile => AppendCultureParam("/Account/Manage/Index");
         
@@ -33,6 +34,7 @@ namespace LetterKnowledgeAssessment.Pages.Shared
         public static string PupilsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Pupils);
 
         public static string LetterTestNavClass(ViewContext viewContext) => PageNavClass(viewContext, LetterTest);
+        public static string ReadingTestNavClass(ViewContext viewContext) => PageNavClass(viewContext, ReadingTest);
         public static string HelpNavClass(ViewContext viewContext) => PageNavClass(viewContext, Help);
         public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
         public static string PageNavClass(ViewContext viewContext, string page)

@@ -14,6 +14,8 @@ namespace LetterKnowledgeAssessment.Data
         public DbSet<ClassList> ClassLists { get; set; }
         public DbSet<Pupil> Pupils { get; set; }
         public DbSet<LetterSoundKnowledgeTestResult> LetterKnowledgeTestResults { get; set; }
+        public DbSet<ReadingTest> ReadingTests { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

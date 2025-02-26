@@ -69,6 +69,9 @@ builder.Services.AddTransient<IPupilRepository, PupilRepository>();
 builder.Services.AddTransient<IPupilHandler, PupilHandler>();
 builder.Services.AddTransient<ILetterTestRepository, LetterTestRepository>();
 builder.Services.AddTransient<ILetterTestHandler, LetterTestHandler>();
+builder.Services.AddTransient<IReadingTestHandler, ReadingTestHandler>();
+builder.Services.AddTransient<IReadingTestRepository, ReadingTestRepository>();
+
 
 var app = builder.Build();
 

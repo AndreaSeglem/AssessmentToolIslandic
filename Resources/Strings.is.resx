@@ -552,4 +552,11 @@
     <value>Reyndu aftur það sem þú ætlaðir að gera, ef villan heldur áfram skaltu hafa samband</value>
 </data>
 
+<data name="ReadingTest" xml:space="preserve">
+    <value>Lestrarpróf</value>
+  </data>
+
+  <data name="StartReadingTest" xml:space="preserve">
+    <value>Hefja lestrarpróf</value>
+  </data>
 </root>

@@ -551,6 +551,14 @@
   <data name="TryDoingAgain" xml:space="preserve">
     <value>Prøv det du ville gjøre en gang til, hvis feilen fortsatt oppstår ta kontakt</value>
   </data>
+
+  <data name="ReadingTest" xml:space="preserve">
+    <value>Lesetest</value>
+  </data>
+
+  <data name="StartReadingTest" xml:space="preserve">
+    <value>Start Lesetest</value>
+  </data>
 </root>
 
 
