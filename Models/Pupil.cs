@@ -8,6 +8,7 @@
         public DateTime BirthDate { get; set; }
         public int KnowledgeLevel { get; set; }
         public virtual ICollection<LetterSoundKnowledgeTestResult> LetterSoundKnowledgeTestResults { get; set; }
+        public virtual ICollection<ReadingTest> ReadingTests { get; set; } 
         public ClassList ClassList { get; set; }
     }
 }

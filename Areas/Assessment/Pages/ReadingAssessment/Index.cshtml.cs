@@ -43,6 +43,7 @@ namespace AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment
         
         Pupils = _pupilHandler.PupilsByClassListId(HttpContext.Session.GetString("ClassListId"));
         PupilsSerialized = JsonConvert.SerializeObject(Pupils, _serializerSettings);
+        Console.WriteLine($"PupilsSerialized JSON: {PupilsSerialized}");
         ReturnUrl = "/Assessment/ReadingAssessment/Index";
         return Page();
 

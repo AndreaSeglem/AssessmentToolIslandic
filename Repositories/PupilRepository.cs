@@ -16,11 +16,24 @@ namespace LetterKnowledgeAssessment.Repositories
 
         public IQueryable<Pupil> PupilsByClassListId(string id) 
         {
-            return _context.Pupils.Include(p => p.LetterSoundKnowledgeTestResults).Where(p => p.ClassList.Id.ToString().Equals(id));
+            var pupils = _context.Pupils
+            .Include(p => p.LetterSoundKnowledgeTestResults)
+            .Include(p => p.ReadingTests) // Viktig!
+            .Where(p => p.ClassList.Id.ToString().Equals(id));
+
+            Console.WriteLine($"Pupils fetched for class {id}: {pupils.Count()}");
+    
+            foreach (var pupil in pupils)
+            {
+                Console.WriteLine($"Pupil: {pupil.FirstName} {pupil.LastName}, ReadingTests: {pupil.ReadingTests.Count}");
+            }
+
+            return pupils;
         }
+
         public Pupil GetPupilById(string id)
         {
-            return _context.Pupils.Include(p => p.LetterSoundKnowledgeTestResults).Where(p => p.PupilId.ToString().Equals(id)).FirstOrDefault();
+            return _context.Pupils.Include(p => p.LetterSoundKnowledgeTestResults).Include(p => p.ReadingTests).Where(p => p.PupilId.ToString().Equals(id)).FirstOrDefault();
         }
         public void AddPupil(Pupil pupil)
         {

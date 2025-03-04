@@ -1,0 +1,58 @@
+@page
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizerFactory LocalizerFactory
+@model AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment.ReadingAssessmentModel
+@{
+    var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
+    ViewData["SidebarActive"] = ActivePage.LetterTest;
+}
+
+<div class="container text-center">
+    <h1 class="display-4">@Localizer["ReadingTest"]</h1>
+    <hr />
+    <div id="test-container">
+        <h3 id="word-display">@Localizer["Press Start to Begin"]</h3>
+        <div class="btn-group mt-4">
+            <button id="yes-button" class="btn btn-success" disabled>@Localizer["Yes"]</button>
+            <button id="no-button" class="btn btn-danger" disabled>@Localizer["No"]</button>
+        </div>
+        <button id="start-test" class="btn btn-primary mt-4">@Localizer["StartReadingTest"]</button>
+    </div>
+</div>
+
+<script>
+    const words = ["Ost", "Melk", "Hund", "Sol"];
+    let currentWordIndex = -1;
+    const wordDisplay = document.getElementById("word-display");
+    const startButton = document.getElementById("start-test");
+    const yesButton = document.getElementById("yes-button");
+    const noButton = document.getElementById("no-button");
+
+    startButton.addEventListener("click", startTest);
+    yesButton.addEventListener("click", () => recordAnswer(true));
+    noButton.addEventListener("click", () => recordAnswer(false));
+
+    function startTest() {
+        currentWordIndex = 0;
+        startButton.disabled = true;
+        yesButton.disabled = false;
+        noButton.disabled = false;
+        showNextWord();
+    }
+
+    function showNextWord() {
+        if (currentWordIndex < words.length) {
+            wordDisplay.textContent = words[currentWordIndex];
+        } else {
+            wordDisplay.textContent = "@Localizer["Test Complete"]";
+            yesButton.disabled = true;
+            noButton.disabled = true;
+        }
+    }
+
+    function recordAnswer(correct) {
+        console.log(`Word: ${words[currentWordIndex]}, Correct: ${correct}`);
+        currentWordIndex++;
+        showNextWord();
+    }
+</script>

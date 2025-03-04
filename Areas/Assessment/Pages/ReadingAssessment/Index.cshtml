@@ -1,5 +1,6 @@
 @page
 @using Microsoft.Extensions.Localization
+@using Newtonsoft.Json
 @inject IStringLocalizerFactory LocalizerFactory
 @model AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment.IndexModel
 @{
@@ -53,6 +54,11 @@
     </div>
 </div>
 
+<!-- ✅ Legger JSON-dataen i en sikker <script>-tag -->
+<script type="application/json" id="pupilData">
+    @Html.Raw(JsonConvert.SerializeObject(Model.PupilsSerialized))
+</script>
+
 <script>
     function handlePupilClick(pupilId){
         document.getElementById("selectedPupil").value = pupilId;
@@ -62,30 +68,65 @@
         document.getElementById("startButton").disabled = false;
     }
     document.addEventListener('DOMContentLoaded', init, false);
-    let table, data;
+    let table, data, today;
 
-    async function init(){
+    async function init() {
         today = new Date();
-        upperCase  = true;
         table = document.querySelector('#pupilTable tbody');
-        data = @Html.Raw(Model.PupilsSerialized);
+
+        // ✅ Les JSON-data fra skjult script-tag
+        let jsonDataElement = document.getElementById("pupilData");
+        if (!jsonDataElement) {
+            console.error("❌ FEIL: Element med id 'pupilData' ikke funnet!");
+            return;
+        }
+
+        // ✅ Debug-logg: Vis rå JSON-data fra HTML før parsing
+        console.log("✅ PupilsSerialized in frontend (før parsing):", jsonDataElement.textContent);
+        try {
+            let rawData = JSON.parse(jsonDataElement.textContent.trim()); // Første parsing
+            data = typeof rawData === "string" ? JSON.parse(rawData) : rawData; // Andre parsing hvis nødvendig
+            console.log("✅ PupilsSerialized in frontend (etter parsing):", data);
+            console.log("✅ Datatype av data:", typeof data, Array.isArray(data) ? "✅ Det er en array!" : "❌ Ikke en array!");
+        } catch (error) {
+            console.error("❌ FEIL ved parsing av JSON:", error, jsonDataElement.textContent);
+            return;
+        }
+
+        // ✅ Sjekk om data faktisk er en array
+        if (!Array.isArray(data)) {
+            console.error("❌ FEIL: data er ikke en array. Kan ikke fortsette!");
+            return;
+        }
+
+        // ✅ Transformér data og sorter før rendering
         data = dataPipeline(data);
         data = data.sort((a,b) => b.DaysSinceLastTest - a.DaysSinceLastTest);
-        if(data.length>0){
+
+        if (data.length > 0) {
             renderTable();
-        }
-        else{
-            renderNoPupils()
+        } else {
+            renderNoPupils();
         }
     }
 
-    function dataPipeline(data){
-        let result = [];
-        data.forEach(p=> {
-            result.push({ PupilId: p.PupilId, FirstName: p.FirstName, LastName: p.LastName, DaysSinceLastTest: p.ReadingTestResults.length > 0 ? (today.getTime() - new Date(p.ReadingTestResults.sort((a,b)=>(a.Date < b.date) ? 1 : ((b.Date < a.Date) ? -1: 0)).Date).getTime())/(1000 * 3600 * 24) : 999 ): 999 })
+    function dataPipeline(data) {
+    let result = [];
+    data.forEach(p => {
+        result.push({
+            PupilId: p.PupilId,
+            FirstName: p.FirstName,
+            LastName: p.LastName,
+            DaysSinceLastTest: p.ReadingTests.length > 0 
+                ? (today.getTime() - new Date(p.ReadingTests.sort((a, b) => 
+                    (a.Date < b.Date) ? 1 : ((b.Date < a.Date) ? -1 : 0)
+                )[0].Date).getTime()) / (1000 * 3600 * 24) 
+                : 999 // ✅ Fikset feil
         });
-        return result;
-    }
+    });
+    return result;
+}
+
 
     function renderTable() {
         let result = '';
@@ -119,12 +160,11 @@
     function filter(){
         let input = document.getElementById("search");
         let filter = input.value.toUpperCase();
-        data = @Html.Raw(Model.PupilsSerialized);
-        data = dataPipeline(data);
-        if(filter != null){
-            data = data.filter(p=> p.FirstName.toUpperCase().includes(filter) || p.LastName.toUpperCase().includes(filter));
+        let filteredData = dataPipeline(JSON.parse(document.getElementById("pupilData").textContent.trim()));
+        if(filter !== ""){
+            filteredData = filteredData.filter(p=> p.FirstName.toUpperCase().includes(filter) || p.LastName.toUpperCase().includes(filter));
         }
-        renderTable();
+        renderTable(filteredData);
     }
 
     function lastTestedConverter (days){
