@@ -7,52 +7,215 @@
     ViewData["SidebarActive"] = ActivePage.LetterTest;
 }
 
-<div class="container text-center">
+<nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a class="btn" href="/Assessment/ReadingAssessment/Index"><i class="bi bi-chevron-left"></i> @Localizer["ChooseStudent"]</a></li>
+    </ol>
+</nav>
+<div class="text-center">
     <h1 class="display-4">@Localizer["ReadingTest"]</h1>
-    <hr />
-    <div id="test-container">
-        <h3 id="word-display">@Localizer["Press Start to Begin"]</h3>
-        <div class="btn-group mt-4">
-            <button id="yes-button" class="btn btn-success" disabled>@Localizer["Yes"]</button>
-            <button id="no-button" class="btn btn-danger" disabled>@Localizer["No"]</button>
+</div>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="test-container">
+        <div class="card">
+            <div class="card-body">
+
+                <form id="submit" method="post">
+                    @if (Model.Pupil != null)
+                    {
+                        <input hidden name="pupilId" value="@Model.Pupil.PupilId" />
+                    }
+                    else
+                    {
+                        <p class="text-danger">Feil: Ingen elev funnet.</p>
+                    }
+
+                    
+                    <!-- Progresjonsindikator -->
+                    <div class="progress mb-2">
+                        <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+                    </div>
+
+                    <!-- Ordet som skal leses -->
+                    <div class="letter-container">
+                        @if (Model.WordList != null && Model.WordList.Any())
+                        {
+                            <p class="dynamic-word" id="word">@Model.WordList.First()</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger">Feil: Ingen ord tilgjengelig for testen.</p>
+                        }
+
+                    </div>
+
+                    <input hidden name="currentWord" id="currentWordInput" value="@Model.WordList.FirstOrDefault()" />
+
+                    <p class="mt-3">Kan eleven lese ordet?</p>
+
+                    <!-- Valgknapper -->
+                    <div class="row mt-2 justify-content-center">
+                        <div class="btn-group">
+                            <button id="level-yes" type="button" class="btn answer-btn" onclick="answer(true)">Ja</button>
+                            <button id="level-no" type="button" class="btn answer-btn" onclick="answer(false)">Nei</button>
+                        </div>
+                    </div>
+
+                    <!-- Navigasjonsknapper -->
+                    <div class="row mt-3 justify-content-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary" onclick="prevWord()" id="prevButton" disabled><i class="bi bi-chevron-left"></i></button>
+                            <button type="button" class="btn btn-primary" onclick="nextWord()" id="nextButton"><i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Modal for gjennomgang -->
+                    <div class="modal fade" id="confirmResults">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark-primary">
+                                    <h5 id="modalTitle" class="modal-title light-green">Test fullført</h5>
+                                    <button type="button" class="btn float-end navbar-text-light-green" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Ønsker du å se gjennom lesetesten før du lagrer den?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" onclick="submitTest()">Nei</button>
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="reviewTest()">Ja</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Knapp for å lagre resultat -->
+                    <div style="display:none" class="my-2" id="saveNow">
+                        <button type="button" class="w-100 btn btn-primary" onclick="submitTest()">Ferdig med gjennomgangen? Klikk for å lagre resultatet.</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <button id="start-test" class="btn btn-primary mt-4">@Localizer["StartReadingTest"]</button>
     </div>
 </div>
 
+<style>
+    .test-container {
+        max-width: 500px;
+    }
+    .dynamic-word {
+        font-size: 8rem;
+        word-wrap: break-word;
+        max-width: 100%;
+    }
+    .answer-btn {
+        background-color: white;
+        border: 2px solid #ccc;
+        color: black;
+        width: 100px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    .answer-btn:hover {
+        background-color: #28a745;
+        color: white;
+    }
+    .answer-btn:nth-child(2):hover {
+        background-color: #dc3545;
+    }
+</style>
+
 <script>
-    const words = ["Ost", "Melk", "Hund", "Sol"];
-    let currentWordIndex = -1;
-    const wordDisplay = document.getElementById("word-display");
-    const startButton = document.getElementById("start-test");
-    const yesButton = document.getElementById("yes-button");
-    const noButton = document.getElementById("no-button");
+    let words = @Html.Raw(Json.Serialize(Model.WordList));
+    let currentIndex = 0;
+    let answers = [];
 
-    startButton.addEventListener("click", startTest);
-    yesButton.addEventListener("click", () => recordAnswer(true));
-    noButton.addEventListener("click", () => recordAnswer(false));
-
-    function startTest() {
-        currentWordIndex = 0;
-        startButton.disabled = true;
-        yesButton.disabled = false;
-        noButton.disabled = false;
-        showNextWord();
+    function updateUI() {
+        document.getElementById("word").textContent = words[currentIndex];
+        document.getElementById("prevButton").disabled = currentIndex === 0;
+        document.getElementById("nextButton").disabled = currentIndex === words.length - 1;
+        document.getElementById("progressBar").style.width = ((currentIndex + 1) / words.length * 100) + "%";
     }
 
-    function showNextWord() {
-        if (currentWordIndex < words.length) {
-            wordDisplay.textContent = words[currentWordIndex];
+    function answer(isCorrect) {
+        answers[currentIndex] = isCorrect;
+        console.log(`Answered: ${isCorrect}, currentIndex: ${currentIndex}, words.length: ${words.length}`);
+        if (currentIndex < words.length - 1) {
+            currentIndex++;
+            updateUI();
         } else {
-            wordDisplay.textContent = "@Localizer["Test Complete"]";
-            yesButton.disabled = true;
-            noButton.disabled = true;
+            console.log("All words answered, showing modal...");
+            showReviewModal();
         }
     }
 
-    function recordAnswer(correct) {
-        console.log(`Word: ${words[currentWordIndex]}, Correct: ${correct}`);
-        currentWordIndex++;
-        showNextWord();
+    function prevWord() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateUI();
+        }
     }
+
+    function nextWord() {
+        if (currentIndex < words.length - 1) {
+            currentIndex++;
+            updateUI();
+        }
+    }
+
+    function showReviewModal() {
+    let modalElement = document.getElementById("confirmResults"); // ✅ Bruk riktig ID
+
+    if (!modalElement) {
+        console.error("❌ Modal element not found in DOM!");
+        return;
+    }
+
+    let modal = new bootstrap.Modal(modalElement);
+    modal.show();
+}
+
+
+
+    function reviewTest() {
+        document.getElementById("saveNow").style.display = "block";
+    }
+
+    function submitTest() {
+    let data = {
+        pupilId: "@Model.Pupil.PupilId",
+        isTestPassed: answers.filter(a => a).length >= (words.length / 2),
+        wordResults: words.reduce((acc, word, index) => {
+            acc[word] = answers[index] || false;
+            return acc;
+        }, {})
+    };
+
+    console.log("📤 📤 📤 SENDER DATA TIL BACKEND 📤 📤 📤", JSON.stringify(data, null, 2));
+    console.log("✅ wordResults før sending:", data.wordResults);
+    console.log("🧐 Er wordResults tom?", Object.keys(data.wordResults).length === 0);
+
+    fetch(window.location.pathname + "?handler=SubmitTest", {  // 👈 Legg til ?handler=SubmitTest
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]').value
+        },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            window.location.href = "/Overview/DetailedOverview?pupilId=" + "@Model.Pupil.PupilId";
+        } else {
+            console.error("❌ Feil ved lagring av test. Status:", response.status);
+            response.text().then(text => console.error("🔴 Server response:", text));
+            alert("❌ Feil ved lagring av test: " + response.status);
+        }
+    }).catch(error => {
+        console.error("❌ Feil ved lagring av test:", error);
+        alert("❌ Feil ved lagring av test: " + error);
+    });
+}
+
+    updateUI();
 </script>

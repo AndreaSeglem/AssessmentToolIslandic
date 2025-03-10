@@ -51,7 +51,8 @@ namespace AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment
 
         public IActionResult OnPost()
         {
-            return RedirectToPage("Test", new { PupilId = Input.PupilId });
+            return RedirectToPage("ReadingAssessment", new { PupilId = Input.PupilId });
         }
+
     }
 }

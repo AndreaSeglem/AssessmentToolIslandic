@@ -11,7 +11,7 @@ namespace LetterKnowledgeAssessment.Handlers
         private readonly IPupilRepository _pupilRepository; // Hent elevdata fra databasen
 
         // Flyttet ordlisten hit for å unngå duplisering
-        private readonly List<string> _wordList = new List<string> { "Ost", "Melk", "Hund", "Sol" };
+        private readonly List<string> _wordList = new List<string> { "sol", "is", "mamma", "hus", "øks", "bil", "gut", "sy", "lese", "rose", "nisse" };
 
         public ReadingTestHandler(IReadingTestRepository readingTestRepository, IPupilRepository pupilRepository)
         {
