@@ -559,6 +559,46 @@
   <data name="StartReadingTest" xml:space="preserve">
     <value>Start Lesetest</value>
   </data>
+
+  <data name="NewReadingTest" xml:space="preserve">
+    <value>Hvis du ønsker å gjennomføre en ny lesetest kan du klikke</value>
+  </data>
+
+  <data name="StudentNoReadingTestYet" xml:space="preserve">
+    <value>har ikke gjennomført noen lesetester enda. Dersom du ønsker å gjennomføre en nå kan du klikke</value>
+  </data>
+
+  <data name="ReadingKnow" xml:space="preserve">
+    <value>Leseferdighet</value>
+  </data>
+
+  <data name="BreakReadingCode" xml:space="preserve">
+    <value>Har eleven knukket lesekoden?</value>
+  </data>
+
+  <data name="DateLastTested" xml:space="preserve">
+    <value>Dato sist testet: </value>
+  </data>
+
+  <data name="ErrorNoStudentFound" xml:space="preserve">
+    <value>Feil: Ingen elev funnet.</value>
+  </data>
+
+  <data name="ErrorNoWordsFound" xml:space="preserve">
+    <value>Feil: Ingen ord tilgjengelig for testen.</value>
+  </data>
+
+  <data name="CanReadWord" xml:space="preserve">
+    <value>Kan eleven lese ordet?</value>
+  </data>
+
+  <data name="SeeThroughReadingTest" xml:space="preserve">
+    <value>Ønsker du å se gjennom lesetesten før du lagrer den?</value>
+  </data>
+
+  <data name="ReadingTestDone" xml:space="preserve">
+    <value>Lesetest fullført</value>
+  </data>
 </root>
 
 

@@ -13,11 +13,13 @@ namespace LetterKnowledgeAssessment.Areas.Overview.Pages
         private readonly IPupilHandler _pupilHandler;
         private readonly ILetterTestHandler _letterTestHandler;
         private readonly JsonSerializerSettings _serializerSettings;
+        private readonly IReadingTestHandler _readingTestHandler;
 
-        public DetailedOverviewModel(IPupilHandler puilHandler, ILetterTestHandler letterTestHandler)
+        public DetailedOverviewModel(IPupilHandler puilHandler, ILetterTestHandler letterTestHandler, IReadingTestHandler readingTestHandler)
         {
             _pupilHandler = puilHandler;
             _letterTestHandler = letterTestHandler;
+            _readingTestHandler = readingTestHandler;
             _serializerSettings = new JsonSerializerSettings
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
@@ -27,6 +29,7 @@ namespace LetterKnowledgeAssessment.Areas.Overview.Pages
         }
         public Pupil? Pupil { get; set; }
         public List<LetterSoundKnowledgeTestResult> TestResults { get; set; }
+        public ReadingTest? LastReadingTest { get; set; }
         public string TestResultsUpperSerialized { get; set; }
         public string TestResultsLowerSerialized { get; set; }
         public double AvgUpperCaseSounds { get; set; }
@@ -46,6 +49,8 @@ namespace LetterKnowledgeAssessment.Areas.Overview.Pages
                 return NotFound();
             }
 
+            // Hente siste lesetest
+            LastReadingTest = _readingTestHandler.GetLatestTestByPupilId(Pupil.PupilId.ToString());
             CurrentCulture = Thread.CurrentThread.CurrentCulture.Name;
 
             TestResults = _letterTestHandler.TestResultsByPupilId(Pupil.PupilId.ToString());

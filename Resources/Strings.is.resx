@@ -559,4 +559,44 @@
   <data name="StartReadingTest" xml:space="preserve">
     <value>Hefja lestrarpróf</value>
   </data>
+
+  <data name="NewReadingTest" xml:space="preserve">
+    <value>Ef þú vilt framkvæma nýtt lestrarpróf, geturðu smellt</value>
+</data>
+
+<data name="StudentNoReadingTestYet" xml:space="preserve">
+    <value>hefur ekki enn tekið neitt lestrarpróf. Ef þú vilt framkvæma eitt núna, geturðu smellt</value>
+</data>
+
+<data name="ReadingKnow" xml:space="preserve">
+    <value>Lestrarfærni</value>
+</data>
+
+<data name="BreakReadingCode" xml:space="preserve">
+    <value>Hefur nemandinn brotið lestrarkóðann?</value>
+</data>
+
+<data name="DateLastTested" xml:space="preserve">
+    <value>Síðast prófað: </value>
+</data>
+
+<data name="ErrorNoStudentFound" xml:space="preserve">
+    <value>Villa: Enginn nemandi fannst.</value>
+</data>
+
+<data name="ErrorNoWordsFound" xml:space="preserve">
+    <value>Villa: Engin orð tiltæk fyrir prófið.</value>
+</data>
+
+<data name="CanReadWord" xml:space="preserve">
+    <value>Getur nemandinn lesið orðið?</value>
+</data>
+
+<data name="SeeThroughReadingTest" xml:space="preserve">
+    <value>Viltu fara yfir lestrarprófið áður en þú vistar það?</value>
+</data>
+
+<data name="ReadingTestDone" xml:space="preserve">
+    <value>Lestrarpróf lokið</value>
+</data>
 </root>

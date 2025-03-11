@@ -77,6 +77,32 @@
                             <button type="button" class="btn btn-secondary" onclick="updateChart(2)">@Localizer["LowerLetter"]</button>
                         </div>
                     </div>
+                    <!-- Ny seksjon for lesekunnskap -->
+                    <hr />
+                    <h5 class="card-title mt-3">@Localizer["ReadingKnow"]</h5>
+                    <p><strong>@Localizer["BreakReadingCode"]</strong>
+                        @if (Model.LastReadingTest != null)
+                        {
+                            <span class="badge @(Model.LastReadingTest.IsTestPassed ? "bg-success" : "bg-danger")">
+                                @(Model.LastReadingTest.IsTestPassed ? @Localizer["Yes"] : @Localizer["No"])
+                            </span>
+                            <br />
+                            <small>(@Localizer["DateLastTested"] @Model.LastReadingTest.Date.ToString("dd.MM.yyyy"))</small>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@Localizer["NotTested"]</span>
+                        }
+                    </p>
+                    <hr />
+                    @if (Model.LastReadingTest != null)
+                    {
+                        <p class="card-text">@Localizer["NewReadingTest"] <a asp-area="Assessment" asp-page="/ReadingAssessment/ReadingAssessment" asp-route-pupilId="@Model.Pupil.PupilId">@Localizer["Here"]</a>.</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">@Model.Pupil.FirstName @Model.Pupil.LastName @Localizer["StudentNoReadingTestYet"] <a asp-area="Assessment" asp-page="/ReadingAssessment/ReadingAssessment" asp-route-pupilId="@Model.Pupil.PupilId">@Localizer["Here"]</a>.</p>
+                    }
                 </div>
                 </div>
                 </div>

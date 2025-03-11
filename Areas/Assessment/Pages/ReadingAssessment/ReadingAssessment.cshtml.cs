@@ -56,8 +56,6 @@ namespace AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment
                 Console.WriteLine("✅ Antall ord lastet inn: " + WordList.Count);
             }
 
-            // Start en ny test i databasen. OBS! tror det kan være denne som gjør at testen lagres før den er gjennomført?
-            _readingTestHandler.StartTest(pupilId);
         }
 
         public IActionResult OnPostSubmitTest([FromBody] InputModel input)

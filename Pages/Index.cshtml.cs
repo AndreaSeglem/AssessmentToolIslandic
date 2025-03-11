@@ -62,6 +62,11 @@ namespace LetterKnowledgeAssessment.Pages
             ReturnUrl = $"/Assessment/LetterAssessment/Index?culture={culture}";
             StatusMessage = new StatusMessage { Error = true, Message = _localizer["ChooseClass"] };
         }
+         if (returnUrl.Equals("readingtest"))
+        {
+            ReturnUrl = $"/Assessment/ReadingAssessment/Index?culture={culture}";
+            StatusMessage = new StatusMessage { Error = true, Message = _localizer["ChooseClass"] };
+        }
         if (returnUrl.Equals("pupils"))
         {
             StatusMessage = new StatusMessage { Error = true, Message = _localizer["ChooseClass"] };
