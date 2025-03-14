@@ -4,6 +4,7 @@ using LetterKnowledgeAssessment.Models;
 using LetterKnowledgeAssessment.Interfaces;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment
 {
@@ -51,7 +52,7 @@ namespace AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment
 
         public IActionResult OnPost()
         {
-            return RedirectToPage("ReadingAssessment", new { PupilId = Input.PupilId });
+            return RedirectToPage("ReadingAssessment", new { PupilId = Input.PupilId, culture = CultureInfo.CurrentCulture.Name });
         }
 
     }

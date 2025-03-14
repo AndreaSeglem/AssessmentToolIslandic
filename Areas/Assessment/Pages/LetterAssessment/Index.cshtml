@@ -1,5 +1,6 @@
 ﻿@page
 @using Microsoft.Extensions.Localization
+@using System.Globalization
 @inject IStringLocalizerFactory LocalizerFactory
 @model LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment.IndexModel
 @{
@@ -8,7 +9,7 @@
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="btn" href="/Index"><i class="bi bi-chevron-left"></i> @Localizer["MineKlasser"]</a></li>
+        <li class="breadcrumb-item"><a class="btn" href="/Index?culture=@Thread.CurrentThread.CurrentCulture.Name"><i class="bi bi-chevron-left"></i> @Localizer["MineKlasser"]</a></li>
     </ol>
 </nav>
 
@@ -51,7 +52,6 @@
                                 </table>
                             </div>
                         </div>
-
                         <div class="col-5 align-self-center">
                             <div class="row justify-content-center ">
                                 <button id="startButton" type="submit" class="btn-primary btn m-2" disabled>@Localizer["StartTest"]</button>

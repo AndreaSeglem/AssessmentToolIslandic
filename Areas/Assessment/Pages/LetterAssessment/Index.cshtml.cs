@@ -1,3 +1,4 @@
+using System.Globalization;
 using LetterKnowledgeAssessment.Interfaces;
 using LetterKnowledgeAssessment.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -54,7 +55,7 @@ namespace LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment
 
         public IActionResult OnPost()
         {
-            return RedirectToPage("LetterAssessment", new { PupilId = Input.PupilId, IsUpperCase = Input.IsUpperCase });
+            return RedirectToPage("LetterAssessment", new { PupilId = Input.PupilId, IsUpperCase = Input.IsUpperCase, culture = CultureInfo.CurrentCulture.Name });
         }
     }
 }

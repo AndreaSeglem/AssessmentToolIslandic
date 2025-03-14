@@ -1,6 +1,7 @@
 ﻿@using LetterKnowledgeAssessment.Models
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.Extensions.Localization
+@using System.Globalization
 @inject IStringLocalizerFactory LocalizerFactory
 @inject SignInManager<Teacher> SignInManager
 @inject UserManager<Teacher> UserManager
@@ -14,13 +15,13 @@
     {
         var user = await UserManager.GetUserAsync(User);
         <li class="nav-item">
-            <a class="nav-link sidebar-text @ActivePage.HelpNavClass(ViewContext)" asp-page="/Help">
+            <a class="nav-link sidebar-text @ActivePage.HelpNavClass(ViewContext)" asp-page="/Help" asp-route-culture="@CultureInfo.CurrentUICulture.Name">
                 <i class="bi bi-question-circle"></i> @Localizer["Help"]
             </a>
         </li>
-        <li><a class="nav-link sidebar-text @ActivePage.ProfileNavClass(ViewContext)" asp-page="/Account/Manage/Index" asp-area="Identity"><i class="bi bi-person-circle"></i> @user.FirstName</a></li>
+        <li><a class="nav-link sidebar-text @ActivePage.ProfileNavClass(ViewContext)" asp-page="/Account/Manage/Index" asp-area="Identity" asp-route-culture="@CultureInfo.CurrentUICulture.Name"><i class="bi bi-person-circle"></i> @user.FirstName</a></li>
         <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" method="post">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/" asp-route-culture="@CultureInfo.CurrentUICulture.Name" method="post">
                 <button type="submit" class="nav-link btn btn-link sidebar-text"><i class="bi bi-box-arrow-right"></i> @Localizer["LogOut"]</button>
             </form>
         </li>
@@ -28,10 +29,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link sidebar-text" asp-area="Identity" asp-page="/Account/Register"><i class="bi bi-person-circle"></i> @Localizer["RegisterAccount"]</a>
+            <a class="nav-link sidebar-text" asp-area="Identity" asp-page="/Account/Register" asp-route-culture="@CultureInfo.CurrentUICulture.Name"><i class="bi bi-person-circle"></i> @Localizer["RegisterAccount"]</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link sidebar-text" asp-area="Identity" asp-page="/Account/Login"><i class="bi bi-box-arrow-in-right"></i> @Localizer["LogIn"]</a>
+            <a class="nav-link sidebar-text" asp-area="Identity" asp-page="/Account/Login" asp-route-culture="@CultureInfo.CurrentUICulture.Name"><i class="bi bi-box-arrow-in-right"></i> @Localizer["LogIn"]</a>
         </li>
     }
 </ul>

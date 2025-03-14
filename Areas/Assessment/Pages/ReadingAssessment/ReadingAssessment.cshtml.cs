@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment
 {
@@ -34,8 +35,13 @@ namespace AssessmentToolIslandic.Areas.Assessment.Pages.ReadingAssessment
             _pupilRepository = pupilRepository;
         }
 
-        public void OnGet(string pupilId)
+        public void OnGet(string pupilId, string? culture)
         {
+            if (!string.IsNullOrEmpty(culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+            }
             if (string.IsNullOrEmpty(pupilId))
             {
                 RedirectToPage("/Error"); // Hvis ingen elev er valgt, send til feilmelding

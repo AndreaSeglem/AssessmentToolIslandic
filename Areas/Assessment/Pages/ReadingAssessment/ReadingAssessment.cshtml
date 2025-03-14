@@ -9,9 +9,14 @@
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="btn" href="/Assessment/ReadingAssessment/Index"><i class="bi bi-chevron-left"></i> @Localizer["ChooseStudent"]</a></li>
+        <li class="breadcrumb-item">
+            <a class="btn" href="/Assessment/ReadingAssessment/Index?culture=@Thread.CurrentThread.CurrentCulture.Name">
+                <i class="bi bi-chevron-left"></i> @Localizer["ChooseStudent"]
+            </a>
+        </li>
     </ol>
 </nav>
+
 <div class="text-center">
     <h1 class="display-4">@Localizer["ReadingTest"]</h1>
 </div>

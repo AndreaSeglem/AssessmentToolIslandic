@@ -24,8 +24,13 @@ namespace LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment
         public Pupil Pupil { get; set; }
         public bool UpperCaseSelected { get; set; }
 
-        public IActionResult OnGet(string pupilId, bool isUpperCase)
+        public IActionResult OnGet(string pupilId, bool isUpperCase, string? culture)
         {
+            if (!string.IsNullOrEmpty(culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+            }
             Pupil = _pupilHandler.GetPupilById(pupilId);
             if (Pupil == null)
             {
@@ -37,7 +42,7 @@ namespace LetterKnowledgeAssessment.Areas.Assessment.Pages.LetterAssessment
             return Page();
         }
 
-        public IActionResult OnPost(string pupilId, List<LetterModel> testLetters, bool isUpperCase)
+        public IActionResult OnPost(string pupilId, List<LetterModel> testLetters, bool isUpperCase )
         {
             var pupil = _pupilHandler.GetPupilById(pupilId);
             if (pupil == null)
