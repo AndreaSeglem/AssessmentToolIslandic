@@ -57,6 +57,10 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
    
         public string ErrorMessage { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string Culture { get; set; }
+
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -96,6 +100,21 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
 
             returnUrl ??= Url.Content("~/");
 
+            // Saves culture in session if not already in cookie
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("culture")))
+            {
+                if (Request.Cookies.TryGetValue(CookieRequestCultureProvider.DefaultCookieName, out var cookieValue))
+                {
+                    var requestCulture = CookieRequestCultureProvider.ParseCookieValue(cookieValue);
+                    var culture = requestCulture?.UICultures.FirstOrDefault().Value;
+
+                    if (!string.IsNullOrEmpty(culture))
+                    {
+                        HttpContext.Session.SetString("culture", culture);
+                    }
+                }
+            }
+
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
@@ -107,11 +126,38 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
 {
-    returnUrl ??= Url.Content("~/");
+        var culture = Culture;
 
-    var culture = Request.Query["culture"].FirstOrDefault()
-      ?? Request.Cookies[CookieRequestCultureProvider.DefaultCookieName]?.Split('|')[0].Split('=')[1]
-      ?? CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+        if (string.IsNullOrEmpty(culture))
+        {
+            culture = HttpContext.Session.GetString("culture");
+        }
+
+        if (string.IsNullOrEmpty(culture))
+        {
+            if (Request.Cookies.TryGetValue(CookieRequestCultureProvider.DefaultCookieName, out var cookieValue))
+            {
+                var requestCulture = CookieRequestCultureProvider.ParseCookieValue(cookieValue);
+                culture = requestCulture?.UICultures.FirstOrDefault().Value ?? "no";
+            }
+            else
+            {
+                culture = "no";
+            }
+        }
+
+        // Saves culture in session
+        HttpContext.Session.SetString("culture", culture);
+
+
+    // Logg for debugging
+    _logger.LogInformation($"Login process: culture resolved as {culture}");
+
+    
+    if (string.IsNullOrEmpty(returnUrl) || !returnUrl.Contains("culture="))
+    {
+        returnUrl = QueryHelpers.AddQueryString(Url.Content("~/"), "culture", culture);
+    }
 
     // Apply the culture
     CultureInfo.CurrentCulture = new CultureInfo(culture);
@@ -126,7 +172,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
     // Clean and update the ReturnUrl
     if (!string.IsNullOrEmpty(returnUrl))
     {
-        returnUrl = System.Web.HttpUtility.UrlDecode(returnUrl); // Decode URL to avoid double encoding
+        returnUrl = Uri.UnescapeDataString(returnUrl);
 
         if (!returnUrl.Contains("culture="))
         {
@@ -146,13 +192,12 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
         
         if (result.Succeeded)
 {
-    // Clear the session to prevent old data from affecting culture
-    HttpContext.Session.Clear();
 
     // Redirect explicitly to the homepage with the correct culture
     var redirectUrl = QueryHelpers.AddQueryString("/", "culture", culture);
 
     _logger.LogInformation($"User logged in successfully. Redirecting to: {redirectUrl}");
+    redirectUrl = $"/Language/SetLanguage?culture={culture}&returnUrl={WebUtility.UrlEncode(returnUrl)}";
     return LocalRedirect(redirectUrl);
 }
 

@@ -62,6 +62,10 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
 
         public string ErrorMessage { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string Culture { get; set; }
+
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -116,19 +120,20 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = new Teacher
                 {
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    Email = Input.Email,
+                    Email = Input.Email
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
+                
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -144,8 +149,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-
+                   
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
@@ -153,7 +157,7 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return Redirect("/?culture=" + (Culture ?? "no"));
                     }
                 }
                 foreach (var error in result.Errors)
@@ -161,7 +165,6 @@ namespace LetterKnowledgeAssessment.Areas.Identity.Pages.Account
                     ErrorMessage += $"{error.Description}\n";                    
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

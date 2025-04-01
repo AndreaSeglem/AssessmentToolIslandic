@@ -55,11 +55,12 @@
                 <div class="mt-2">
                     <p>
                         <a class="light-green" asp-page="./Register"
-                            asp-route-returnUrl="@Model.ReturnUrl">@Localizer["RegisterNewAccount"]</a>
+                            asp-route-returnUrl="@Model.ReturnUrl" asp-route-culture="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">@Localizer["RegisterNewAccount"]</a>
                     </p>
                 </div>
             </form>
             <form id="languageForm" method="get">
+                <input type="hidden" name="culture" value="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName" />
                 <select name="culture" onchange="changeLanguage(this.value)">
                     @if (currentCulture == "no")
                     {

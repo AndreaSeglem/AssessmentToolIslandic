@@ -599,4 +599,28 @@
 <data name="ReadingTestDone" xml:space="preserve">
     <value>Lestrarpróf lokið</value>
 </data>
+
+<data name="HowDoReadingTest" xml:space="preserve">
+    <value>Hvernig á að framkvæma lestrarpróf?</value>
+</data>
+
+<data name="NavToReadingTest" xml:space="preserve">
+    <value>Fara í "Lestrarpróf"</value>
+</data>
+
+<data name="ChooseStudentStartReading" xml:space="preserve">
+    <value>Veldu nemanda af listanum og smelltu á "Hefja lestrarpróf"</value>
+</data>
+
+<data name="TestStudentReading" xml:space="preserve">
+    <value>Spurðu nemandann hvort hann/hún geti sagt orðið upphátt. Smelltu á "Já" ef nemandinn les orðið rétt eða "Nei" ef hann getur það ekki.</value>
+</data>
+
+<data name="RepeatStep3" xml:space="preserve">
+    <value>Endurtaktu skref 3 þar til öll orð hafa verið svöruð. Smelltu á "Já" ef þú vilt fara yfir svörin áður en þú vistar niðurstöðuna.</value>
+</data>
+
+<data name="ReadingTestResult" xml:space="preserve">
+    <value>Þegar þú hefur spurt nemandann um öll orðin mun hann/hún annaðhvort standast prófið ef hann/hún gat lesið að minnsta kosti 50% orðanna eða falla ef hann/hún gat minna en 50%. Ef nemandinn hefur staðist prófið hefur hann/hún náð lestrarkóðanum.</value>
+</data>
 </root>

@@ -573,7 +573,7 @@
   </data>
 
   <data name="BreakReadingCode" xml:space="preserve">
-    <value>Default Har eleven knukket lesekoden?</value>
+    <value>Default Har eleven knekket lesekoden?</value>
   </data>
 
   <data name="DateLastTested" xml:space="preserve">
@@ -598,5 +598,29 @@
 
   <data name="ReadingTestDone" xml:space="preserve">
     <value>Default Lesetest fullført</value>
+  </data>
+
+  <data name="HowDoReadingTest" xml:space="preserve">
+    <value>Default Hvordan gjennomføre lesetest?</value>
+  </data>
+
+  <data name="NavToReadingTest" xml:space="preserve">
+    <value>Default Naviger til "Lesetest"</value>
+  </data>
+
+  <data name="ChooseStudentStartReading" xml:space="preserve">
+    <value>Default Velg en elev fra listen og klikk på "Start Lesetest"</value>
+  </data>
+
+  <data name="TestStudentReading" xml:space="preserve">
+    <value>Default Spør eleven om han/hun kan si ordet høyt. Trykk på "Ja" hvis eleven leser ordet korrekt eller "Nei" hvis eleven ikke klarer det</value>
+  </data>
+
+  <data name="RepeatStep3" xml:space="preserve">
+    <value>Default Gjenta steg 3 til alle ord er besvart. Trykk på "Ja" dersom du ønsker å se igjennom svarene før du lagrer resultatet</value>
+  </data>
+
+  <data name="ReadingTestResult" xml:space="preserve">
+    <value>Default Når du har spurt eleven om alle ordene vil eleven enten få bestått dersom han/hun kunne minst 50% av ordene eller ikke bestått dersom han/hun kunne mindre enn 50% av ordene. Hvis eleven har bestått har eleven knekket lesekoden</value>
   </data>
 </root>

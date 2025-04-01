@@ -8,6 +8,7 @@
 @{
     var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
     ViewData["Title"] = @Localizer["RegisterNewAccount"];
+    Layout = "~/Pages/Shared/_LoginLayout.cshtml";
 }
 
 @{
@@ -23,6 +24,7 @@
                     style="width:50%; height:50%" class="filter-light-green mb-1" />
             </div>
             <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <input type="hidden" name="culture" value="@CultureInfo.CurrentCulture.TwoLetterISOLanguageName" />
                 <h2 class="light-green">@Localizer["CreateNewUser"]</h2>
                 <hr />
                 <partial name="_StatusMessage" for="ErrorMessage" />
@@ -59,22 +61,8 @@
                     class="w-100 btn btn-lg btn-primary mt-2 mb-2">@Localizer["RegisterNewAccount"]</button>
                 <div>
                     <p>
-                        <a class="light-green" id="login" asp-page="./Login">@Localizer["AlreadyHaveAccount"]</a>
+                        <a class="light-green" id="login" asp-page="./Login" asp-route-culture="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">@Localizer["AlreadyHaveAccount"]</a>
                     </p>
-                    <form id="languageForm" method="get">
-                        <select name="culture" onchange="changeLanguage(this.value)">
-                            @if (currentCulture == "no")
-                            {
-                                <option value="no" selected>Norsk</option>
-                                <option value="is">Íslenska</option>
-                            }
-                            else
-                            {
-                                <option value="no">Norsk</option>
-                                <option value="is" selected>Íslenska</option>
-                            }
-                        </select>
-                    </form>
 
                     <script>
                         function changeLanguage(culture) {
@@ -94,6 +82,21 @@
                         });
                     </script>
                 </div>
+            </form>
+            <form id="languageForm" method="get">
+                <input type="hidden" name="culture" value="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName" />
+                <select name="culture" onchange="changeLanguage(this.value)">
+                    @if (currentCulture == "no")
+                    {
+                        <option value="no" selected>Norsk</option>
+                        <option value="is">Íslenska</option>
+                    }
+                    else
+                    {
+                        <option value="no">Norsk</option>
+                        <option value="is" selected>Íslenska</option>
+                    }
+                </select>
             </form>
         </div>
     </div>

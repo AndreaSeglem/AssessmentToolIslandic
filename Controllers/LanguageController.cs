@@ -15,6 +15,8 @@ namespace LetterKnowledgeAssessment.Controllers
             // Set the culture
             if (!string.IsNullOrEmpty(culture))
             {
+                HttpContext.Session.SetString("culture", culture);
+                
                 Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),

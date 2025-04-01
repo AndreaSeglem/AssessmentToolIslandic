@@ -67,6 +67,45 @@
                                     <li><b style="color:green">@Localizer["Level3"]:</b> @Localizer["ExplainLevel3"]</li>
                                 </ul>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="ReadingAssessment">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseThree">
+                            @Localizer["HowDoReadingTest"]
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionInstuctions">
+                        <div class="accordion-body" style="height:450px; overflow-y:auto">
+
+                            <div class="col">
+                                <p><strong>@Localizer["Step"] 1</strong> @Localizer["NavToReadingTest"]</p>
+                                <img class="step-img @(CultureInfo.CurrentCulture.Name == "is" ? "evenSmaller-island-image" : "")" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/readingAssessmentActiveNavIslandsk.png" : "/img/readingAssessmentActiveNav.png")" />
+                            </div>
+                
+                            <div class="col">
+                                <p><strong>@Localizer["Step"] 2</strong> @Localizer["ChooseStudentStartReading"]</p>
+                                <img class="step-img medium-island-image"
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/pupilSelectedStartReadingActiveIslandsk.png" : "/img/pupilSelectedStartReadingActive.png")" />
+                            </div>
+
+                            <div class="col">
+                                <p><strong>@Localizer["Step"] 3</strong> @Localizer["TestStudentReading"]</p>
+                                <img class="step-img medium-small-island-image" 
+                                src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/ReadingTestStartIslandsk.png" : "/img/ReadingTestStart.png")" />
+                            </div>
+
+                            <div class="col">
+                                <p><strong>@Localizer["Step"] 4</strong> @Localizer["RepeatStep3"]</p>
+                                 <img class="step-img small-island-image"
+                                    src="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/readingTestEndIslandsk.png" : "/img/readingTestEnd.png")" />
+                            </div>
+
+                            <div class="col">
+                                <p><strong>@Localizer["Step"] 5</strong> @Localizer["ReadingTestResult"]</p>
+                            </div>
 
 
                         </div>

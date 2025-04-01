@@ -31,8 +31,10 @@ builder.Services.AddDefaultIdentity<Teacher>(options =>
     options.Password.RequireDigit = false;
 })
     .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddSignInManager<CustomSignInManager<Teacher>>()
     .AddErrorDescriber<IdentityErrorMessages>();
 
+builder.Services.AddHttpContextAccessor();
 // Add localization services
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -93,11 +95,16 @@ app.UseSession();
 
 app.UseRouting();
 
+app.UseAuthentication();
 // Enable localization
 app.UseRequestLocalization(localizationOptions);
 
-app.UseAuthentication();
 app.UseAuthorization();
+
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 

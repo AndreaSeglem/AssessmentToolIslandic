@@ -16,7 +16,7 @@
 
 <nav>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a class="btn" href="/Overview/Pupils"><i class="bi bi-chevron-left"></i> @Localizer["Pupils"]</a></li>
+        <li class="breadcrumb-item"><a class="btn" href="/Overview/Pupils?culture=@Thread.CurrentThread.CurrentCulture.Name"><i class="bi bi-chevron-left"></i> @Localizer["Pupils"]</a></li>
     </ol>
 </nav>
 <div class="text-center">
@@ -77,7 +77,6 @@
                             <button type="button" class="btn btn-secondary" onclick="updateChart(2)">@Localizer["LowerLetter"]</button>
                         </div>
                     </div>
-                    <!-- Ny seksjon for lesekunnskap -->
                     <hr />
                     <h5 class="card-title mt-3">@Localizer["ReadingKnow"]</h5>
                     <p><strong>@Localizer["BreakReadingCode"]</strong>
