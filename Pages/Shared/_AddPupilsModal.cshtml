@@ -1,5 +1,6 @@
 ﻿@model string
 @using Microsoft.Extensions.Localization
+@using System.Globalization
 @inject IStringLocalizerFactory LocalizerFactory
 
 @{
@@ -27,7 +28,7 @@
                             </div>
                             <div class="col">
                                 <p class="text-muted mb-0">@Localizer["BirthDate"]</p>
-                                <input type="date" name="[0].BirthDate" class="form-control" aria-required="true" required />
+                                <input type="text" name="[0].BirthDate" class="form-control datepicker" lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName" aria-required="true" required />
                             </div>
                         </div>
                     </div>

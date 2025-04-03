@@ -4,7 +4,7 @@
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizerFactory LocalizerFactory
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 @{
     var Localizer = LocalizerFactory.Create("Strings", "LetterKnowledgeAssessment");
 }
@@ -27,6 +27,35 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link id="dynamic-favicon" rel="icon" type="image/x-icon"
         href="@(CultureInfo.CurrentCulture.Name == "is" ? "/img/favicon_is.ico" : "/img/favicon_no.ico")">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/is.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentCulture = document.documentElement.lang || "no";
+            const dateInputs = document.querySelectorAll(".datepicker");
+
+            const placeholders = {
+                is: "dd.mm.áááá",
+                no: "dd.mm.åååå"
+            };
+
+            dateInputs.forEach(input => {
+                input.placeholder = placeholders[currentCulture] || "dd.mm.yyyy";
+            });
+
+            flatpickr(dateInputs, {
+                dateFormat: "Y-m-d",
+                locale: currentCulture === "is" ? "is" : "default"
+            });
+        });
+    </script>
+
+
+
+
 
 </head>
 <style>
